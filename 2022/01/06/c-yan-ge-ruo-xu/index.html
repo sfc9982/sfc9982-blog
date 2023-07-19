@@ -1,0 +1,1683 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="C++, 严格弱序, 排序">
+    <meta name="description" content="STL sort
+STL的std::sort函数是基于Musser在1996年提出的内省排序（Introspective sort）算法实现。这个算法是个缝合怪，它汲取了插入排序、堆排序以及快排的优点：
+
+针对大数据量，使用快排，时间复杂度">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>C++ 严格弱序 | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/774257870.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">C++ 严格弱序</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/ACM/">
+                                <span class="chip bg-color">ACM</span>
+                            </a>
+                        
+                            <a href="/tags/C-C/">
+                                <span class="chip bg-color">C/C++</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BC%96%E7%A8%8B/">
+                                <span class="chip bg-color">编程</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%B0%E5%AD%A6/">
+                                <span class="chip bg-color">数学</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-01-06
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    24 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="stl-sort">STL <code>sort</code></h3>
+<p>STL的<code>std::sort</code>函数是基于Musser在1996年提出的内省排序（<code>Introspective sort</code>）算法实现。这个算法是个缝合怪，它汲取了插入排序、堆排序以及快排的优点：</p>
+<ul>
+<li>针对大数据量，使用快排，时间复杂度是<code>O(NlogN)</code>；</li>
+<li>若快排递归深度超过阈值<code>__depth_limit</code>
+，改用堆排序，防止快排递归过深，同时保持时间复杂度仍是<code>O(NlogN)</code>；</li>
+<li>当数据规模小于阈值<code>_S_threshold</code>时，改用插入排序。</li>
+</ul>
+<h4 id="std__sort">std::__sort</h4>
+<p><code>std::sort</code>函数在内部就是直接调用的<code>std::__sort</code>函数。因此下面，直接从<code>std::__sort</code>函数开始分析。</p>
+<p><code>std::__sort</code>代码如下:</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">inline</span> <span class="token keyword">void</span>
+<span class="token function">__sort</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span> _RandomAccessIterator __last<span class="token punctuation">,</span> _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__first <span class="token operator">!=</span> __last<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    <span class="token comment">// 先是完成局部有序</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">__introsort_loop</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span>
+                          std<span class="token double-colon punctuation">::</span><span class="token function">__lg</span><span class="token punctuation">(</span>__last <span class="token operator">-</span> __first<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">,</span> 
+                          __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 再完全有序</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">__final_insertion_sort</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看出，<code>std::__sort</code>主体上分为两个部分：</p>
+<ol type="1">
+<li>首先，由<code>__introsort_loop</code>函数使得<code>[__first, __last)</code>区间在多个局部有序；</li>
+<li>其次，对第一步的结果，再进行一次插入排序<code>std::__final_insertion_sort</code>，保证整个<code>[__first, __last)</code>区间有序。</li>
+</ol>
+<p>下面从以上两点进行详述。</p>
+<blockquote>
+<p>为便于讲解，在下面的描述中，将比较器<code>_Compare</code>当作默认的<code>std::less</code>来处理。</p>
+</blockquote>
+<h4 id="std__introsort_loop">std::__introsort_loop</h4>
+<p><code>__introsort_loop</code>函数，其代码实现如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Size</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">__introsort_loop</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span> _RandomAccessIterator __last<span class="token punctuation">,</span>
+                      _Size __depth_limit<span class="token punctuation">,</span> 
+                      _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// 限制条件1</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>__last <span class="token operator">-</span> __first <span class="token operator">&gt;</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment">// 限制条件2</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>__depth_limit <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      std<span class="token double-colon punctuation">::</span><span class="token function">__partial_sort</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 堆排序</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+     
+    <span class="token comment">//下面是快排</span>
+    <span class="token operator">--</span>__depth_limit<span class="token punctuation">;</span> 
+    _RandomAccessIterator __cut <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">__unguarded_partition_pivot</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 寻找轴点</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">__introsort_loop</span><span class="token punctuation">(</span>__cut<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __depth_limit<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>                             <span class="token comment">// 递归</span>
+    __last <span class="token operator">=</span> __cut<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从上面可以看出，<code>__introsort_loop</code>函数是个递归函数，并且存在两个限制条件，或者说是递归基：</p>
+<ol type="1">
+<li><p>每次递归时，<code>[__first, __last)</code>区间的元素个数必须大于<code>_S_threshold</code>：</p>
+<p>当不满足这个条件时，<code>__introsort_loop</code>函数就开始返回，这会导致元素个数小于阈值<code>_S_threshold</code>的小区间仍然是无序的。</p>
+<p>那么这部分小区间怎么实现有序呢？？？</p></li>
+<li><p>最大递归深度<code>__depth_limit</code>：</p>
+<p>当<code>__depth_limit==0</code>时，快排递归深度达到限制，为避免递归层数过深，STL就对当前的
+<code>[__first, __last)</code> 区间进行堆排序。</p>
+<p>从另一个角度看，相当于通过 <code>__depth_limit</code>
+限制条件，将<code>__introsort_loop</code>函数划分为快排、堆排两部分，而且不一定每次都会调用堆排，需要满足<code>__depth_limit</code>限制条件。</p></li>
+</ol>
+<p>因此，<code>__introsort_loop</code>函数能正常递归，需要满足以下条件：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">__last <span class="token operator">-</span> __first <span class="token operator">&gt;</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> __depth_limit <span class="token operator">&gt;</span> <span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>下面就从这两个限制点继续讲解。</p>
+<h5 id="s_threshold">_S_threshold</h5>
+<p>下面，开始讲解第【1】个限制条件<code>_S_threshold</code>。</p>
+<p>我们把先深度限制条件<code>__depth_limit</code>去掉，只看快排部分。那么
+<code>__introsort_loop</code>
+函数的<code>while</code>循环可简洁如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"> <span class="token keyword">while</span> <span class="token punctuation">(</span>__last <span class="token operator">-</span> __first <span class="token operator">&gt;</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment">// ...</span>
+  
+   <span class="token comment">// 寻找分割区间的轴点</span>
+   <span class="token keyword">auto</span> __cut <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">__unguarded_partition_pivot</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token comment">// 在右分支递归</span>
+   std<span class="token double-colon punctuation">::</span><span class="token function">__introsort_loop</span><span class="token punctuation">(</span>__cut<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __depth_limit<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token comment">// 进入左分支</span>
+   __last <span class="token operator">=</span> __cut<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>有没有发现，这个快排的实现异常简洁？</p>
+<p>在<code>__introsort_loop</code>函数实现中，第一眼看上去似乎只有右分支递归，而忽略了左侧分支？</p>
+<p><strong>这一切都是为了效率</strong>。</p>
+<p>STL将 <code>__introsort_loop</code>
+放在了<code>while</code>循环中，寻找到分割
+<code>[__first, __last)</code>区间的分割点<code>__cut</code>后，每次先进入右分支递归，在右侧分支递归回来之后，下一步是：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">__last <span class="token operator">=</span> __cut<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这样，<strong>在下一个循环中进入左分支</strong>。</p>
+<p>相比较常规快排实现，最直观的感受，就是减少一次函数调用的开销。此外，进入左分支后，可能就不满足<code>__last - __first &gt; int(_S_threshold)</code>
+限制条件，那么当前循环就退出了，避免递归。</p>
+<p>因此，当
+<code>__introsort_loop</code>函数因不满足<code>_S_threshold</code>阈值条件，逐层返回到<code>std::__sort</code>函数中时，完整的<code>[__first, __last)</code>区间中会有许多元素个数小于<code>_S_threshold</code>的无序区间，他们的有序性留给最后的插入排序<code>__final_insertion_sort</code>函数来完成。</p>
+<h5 id="std__unguarded_partition_pivot">std::__unguarded_partition_pivot</h5>
+<p>快排的最后一点，我们来看看STL是如何寻找分割位置<code>__cut</code>
+的。这一部分是由<code>__unguarded_partition_pivot</code>函数实现。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">inline</span> _RandomAccessIterator
+<span class="token function">__unguarded_partition_pivot</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span>
+                            _RandomAccessIterator __last<span class="token punctuation">,</span>
+                            _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// 中间位置</span>
+  _RandomAccessIterator __mid <span class="token operator">=</span> __first <span class="token operator">+</span> <span class="token punctuation">(</span>__last <span class="token operator">-</span> __first<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  <span class="token comment">// 取三点的中值，并置于 __first 处</span>
+  std<span class="token double-colon punctuation">::</span><span class="token function">__move_median_to_first</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> 
+                              __first <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> __mid<span class="token punctuation">,</span> __last <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                              __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+  <span class="token comment">// 对 [__first, __last) 进行分割，并返回分割点 __cut</span>
+  <span class="token keyword">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">__unguarded_partition</span><span class="token punctuation">(</span>__first <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __first<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>__unguarded_partition_pivot</code>的实现分为两步：</p>
+<ol type="1">
+<li>选择一个轴点<code>pivot</code>，用于后续比较。</li>
+<li>基于该轴点
+<code>pivot</code>分割<code>[__first, __last)</code>区间，使得
+<code>[__first, __cut)</code>区间的元素不大于
+<code>pivot</code>，<code>[__cut, __last)</code>区间的元素不小于<code>pivot</code>。</li>
+</ol>
+<p>下面从这两点进行讲解。</p>
+<h5 id="std__move_median_to_first">std::__move_median_to_first</h5>
+<p><code>__move_median_to_first</code>函数，用意很明显，就是找出<code>__a</code>、<code>__b</code>、<code>__c</code>的中值，并将这个中值放在<code>__result</code>位置处。因此，根据传入参数，就是找出<code>__first+1</code>、<code>__mid</code>、<code>__last-1</code>三个位置的中值，并将中值和<code>__first</code>位置的值进行交换。</p>
+<p>这个函数比较简单，其中的<code>iter_swap</code>函数是交换两个迭代器指向的值，具体代码解释如下。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_Iterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span>
+<span class="token function">__move_median_to_first</span><span class="token punctuation">(</span>_Iterator __result<span class="token punctuation">,</span> 
+                       _Iterator __a<span class="token punctuation">,</span> _Iterator __b<span class="token punctuation">,</span> _Iterator __c<span class="token punctuation">,</span> 
+                       _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// __a &lt; __b </span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__a<span class="token punctuation">,</span> __b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    <span class="token comment">// __a &lt; __b &lt; __c </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__b<span class="token punctuation">,</span> __c<span class="token punctuation">)</span><span class="token punctuation">)</span>  
+      std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__result<span class="token punctuation">,</span> __b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// __b</span>
+    <span class="token comment">// __a &lt; __c  &lt;=  _b </span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__a<span class="token punctuation">,</span> __c<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__result<span class="token punctuation">,</span> __c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// _c</span>
+    <span class="token keyword">else</span>
+     <span class="token comment">// __c &lt;= __a &lt; __b </span>
+      std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__result<span class="token punctuation">,</span> __a<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// _a</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// __b &lt;= __a &lt; __c</span>
+  <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__a<span class="token punctuation">,</span> __c<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__result<span class="token punctuation">,</span> __a<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// __a</span>
+   <span class="token comment">// __b &lt;= c &lt;= a</span>
+  <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__b<span class="token punctuation">,</span> __c<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__result<span class="token punctuation">,</span> __c<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// _c</span>
+  <span class="token keyword">else</span>
+   <span class="token comment">// __c &lt;= _b &lt;= __a</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__result<span class="token punctuation">,</span> __b<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// _b</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="std__unguarded_partition">std::__unguarded_partition</h5>
+<p>上面找到待比较的轴点<code>pivot</code>之后，下面就是分割<code>[__first, __last)</code>区间。</p>
+<p><strong>分割的核心思想</strong>：寻找分割位置<code>__cut</code>，使得<code>[__first, __cut)</code>区间的元素都不大于
+<code>pviot</code>，<code>[__cut, __last)</code>区间的元素都不小于<code>pivot</code>，然后返回分割点<code>__cut</code>的位置。</p>
+<p>这部分代码讲解，见下面代码注释。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+_RandomAccessIterator
+<span class="token function">__unguarded_partition</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span> _RandomAccessIterator __last<span class="token punctuation">,</span>
+                      _RandomAccessIterator __pivot<span class="token punctuation">,</span> 
+                      _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span> 
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __pivot<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">++</span>__first<span class="token punctuation">;</span> <span class="token comment">// *__first &lt; *__pivot </span>
+    <span class="token comment">/*** 跳出循环时，满足：*__first &gt;= *__pivot  ***/</span>
+    <span class="token operator">--</span>__last<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__pivot<span class="token punctuation">,</span> __last<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token operator">--</span>__last<span class="token punctuation">;</span> <span class="token comment">// *__pivot &lt; *__last</span>
+    <span class="token comment">/*** 跳出循环时，满足：*__pivot &gt;= *__last  ***/</span>
+      
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>__first <span class="token operator">&lt;</span> __last<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment">// __fist &gt;= __last ，表示左右边界相遇，此轮遍历结束</span>
+      <span class="token keyword">return</span> __first<span class="token punctuation">;</span>        <span class="token comment">// 返回分割点位置</span>
+     
+    <span class="token comment">/**  经过上面两个while循环，
+     *   此时： *__first &gt;= *__pivot &amp;&amp;  *__pivot &gt;= *__last
+     *   不满足分割要求，因此需要交换__first, __last 两点的值
+     */</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token operator">++</span>__first<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>by the way</strong></p>
+<p><code>__unguarded_partition</code>函数，有个<code>__unguarded</code>
+前缀，<strong>表示这个函数里没有越界检测</strong>。</p>
+<p>那么问题来了，为什么可以没有越界检测？</p>
+<p>以<code>pivot</code>左侧的区间为例：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// 无越界检测版本</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __pivot<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">++</span>__first<span class="token punctuation">;</span>      
+<span class="token comment">// 常见实现版本</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>__first <span class="token operator">&lt;</span> __last <span class="token operator">&amp;&amp;</span> <span class="token function">__comp</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __pivot<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">++</span>__first<span class="token punctuation">;</span>   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先，明确两点：</p>
+<ul>
+<li><code>__unguarded_partition</code>中传入参数<code>__first</code>，实际上是<code>__unguarded_partition_pivot</code>函数中的<code>__first+1</code>位置；</li>
+<li><code>__unguarded_partition</code>中传入参数<code>__pivot</code>，实际上是<code>__unguarded_partition_pivot</code>函数中的<code>__first</code>位置。</li>
+</ul>
+<p><code>__pivot</code>是<code>__unguarded_partition_pivot</code>函数中的三个点（<code>__first+1</code>、<code>__mid</code>、<code>__last-1</code>）的中值，即<code>__pivot</code>值肯定并不是最大的。</p>
+<p>因此，在<code>__unguarded_partition</code>函数中：</p>
+<ol type="1">
+<li><code>++__first</code>时，肯定存在一个点<code>__pos</code>，其值不小于
+<code>__pivot</code>处的值；</li>
+<li>要使得<code>__comp(__first, __pivot)</code>为<code>true</code>，必须是<code>*__first &lt; *__pivot</code>；</li>
+<li>又因为至少存在一个点<code>__pos</code>，满足<code>*__pos &gt;= *__pivot</code>，使得<code>__comp(__first, __last)</code>为false，</li>
+</ol>
+<p>因此，<code>__first &gt; __last</code>的越界情况就不会发生，最终<code>__first</code>会在某个位置停下。同理右侧区间的判断。</p>
+<p>因此，即使不要边界检测，也不会发生越界错误。</p>
+<h4 id="隐藏的bug">隐藏的BUG</h4>
+<p>但是注意了，<code>__unguarded_partition</code>函数，没有引入边界检测仍能正确运行，是基于正确的比较器算法。可当用户传入错误的比较器算法时，比如本文开篇自定义的比较器算法，就容易产生BUG，还是难以检测的BUG。</p>
+<p>打开<code>cppreference</code>，可以看到STL要求<code>std::sort</code>的比较器是符合严格弱序性质的，其中容易导致BUG的是这么一条：</p>
+<p><img src="https://googles.plus/images/loading.gif" data-original="\images\640.webp"></p>
+<p><strong>当比较器对象<code>comp</code>传入两个相等对象，返回值必须是<code>false</code>！！！</strong></p>
+<p>如果不符合严格弱序性质，则会在某些数据下会导致coredump。</p>
+<p>假设某个小区间，数据分布如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">数据：1   1   1   2   
+索引：0   1   2   3  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>按照<code>__move_median_to_first</code>函数中的轴点选择法，最终选出的<code>pivot</code>是索引为1处的值，然后索引0、1处的值互换，将轴点置于first处。</p>
+<p>下面基于不同的比较器算法来寻找分割点__cut位置。</p>
+<blockquote>
+<p>为便于下文分析叙述：<code>pivot</code>简写为<code>p</code>，<code>first</code>简写为<code>f</code>，<code>last</code>简写为<code>l</code>。</p>
+</blockquote>
+<p><strong>Case1：比较器符合严格弱序关系</strong></p>
+<p>当<code>std::sort</code>传入的比较器Compare符合严格弱序关系，对该数据执行到<code>__unguarded_partition</code>函数时，迭代流程如下：</p>
+<p>第一轮迭代后：</p>
+<pre class="line-numbers language-none"><code class="language-none">数据：1   1   1   2    
+索引：0   1   2   3   
+     ^   ^   ^   
+     p   f   l<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>第二轮迭代后：</p>
+<p>此时<code>last</code>指针，到了<code>first</code>指针位置，迭代结束。</p>
+<pre class="line-numbers language-none"><code class="language-none">数据：1   1   1   2   
+索引：0   1   2   3  
+     ^   ^      
+     p  f/l  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时，分割点<code>__cut</code>就是<code>first</code>指针位置，其左侧的元素不比<code>pivot</code>大，其右侧不比<code>pivot</code>小。</p>
+<p><strong>Case 2：比较器不符合严格弱序关系</strong></p>
+<p>当<code>std::sort</code>传入的比较器Compare不符合严格弱序关系，即<code>comp(a,a)==true</code>，再执行到<code>__unguarded_partition_pivot</code>函数时，迭代流程如下：</p>
+<p>第一轮迭代：</p>
+<p>实际上，在第一轮迭代中，<code>last</code>指针就越界了。</p>
+<p>因为<code>last</code>在左移的过程中，其取值依次是<code>2</code>、<code>1</code>、<code>1</code>、<code>1</code>，都会使得<code>comp(pivot, last)</code>返回<code>true</code>，进而导致语句
+<code>while (__comp(__pivot, __last)) --__last;</code>一直执行，最终就导致<code>last</code>越界。</p>
+<pre class="line-numbers language-none"><code class="language-none">数据：1   1   1   2   
+索引：0   1   2   3  
+     ^   ^      
+     p   f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>总结来说，严格弱序关系，能保证 ：</p>
+<ol type="1">
+<li><p><code>while (__comp(__first, __pivot)) ++__first;</code>
+在<code>++__first</code>的过程中，不会越界。</p>
+<p>原理还是上面分析的那样，即使<code>__first+1</code>、<code>__mid</code>、<code>__last-1</code>三个值都是相等，取得的轴点<code>pivot</code>在弱序关系中，使得<code>comp(__first, __pivot)</code>一直为false，这样while循环就进行不下去。</p>
+<p>如果没有严格弱序关系保证，则就会越界。</p></li>
+<li><p><code>while (__comp(__pivot, __last)) --__last;</code></p>
+<p>原理同上。</p></li>
+</ol>
+<p>为了验证上面这个猜想，我自己写了个demo。</p>
+<p>在数组<code>vec</code>里全是一样的数字，数组元素个数必须超过<code>_S_threshold</code>阈值（默认值16）才能触发<code>std::sort</code>的快排行为。</p>
+<p>注意，代码必须在MSVC下编译运行，因为GCC对于某些越界行为并不报错，不如MSVC严格（没有测试clang）。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token keyword">const</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> vec<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>  <span class="token comment">// 全是一样的元素，且必须超过16个元素</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">sort</span><span class="token punctuation">(</span>vec<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> vec<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+             <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">&amp;</span> lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span>
+             <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> lhs <span class="token operator">&lt;=</span> rhs<span class="token punctuation">;</span> <span class="token comment">// BUG，修改为: return lhs &lt; rhs; 才行</span>
+             <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="depth_limit">__depth_limit</h4>
+<p>好嘞，下面开始讲解第【2】个限制条件<code>__depth_limit</code>。</p>
+<p>当快排的递归深度，达到阈值
+<code>__depth_limit</code>时，STL使用堆完成当前<code>[__first, __last)</code>区间的排序。下面我们把快排部分去掉，只看堆排序部分，那么
+<code>__introsort_loop</code>
+函数的<code>while</code>循环可简洁如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">while</span> <span class="token punctuation">(</span>__last <span class="token operator">-</span> __first <span class="token operator">&gt;</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>__depth_limit <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      std<span class="token double-colon punctuation">::</span><span class="token function">__partial_sort</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>显而易见，堆排是由<code>__partial_sort</code>函数完成。</p>
+<h5 id="std__partial_sort">std::__partial_sort</h5>
+<p><code>__partial_sort</code>函数，旨在取出
+<code>[__first, __last)</code>区间前<code>__middle - _frist</code>个最小元素，并将其按照<code>_Cpmpare</code>比较策略进行排序后，有序存放在
+<code>[__first, __middle)</code>区间，其余的节点放在<code>[__middle, __last)</code>区间。</p>
+<p><code>__partial_sort</code>函数实现如下（关于堆的实现，可以参考侯捷老师的《STL源码剖析》书籍）。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// 上层调用</span>
+std<span class="token double-colon punctuation">::</span><span class="token function">__partial_sort</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 函数原型</span>
+<span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">inline</span> <span class="token keyword">void</span>
+<span class="token function">__partial_sort</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span>
+               _RandomAccessIterator __middle<span class="token punctuation">,</span>
+               _RandomAccessIterator __last<span class="token punctuation">,</span>
+               _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// 先建堆，并使 [first, middle) 区间存放前 middle-first 个最小值</span>
+  std<span class="token double-colon punctuation">::</span><span class="token function">__heap_select</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __middle<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// 对 [first, middle) 区间元素进行排序</span>
+  std<span class="token double-colon punctuation">::</span><span class="token function">__sort_heap</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __middle<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>因此，经过 <code>__partial_sort</code>函数后：</p>
+<ul>
+<li><code>[__first, __middle)</code>区间，有序存储了<code>[__first, __last)</code>区间的前<code>__middle - _frist</code>个最小元素；</li>
+<li><code>[__middle, __last)</code>区间，无序存储<code>[__first, __last)</code>区间剩余元素。</li>
+</ul>
+<p>在 <code>__introsort_loop</code> 函数中调用
+<code>__partial_sort</code>
+函数时，<code>__middle</code>参数和<code>__last</code>参数都是<code>__last</code>，因此实现的就是<code>[__first, __last)</code>区间的全排序。</p>
+<h5 id="std__final_insertion_sort">std::__final_insertion_sort</h5>
+<p>当 <code>__introsort_loop</code>
+函数执行完毕，最后一步需要将整个数据变得有序，这由<code>__final_insertion_sort</code>函数完成。</p>
+<p>在讨论 <code>__final_insertion_sort</code>之前，先回顾下
+<code>__introsort_loop</code>函数，它返回有两种可能：</p>
+<ol type="1">
+<li><p><code>_S_threshold</code>：递归到某个<code>[__first, __last)</code>区间时，其元素个数<code>__last - __first &lt;= _S_threshold</code>时，结束递归。</p>
+<p><code>__introsort_loop</code>函数返回到<code>std::__sort</code>函数时，整个大的区间中还存在一些元素个数不足<code>_S_threshold</code>的小区间仍然是无序的。</p></li>
+<li><p><code>__depth_limit</code>：递归层次超过限制<code>__depth_limit</code>。</p></li>
+</ol>
+<p>因此，当执行<code>__final_insertion_sort</code>函数时，当前大区间<code>[__first, __last)</code>只存在局部无序，主体上是有序的。这种情况，非常适用于插入排序，此时时间复杂度是<code>O(N)</code>。</p>
+<p>为了进一步优化，加速排序的速度，STL针对两种情况分别求解。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span>
+<span class="token function">__final_insertion_sort</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span>
+                       _RandomAccessIterator __last<span class="token punctuation">,</span> 
+                       _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// 大数据量</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__last <span class="token operator">-</span> __first <span class="token operator">&gt;</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">__insertion_sort</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __first <span class="token operator">+</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span><span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">__unguarded_insertion_sort</span><span class="token punctuation">(</span>__first <span class="token operator">+</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_S_threshold<span class="token punctuation">)</span><span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">else</span>
+   <span class="token comment">// 小数量量直接使用插入排序，不用经过快排、堆排</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">__insertion_sort</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">,</span> __comp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="std__insertion_sort">std::__insertion_sort</h5>
+<p><code>__insertion_sort</code>函数是按照标准的插入排序实现。</p>
+<p><strong>插入排序的核心思想</strong>：将整个序列视为两个部分，『有序的前缀』和『无序的后缀』，再通过循环迭代，不断地将后缀的首元素转移插入到前缀中，保持前缀仍然有序。当后缀为空，整个序列有序。</p>
+<blockquote>
+<p>时间复杂度：如果当前序列已经完全有序，则插入排序时间复杂度是<code>O(N)</code>，完全逆序则<code>O(N^2)</code>。</p>
+</blockquote>
+<p>运行到
+<code>__insertion_sort</code>时，整个数据规模主体保持有序，局部小区间无序，非常适合使用插入排序，算法步骤如下：</p>
+<ul>
+<li>初始状态下，前缀序列中只有<code>__first</code>一个元素，后缀序列则是<code>[__first+1, __last)</code>区间的元素；</li>
+<li>对<code>[__first+1, __last)</code>区间的元素进行遍历，不断将后缀序列的首元素，插入到前缀序列中。</li>
+</ul>
+<p>在
+<code>__insertion_sort</code>函数中，对于后缀序列<code>[__first+1, __last)</code>区间的每个元素<code>__i</code>：</p>
+<ul>
+<li><p>先判断<code>__i</code>位置的元素是否小于<code>__first</code>；</p>
+<p>如果是，则直接将<code>[__first, __i)</code>区间的元素整体后移一位，再将<code>__i</code>位置的元素插入到原先<code>__first</code>位置处。这样就避免了从<code>__i</code>位置一路比较到<code>__first</code>位置，才找到<code>__i</code>在前缀序列中的待插入位置，即节省了比较开销。</p></li>
+<li><p>如果否，则需要在<code>(__first, __i)</code>区间寻找合适的位置<code>__pos</code>，使得
+<code>*(__pos-1) &lt;= *__i &lt; *__pos</code></p>
+<p>这个部分是由<code>__unguarded_linear_insert</code>函数完成，这个函数前面也有
+<strong><code>__unguarded</code></strong>
+前缀，<strong>也是没有边界检测的意思</strong>。</p></li>
+</ul>
+<p><code>__insertion_sort</code>函数，整个代码解释如下。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span>
+<span class="token function">__insertion_sort</span><span class="token punctuation">(</span>_RandomAccessIterator __first<span class="token punctuation">,</span>
+                 _RandomAccessIterator __last<span class="token punctuation">,</span> 
+                 _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__first <span class="token operator">==</span> __last<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+  <span class="token comment">/*** 下面要将 (fist, last) 区间的每个元素 __i 都插入到前缀序列中 ***/</span>
+    
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>_RandomAccessIterator __i <span class="token operator">=</span> __first <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> __i <span class="token operator">!=</span> __last<span class="token punctuation">;</span> <span class="token operator">++</span>__i<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    <span class="token comment">/* case 1:  *__i &lt; *__first 时，则将 [__first, __i)区间后移，
+     *          再将 *__i 插入到原先 __first 位置
+     */</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__i<span class="token punctuation">,</span> __first<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      <span class="token keyword">auto</span> __val <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token operator">*</span>__i<span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">// 待插入的值</span>
+      std<span class="token double-colon punctuation">::</span><span class="token function">move_backward</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __i<span class="token punctuation">,</span> __i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 将 [_first, _i) 区间的元素朝后移动一个位置</span>
+      <span class="token operator">*</span>__first <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">move</span><span class="token punctuation">(</span>__val<span class="token punctuation">)</span><span class="token punctuation">;</span>               <span class="token comment">// 将 __i 位置处的值移动到 __first 处</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">{</span>
+      <span class="token comment">/* case 2:  *__i &gt;= *__fist 时，
+       *          此时需要在有序前缀 (fist，_i)区间中，寻找合适的位置再插入
+       */</span>
+      std<span class="token double-colon punctuation">::</span><span class="token function">__unguarded_linear_insert</span><span class="token punctuation">(</span>__i<span class="token punctuation">,</span> __gnu_cxx<span class="token double-colon punctuation">::</span>__ops<span class="token double-colon punctuation">::</span><span class="token function">__val_comp_iter</span><span class="token punctuation">(</span>__comp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token comment">// for-end</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="std__unguarded_linear_insert">std::__unguarded_linear_insert</h5>
+<p><code>__unguarded_linear_insert</code>函数，在有序前缀<code>(__first, __last)</code>中寻找合适的位置<code>__pos</code>，将<code>__i</code>位置的值插入到<code>__pos</code>处。</p>
+<p>那什么叫合适的位置呢？</p>
+<p>从<code>__i-1</code>的位置开始遍历，第一个出现<strong>逆序对</strong>的位置<code>__pos</code>，即：</p>
+<ul>
+<li><code>__pos &lt; __i</code> ，且</li>
+<li><code>*(__pos-1) &lt;= *__i &lt; *__pos</code>。</li>
+</ul>
+<p>当找到这么个位置，需要将<code>[__pos, __i)</code>区间的元素，后移一位，然后将<code>__i</code>位置的元素插入到<code>__pos</code>。为了实现这一步，STL在
+<code>__unguarded_linear_insert</code>函数中，边遍历、边把当前位置的元素向后移动。</p>
+<p>下面是<code>__unguarded_linear_insert</code>函数的源码分析。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">_RandomAccessIterator</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">_Compare</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span>
+<span class="token function">__unguarded_linear_insert</span><span class="token punctuation">(</span>_RandomAccessIterator __last<span class="token punctuation">,</span> _Compare __comp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">auto</span> __val <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token operator">*</span>__last<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 当前待插入的值 __val</span>
+  _RandomAccessIterator __next <span class="token operator">=</span> __last<span class="token punctuation">;</span> 
+  <span class="token operator">--</span>__next<span class="token punctuation">;</span>                          <span class="token comment">// 需要在有序前缀区间 (first, last)中遍历，因此开始遍历的位置需要 --next</span>
+    
+  <span class="token comment">/* __comp(__val, __next) 为false时，表示出现逆序，
+  *  __next 指向当前遍历位置
+  *  __last 用于指向 __next 的上一个位置
+  */</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__val<span class="token punctuation">,</span> __next<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    <span class="token comment">/** 下面是将当前遍历位置 __next 存储到 __last ***/</span>
+      
+    <span class="token operator">*</span>__last <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token operator">*</span>__next<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 将当前位置的值后移动一位</span>
+      
+    __last <span class="token operator">=</span> __next<span class="token punctuation">;</span>               <span class="token comment">//  __last 前移</span>
+    <span class="token operator">--</span>__next<span class="token punctuation">;</span>                      <span class="token comment">//  __next 前移</span>
+  <span class="token punctuation">}</span> 
+ 
+  <span class="token comment">/* 以上while循环，相当于将 [__last, __i) 区间的元素，后移动了一位，
+   * 现在找到合适位置，此时：*__next &lt;= val &amp;&amp; val &lt; *last
+   * 因此，将 val 插入到上一个节点位置
+   */</span>
+  <span class="token operator">*</span>__last <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">move</span><span class="token punctuation">(</span>__val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>__unguarded_linear_insert</code> 为啥能不用检测是否越界？</p>
+<p>因为，之所以能进入<code>__unguarded_linear_insert</code>函数，是因为在<code>__insertion_sort</code>函数中有了
+<code>__i &gt;= __first</code>。因此在此函数中，再不济，<code>while(__comp(__val, __next))</code>也会在<code>__first</code>后一个位置停下来，最终插入在<code>___first+1</code>处。</p>
+<p>免去边界检测，可以实现一定程度上的优化（STL对性能真的是锱铢必较）。</p>
+<p>在这，你可能在想这个
+<code>__unguarded_partition</code>函数，会存在之前在
+<code>__unguarded_partition</code>中出现的BUG吗？</p>
+<p>理论上是应该要出BUG的，这也是符合CPP标准，但是从上面的GCC的源码实现可以看出，GCC下不会出现BUG。</p>
+<p>下面的代码在MSVC中运行被中止，而GCC下是可以正常运行：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token keyword">const</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> vec<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    
+    std<span class="token double-colon punctuation">::</span><span class="token function">sort</span><span class="token punctuation">(</span>vec<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> vec<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">&amp;</span> lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span>
+              <span class="token punctuation">{</span>
+                  <span class="token keyword">return</span> lhs <span class="token operator">&lt;=</span> rhs<span class="token punctuation">;</span>
+              <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>因为，在GCC下，会进入<code>__insertion_sort</code>函数的<code>if (__comp(__i, __first))</code>条件分支中，不断地将<code>[__first, __i)</code>区间元素后移动一位，避免了报错。</p>
+<p>尽管GCC避免了报错，但实际上却不符合CPP标准。</p>
+<p>因此，在书写自定义比较器算法时，要使其符合<strong>「严格弱序关系」</strong>，代码才具有移植性。</p>
+<p>到此，<code>std::sort</code>的整个运行流程大致分析完毕。</p>
+<h3 id="什么是严格弱序">什么是严格弱序</h3>
+<p>严格弱序比较这个概念听起来就比较抽象，生涩难懂，讲明白就更加不容易了。看了多份资料和相关书籍的部分章节，下面就来详细谈谈这个
+【严格弱序比较】。谈到这个概念就不得不先讲两个比较重要的概念【小于比较（LessThan
+comparable）】和【严格弱序（strict weak ordering）】。</p>
+<h4 id="小于比较lessthan-comparable">小于比较（LessThan
+comparable）</h4>
+<p>这里可能有个疑问这么多种比较原则，怎么小于比较就那么重要了？先来回答一下这个问题，对于比较本身而言有：小于，大于，小于等于，大于等于，等于，这个大家都知道。但对于这五种比较可以提炼出一个基础的比较，那就是【小于比较】（当然也可以是大于，这里就以小于为例）其他的比较都可以用小于比较进行等价。</p>
+<p>大于：<code>x &gt; y    &lt;=&gt;   y &lt; x</code></p>
+<p>大于等于：<code>x &gt;= y  &lt;=&gt;  !(x &lt; y)</code></p>
+<p>小于等于：<code>x &lt;= y  &lt;=&gt;  !(y &lt; x)</code></p>
+<p>等于：<code>!(x&lt;y) &amp;&amp; !(y&lt;x)</code></p>
+<h4 id="严格弱序strict-weak-ordering">严格弱序（strict weak
+ordering）】</h4>
+<p>严格弱序的正式定义：如果两个元素具备任何一个元素都不小于另一个元素的性质，那么就视为它们是具备某种程度之等价关系是合理的。公式：<code>!(x&lt;y) &amp;&amp; !(y&lt;x)</code>,
+广义上<code>!op(x,y) &amp;&amp; !op(y,x)</code> （<code>op(x,y)</code>
+表示比较<code>x</code>和<code>y</code>）。
+光看定义需要理解一阵子，不过看了公式应该就比较好理解了，严格弱序就是对等价做了个定义，满足这个条件的既是等价。</p>
+<h4 id="严格弱序比较strick-weakly-comparable">严格弱序比较（strick
+weakly comparable）</h4>
+<p>前面铺垫了这么多，是时候进入主题了。</p>
+<p>所谓严格弱序比较，就是满足【小于比较】和【严格弱序】这两个条件，才能称之为严格弱序比较。</p>
+<p>举个反例：如果我们把比较定义为【小于等于】出现什么问题呢？如果x等于y，那么根据等价的定义
+<code>!op(x,y) &amp;&amp; !op(y,x)，=&gt; !true &amp;&amp; !true =&gt; false</code>。
+明明相等，最后推导出来的结果却是不等，这就错了。</p>
+<h3 id="stl-为什么要设计严格弱序">STL 为什么要设计严格弱序</h3>
+<p>STL为何要给它的用户们设置这样一个关卡，给他们找麻烦呢，但其实细想，这个设计是很绝妙的。</p>
+<ul>
+<li>对于sort中排序函数，如果不遵守严格弱序，那么在根据pivot调整元素顺序时，while
+(__comp(*__first, __pivot)) ++__first;
+中++__first会越界。导致程序崩溃。</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span><span class="token operator">*</span>__first<span class="token punctuation">,</span> __pivot<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token operator">++</span>__first<span class="token punctuation">;</span>
+    <span class="token operator">--</span>__last<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">__comp</span><span class="token punctuation">(</span>__pivot<span class="token punctuation">,</span> <span class="token operator">*</span>__last<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token operator">--</span>__last<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>__first <span class="token operator">&lt;</span> __last<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> __first<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">iter_swap</span><span class="token punctuation">(</span>__first<span class="token punctuation">,</span> __last<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">++</span>__first<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>对于有序且无重复元素的关联容器（例如，set，map），向里面插入两个相同元素时，如果定义的比较函数不是严格弱序的话（而是
+在&lt;= 情况下，返回true），由于stl判断相等是使用的 !Cmp(a,b) &amp;&amp;
+!Cmp(b,a)，那么当a 和b
+相等时，stl判断相等会返回false，被认为这两个元素值不同的，这是错误的。所以比较函数需要遵守严格弱序原则，换句话说，永远让比较函数对相等的值返回false。</li>
+<li>对于有序且有重复元素的关联容器（例如，multiset，multimap），可能让人产生一种错觉：无重复元素的关联容器是要求严格弱序的，那么有重复元素的关联容器是否可以用小于等于来比较呢？这是错误的。multiset和multimap如果用小于等于来比较，那么容器就会认为值相等的元素不是等价的，这和容器的本意是背道而驰的，它们的本意是值相等
+=&gt; 被认为是等价的 =&gt;
+允许插入。被认为是不等价的虽然也可以插入（如下图所示，10A，10B都能插入），但是在调用equal_range获取等价元素（注意这里不是值相等的元素）的范围时候，值相等的元素会不在这个范围内，所以值相等却不等价这是做法是错误的。很多人都认为c++很难，它的难其中一部分原因在于它太过于灵活了，我们可以灵活构造容器，但是我们要考虑这样设计是否合理。</li>
+</ul>
+<p>比方说你在进行数据排序的时候，想要写一个自定义的排序方法，你可以重写大于、小于、大于等于
+或者是 小于等于，如果你是重写的 &gt;=（非严格弱序）</p>
+<p><code>a &gt;= b , b &gt;= a</code>
+通过两个对象交换位置，你可以判断出它们之间的 <code>&gt;=</code> 和
+<code>&lt;=</code>
+关系，但你无法判断这两个数是否相等，是不是这样的？</p>
+<p>但如果你重写的是 <code>&gt;</code>（严格弱序），情况就有所不同了</p>
+<p><code>a &gt; b</code> 结果为 <code>true</code>，则大小已定；</p>
+<p>如果结果为<code>false</code>，则可知 <code>a &lt;= b</code>，接着判断
+<code>b &gt; a</code>，（操作符不变，因为你就提供了一个操作符，交换比较对象的位置），结果为<code>true</code>，则大小已定，若是结果为<code>false</code>，则结果也很显然，那就是
+<code>a == b</code></p>
+<p>严格弱序让你实现了，只要传入一个操作符，你就可以知道两个操作数之间的大小关系、是否相等关系，这是非严格弱序所不能实现的。因为C++有很多地方对相同元素是敏感的，就比如说不允许有重复元素出现的set容器，如果把相同元素识别成不同或者根本识别不出来，那是很不恰当的。</p>
+<p>对于一个类型，无论是默认类型，还是自定义的类型的变量，都会经常使用到【比较】。例如，单纯的比较同一个类型的两个变量的大小、set和multiset等容器插入数据时和容器中已有数据做比较来决定是否插入和放入的位置，还有本文的主题在排序（sort）的时的比较。</p>
+<p>References:</p>
+<blockquote>
+<p>https://mp.weixin.qq.com/s?__biz=MzkyMjIxMzIxNA==&amp;mid=2247486922&amp;idx=1&amp;sn=5d8336a50d0fe7ebdc0c13e9dc8816cf</p>
+<p>https://blog.csdn.net/River_Lethe/article/details/78618788</p>
+<p>https://blog.csdn.net/llz62378/article/details/88937139</p>
+<p>https://en.wikipedia.org/wiki/Weak_ordering</p>
+</blockquote>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">sfc9982</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2022/01/06/c-yan-ge-ruo-xu/">https://googles.plus/2022/01/06/c-yan-ge-ruo-xu/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">sfc9982</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/ACM/">
+                                    <span class="chip bg-color">ACM</span>
+                                </a>
+                            
+                                <a href="/tags/C-C/">
+                                    <span class="chip bg-color">C/C++</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%BC%96%E7%A8%8B/">
+                                    <span class="chip bg-color">编程</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%B0%E5%AD%A6/">
+                                    <span class="chip bg-color">数学</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/01/15/tldr-pages-ming-ling-shuo-ming-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/wallhaven-wyomo6_1920x1080.avif" class="responsive-img" alt="TLDR-Pages: 命令说明书">
+                        
+                        <span class="card-title">TLDR-Pages: 命令说明书</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-15
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/01/05/leetcode-390-elimination-game/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/wallhaven-md29x1_1920x1080.avif" class="responsive-img" alt="Leetcode.390 Elimination Game">
+                        
+                        <span class="card-title">Leetcode.390 Elimination Game</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/ACM/" class="post-category">
+                                    ACM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ACM/">
+                        <span class="chip bg-color">ACM</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">编程</span>
+                    </a>
+                    
+                    <a href="/tags/LeetCode/">
+                        <span class="chip bg-color">LeetCode</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">198.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body>
+
+</html>

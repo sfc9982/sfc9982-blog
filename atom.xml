@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>sfc9982&#39;s blog</title>
+  
+  <subtitle>Sci &amp; Tech Blog</subtitle>
+  <link href="https://googles.plus/atom.xml" rel="self"/>
+  
+  <link href="https://googles.plus/"/>
+  <updated>2023-07-19T02:42:27.551Z</updated>
+  <id>https://googles.plus/</id>
+  
+  <author>
+    <name>sfc9982</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在 C++ 项目中使用 Google Test &amp; Benchmark</title>
+    <link href="https://googles.plus/2023/07/19/zai-c-xiang-mu-zhong-shi-yong-google-test-benchmark/"/>
+    <id>https://googles.plus/2023/07/19/zai-c-xiang-mu-zhong-shi-yong-google-test-benchmark/</id>
+    <published>2023-07-19T02:25:45.000Z</published>
+    <updated>2023-07-19T02:42:27.551Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;编译安装&quot;&gt;编译安装&lt;/h2&gt;
+&lt;p&gt;Google Test/Benchmark 是基于 CMake
+构建的。跨平台支持非常的好，Windows 可以使用 nmake 编译安装，默认会在
+&lt;code&gt;Program Files&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="C/C++" scheme="https://googles.plus/tags/C-C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GraalVM 编译期引用 msvc</title>
+    <link href="https://googles.plus/2023/06/27/graalvm-bian-yi-qi-yin-yong-msvc/"/>
+    <id>https://googles.plus/2023/06/27/graalvm-bian-yi-qi-yin-yong-msvc/</id>
+    <published>2023-06-27T08:19:06.000Z</published>
+    <updated>2023-07-19T02:09:29.805Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;使用 GraalVM JDK 中的 &lt;code&gt;native-image&lt;/code&gt;
+编译原生应用时，如果使用 jabba 之类的 SDK
+管理器的话，环境变量管理可能会与 Visual Studio
+的开发人员工具环境起冲突，无法同时共用两个。&lt;/p&gt;
+&lt;p&gt;可以在</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>去除 Google 搜索结果重定向</title>
+    <link href="https://googles.plus/2023/06/15/qu-chu-google-sou-suo-jie-guo-chong-ding-xiang/"/>
+    <id>https://googles.plus/2023/06/15/qu-chu-google-sou-suo-jie-guo-chong-ding-xiang/</id>
+    <published>2023-06-15T09:02:51.000Z</published>
+    <updated>2023-07-19T02:09:29.822Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;安装 https://ublockorigin.com/&lt;/li&gt;
+&lt;li&gt;开启 &lt;code&gt;uBlock filters -</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>podman 容器作为服务管理</title>
+    <link href="https://googles.plus/2023/06/11/podman-rong-qi-zuo-wei-fu-wu-guan-li/"/>
+    <id>https://googles.plus/2023/06/11/podman-rong-qi-zuo-wei-fu-wu-guan-li/</id>
+    <published>2023-06-11T09:31:58.000Z</published>
+    <updated>2023-07-19T02:09:29.816Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;创建服务配置&quot;&gt;创建服务配置&lt;/h2&gt;
+&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token</summary>
+        
+      
+    
+    
+    
+    
+    <category term="云原生" scheme="https://googles.plus/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/"/>
+    
+    <category term="podman" scheme="https://googles.plus/tags/podman/"/>
+    
+    <category term="Linux" scheme="https://googles.plus/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sudo 中的 alias</title>
+    <link href="https://googles.plus/2023/06/11/sudo-zhong-de-alias/"/>
+    <id>https://googles.plus/2023/06/11/sudo-zhong-de-alias/</id>
+    <published>2023-06-11T09:05:46.000Z</published>
+    <updated>2023-07-19T02:09:29.816Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;http://www.gnu.org/software/bash/manual/bashref.html#Aliases&quot;&gt;Bash
+Manaul&lt;/a&gt; 中写到：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Aliases allow a string</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>人类从历史中学到的唯一教训</title>
+    <link href="https://googles.plus/2023/06/09/ren-lei-cong-li-shi-zhong-xue-dao-de-wei-yi-jiao-xun/"/>
+    <id>https://googles.plus/2023/06/09/ren-lei-cong-li-shi-zhong-xue-dao-de-wei-yi-jiao-xun/</id>
+    <published>2023-06-08T16:26:02.000Z</published>
+    <updated>2023-07-19T02:09:29.818Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;原文&quot;&gt;原文&lt;/h3&gt;
+&lt;p&gt;But what experience and history teach is this – that nations and
+goverments have never learned anything from history</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>docker 容器端口绕过 firewalld 防火墙解决方案</title>
+    <link href="https://googles.plus/2023/05/18/docker-rong-qi-duan-kou-rao-guo-firewalld-fang-huo-qiang-jie-jue-fang-an/"/>
+    <id>https://googles.plus/2023/05/18/docker-rong-qi-duan-kou-rao-guo-firewalld-fang-huo-qiang-jie-jue-fang-an/</id>
+    <published>2023-05-18T11:19:14.000Z</published>
+    <updated>2023-07-19T02:09:29.814Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;docker-容器端口绕过-firewalld-防火墙解决方案&quot;&gt;docker
+容器端口绕过 firewalld 防火墙解决方案&lt;/h1&gt;
+&lt;h2 id=&quot;docker-不使用-iptables&quot;&gt;docker 不使用 iptables&lt;/h2&gt;
+&lt;p&gt;在</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Oracle SQL Developer 美化</title>
+    <link href="https://googles.plus/2023/04/24/oracle-sql-developer-mei-hua/"/>
+    <id>https://googles.plus/2023/04/24/oracle-sql-developer-mei-hua/</id>
+    <published>2023-04-24T10:51:12.000Z</published>
+    <updated>2023-07-19T02:09:29.808Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;配置目录 &lt;code&gt;&#92;sqldeveloper&#92;bin&#92;sqldeveloper.conf&lt;/code&gt;, Linux</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>记一次 Hikvision Pentest</title>
+    <link href="https://googles.plus/2023/04/24/ji-yi-ci-hikvision-pentest/"/>
+    <id>https://googles.plus/2023/04/24/ji-yi-ci-hikvision-pentest/</id>
+    <published>2023-04-24T10:08:24.000Z</published>
+    <updated>2023-07-19T02:09:29.831Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+    <category term="CTF" scheme="https://googles.plus/tags/CTF/"/>
+    
+    <category term="Pentest" scheme="https://googles.plus/tags/Pentest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ 实现高精度浮点运算</title>
+    <link href="https://googles.plus/2023/04/24/c-shi-xian-gao-jing-du-fu-dian-yun-suan/"/>
+    <id>https://googles.plus/2023/04/24/c-shi-xian-gao-jing-du-fu-dian-yun-suan/</id>
+    <published>2023-04-24T04:43:49.000Z</published>
+    <updated>2023-07-19T02:09:29.800Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;c-实现高精度浮点运算&quot;&gt;C++ 实现高精度浮点运算&lt;/h1&gt;
+&lt;p&gt;（注意：本文已经默认您了解了 IEEE-754 标准！）&lt;/p&gt;
+&lt;p&gt;Boost 是一个开源的 C++ 库集合，它提供了许多高效的算法和工具，用于解决
+C++</summary>
+        
+      
+    
+    
+    
+    
+    <category term="C++" scheme="https://googles.plus/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WOFF Web 字体二三事</title>
+    <link href="https://googles.plus/2023/04/15/woff-web-zi-ti-er-san-shi/"/>
+    <id>https://googles.plus/2023/04/15/woff-web-zi-ti-er-san-shi/</id>
+    <published>2023-04-15T06:33:38.000Z</published>
+    <updated>2023-07-19T02:09:29.812Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;web-open-font-format&quot;&gt;Web Open Font Format&lt;/h1&gt;
+&lt;p&gt;Web开放字体格式（Web Open</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Web" scheme="https://googles.plus/tags/Web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Wireshark BPF 捕获过滤器</title>
+    <link href="https://googles.plus/2023/04/15/wireshark-bpf-bu-huo-guo-lu-qi/"/>
+    <id>https://googles.plus/2023/04/15/wireshark-bpf-bu-huo-guo-lu-qi/</id>
+    <published>2023-04-15T06:17:07.000Z</published>
+    <updated>2023-07-19T02:09:29.814Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;wireshark-bpf-捕获过滤器&quot;&gt;Wireshark BPF 捕获过滤器&lt;/h1&gt;
+&lt;p&gt;Wireshark 中，如果要过滤出所有的 POST 或者是 GET
+请求，我们可以用显示过滤器里的</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Wireshark" scheme="https://googles.plus/tags/Wireshark/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows 平台安装 H.265 视频扩展</title>
+    <link href="https://googles.plus/2023/04/14/windows-ping-tai-an-zhuang-h-265-shi-pin-kuo-zhan/"/>
+    <id>https://googles.plus/2023/04/14/windows-ping-tai-an-zhuang-h-265-shi-pin-kuo-zhan/</id>
+    <published>2023-04-14T12:18:03.000Z</published>
+    <updated>2023-07-19T02:09:29.813Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;windows-平台安装-h.265-视频扩展&quot;&gt;Windows 平台安装 H.265
+视频扩展&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;https://googles.plus/images/loading.gif&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>计算机延迟比较</title>
+    <link href="https://googles.plus/2023/04/14/ji-suan-ji-yan-chi-bi-jiao/"/>
+    <id>https://googles.plus/2023/04/14/ji-suan-ji-yan-chi-bi-jiao/</id>
+    <published>2023-04-14T12:08:18.000Z</published>
+    <updated>2023-07-19T02:09:29.831Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;pre class=&quot;line-numbers language-none&quot;&gt;&lt;code class=&quot;language-none&quot;&gt;Latency Comparison Numbers</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SMTP 发信人伪造攻击</title>
+    <link href="https://googles.plus/2023/04/14/smtp-fa-xin-ren-wei-zao-gong-ji/"/>
+    <id>https://googles.plus/2023/04/14/smtp-fa-xin-ren-wei-zao-gong-ji/</id>
+    <published>2023-04-14T12:02:26.000Z</published>
+    <updated>2023-07-19T02:09:29.809Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;smtp-发信人伪造攻击&quot;&gt;SMTP 发信人伪造攻击&lt;/h1&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+    <category term="CTF" scheme="https://googles.plus/tags/CTF/"/>
+    
+    <category term="Cybersecurity" scheme="https://googles.plus/tags/Cybersecurity/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 网卡名称更改</title>
+    <link href="https://googles.plus/2023/04/14/linux-wang-qia-ming-cheng-geng-gai/"/>
+    <id>https://googles.plus/2023/04/14/linux-wang-qia-ming-cheng-geng-gai/</id>
+    <published>2023-04-14T11:59:51.000Z</published>
+    <updated>2023-07-19T02:09:29.806Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;linux-网卡名称更改&quot;&gt;Linux 网卡名称更改&lt;/h1&gt;
+&lt;h2 id=&quot;网卡配置文件名称重命名&quot;&gt;网卡配置文件名称重命名&lt;/h2&gt;
+&lt;pre class=&quot;line-numbers language-text&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Windows TCP 拥塞控制算法</title>
+    <link href="https://googles.plus/2023/04/14/windows-tcp-yong-sai-kong-zhi-suan-fa/"/>
+    <id>https://googles.plus/2023/04/14/windows-tcp-yong-sai-kong-zhi-suan-fa/</id>
+    <published>2023-04-14T11:53:12.000Z</published>
+    <updated>2023-07-19T02:09:29.813Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;windows-tcp-拥塞控制算法&quot;&gt;Windows TCP 拥塞控制算法&lt;/h1&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>美国政府网站使用的CMS平台</title>
+    <link href="https://googles.plus/2023/04/14/mei-guo-zheng-fu-wang-zhan-shi-yong-de-cms-ping-tai/"/>
+    <id>https://googles.plus/2023/04/14/mei-guo-zheng-fu-wang-zhan-shi-yong-de-cms-ping-tai/</id>
+    <published>2023-04-14T11:51:40.000Z</published>
+    <updated>2023-07-19T02:09:29.830Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;federal-government&quot;&gt;Federal Government&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Agency or website (Tool, product or service)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Bvp47 - NSA</title>
+    <link href="https://googles.plus/2023/04/14/bvp47-nsa/"/>
+    <id>https://googles.plus/2023/04/14/bvp47-nsa/</id>
+    <published>2023-04-14T11:50:01.000Z</published>
+    <updated>2023-07-19T02:09:29.797Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;bvp47---nsa&quot;&gt;Bvp47 -</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>通过 screen 后台运行程序</title>
+    <link href="https://googles.plus/2023/04/14/tong-guo-screen-hou-tai-yun-xing-cheng-xu/"/>
+    <id>https://googles.plus/2023/04/14/tong-guo-screen-hou-tai-yun-xing-cheng-xu/</id>
+    <published>2023-04-14T11:49:05.000Z</published>
+    <updated>2023-07-19T02:09:29.831Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;一、背景&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;系统管理员经常需要SSH 或者telent</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>

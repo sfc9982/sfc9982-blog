@@ -1,0 +1,134 @@
+/* Custom CSS Config */
+
+nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
+    height: 58px;
+    line-height: 50px;
+}
+
+.card .card-image .card-title {
+    font-weight: 400;
+    text-shadow: 0 1px black, 1px 0 black, -1px 0 black, 0 -1px black;
+}
+
+#articleContent p {
+    margin: 2px 2px 10px;
+    font-size: 18px;
+    line-height: 32px;
+}
+
+#articleContent ul li {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+#articleContent ol li {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+.MathJax * {
+    font-size: 100%;
+}
+
+.MathJax_SVG * {
+    font-size: 100%;
+}
+
+code {
+    font-size: 18px;
+}
+
+body {
+    background-color: #d6deeb;
+}
+
+/*.card .card-image img {
+    object-fit: contain;
+    background-color: #416891;
+}*/
+
+article .card-image img {
+    opacity: 0.9;
+}
+
+.card .card-image img {
+    object-fit: cover;
+    object-position: 50% 0%;
+}
+
+.card .card-image img[src*="Tupper.png"] {
+    object-fit: contain;
+    height: 140px;
+}
+
+.card .card-image img[src*="94ac0acf7d9a13a4cf895d15b6f279a6"] {
+    object-position: 50% 35%;
+}
+
+.card .card-image img[src*="40993f458cab03dc1019ab87f81cc077"] {
+    object-position: 50% 50%;
+}
+
+.card .card-image img[src*="820221750"] {
+    object-position: 50% 50%;
+}
+
+.card .card-image img[src*="E95UsOmXoAYakCj"] {
+    object-position: 50% 75%;
+}
+
+.card .card-image img[src*="2d29d75b9c1c3cd8d0c67db2dad16a04"] {
+    object-position: 50% 75%;
+}
+
+.card .card-image img[src*="featureimages_anime/0.avif"] {
+    object-position: 50% 60%;
+}
+
+.card .card-image img[src*="797548900"] {
+    object-position: 50% 10%;
+}
+
+.card .card-image img[src*="618941960"] {
+    object-position: 50% 20%;
+}
+
+.card .card-image img[src*="94cc1bfd2644f7ba8df96c6fda7fc2f3"] {
+    object-position: 50% 50%;
+}
+
+.card .card-image img[src*="EoJd9chVcAMxykN"] {
+    object-position: 50% 65%;
+}
+
+.card .card-image img[src*="944057680"] {
+    object-position: 50% 60%;
+}
+
+.card .card-image img[src*="929839320"] {
+    object-position: 50% 75%;
+}
+
+.card .card-image img[src*="887245310"] {
+    object-position: 50% 33%;
+}
+
+.card .card-image img[src*="947433860"] {
+    object-position: 50% 10%;
+}
+
+.card .card-image img[src*="942206070"] {
+    object-position: 50% 30%;
+}
+
+.card .card-image img[src*="758142170"] {
+    object-position: 50% 40%;
+}
+
+.card .card-image img[src*="841033360"] {
+    object-position: 50% 30%;
+}
+
+.card .card-image img[src*="862402421"] {
+    object-position: 50% 10%;
+}

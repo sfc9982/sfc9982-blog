@@ -1,0 +1,2860 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Cisco, QoS 配置">
+    <meta name="description" content="简介
+Cisco Catalyst 3750 交换机支持各种 QoS
+功能，例如分类、标记、策略、排队和调度。本文档通过配置示例介绍这些 QoS
+功能。
+先决条件
+要求
+Cisco 建议您应具备配置 QoS 的相关知识。
+使用的组件
+本文档">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>Cisco QoS 配置 | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/wallhaven-ymz61d_1920x1080.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Cisco QoS 配置</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Cisco/">
+                                <span class="chip bg-color">Cisco</span>
+                            </a>
+                        
+                            <a href="/tags/QoS/">
+                                <span class="chip bg-color">QoS</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/" class="post-category">
+                                网络工程
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-02-24
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    15.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    69 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="简介">简介</h2>
+<p>Cisco Catalyst 3750 交换机支持各种 QoS
+功能，例如分类、标记、策略、排队和调度。本文档通过配置示例介绍这些 QoS
+功能。</p>
+<h2 id="先决条件">先决条件</h2>
+<h3 id="要求">要求</h3>
+<p>Cisco 建议您应具备<a target="_blank" rel="noopener" href="https://www.cisco.com/en/US/docs/switches/lan/catalyst3750/software/release/12.2_35_se/configuration/guide/swqos.html" title="US 网站">配置 QoS</a> 的相关知识。</p>
+<h3 id="使用的组件">使用的组件</h3>
+<p>本文档中的信息基于以下软件和硬件版本：</p>
+<ul>
+<li><p>Cisco Catalyst 3750 交换机 - WS-C3750-24TS</p></li>
+<li><p>Cisco IOS® 软件版本 12.2(35)SE2</p></li>
+</ul>
+<p>本文档中的信息都是基于特定实验室环境中的设备编写的。本文档中使用的所有设备最初均采用原始（默认）配置。如果您使用的是真实网络，请确保您已经了解所有命令的潜在影响。</p>
+<h3 id="规则">规则</h3>
+<p>有关文档规则的详细信息，请参阅 <a target="_blank" rel="noopener" href="https://www.cisco.com/en/US/tech/tk801/tk36/technologies_tech_note09186a0080121ac5.shtml">Cisco
+技术提示规则。</a></p>
+<h2 id="qos-概述">QoS 概述</h2>
+<p>使用
+QoS，您可以优先处理特定类型的数据流，而牺牲对其他数据流的处理。可以使用
+QoS 标签来区分数据流。第 3 层 IP 报头中最常用的两个 QoS 标签是 IP
+优先级字段和 DSCP 字段。第2层帧头中的QoS标签称为服务类别(CoS)。 Catalyst
+交换机 QoS 工具可基于第 3 层 QoS 标签或第 2 层 QoS
+标签提供优先处理。本文档提供的各种示例可帮助您了解在 Cisco Catalyst
+交换机中第 2 层和第 3 层 QoS 标签的用法。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config1.gif" title="US 网站"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config1.gif" alt="cat3750-qos-config1.gif"></a></p>
+<h3 id="未启用-qos-的-cisco-catalyst-3750-交换机">未启用 QoS 的 Cisco
+Catalyst 3750 交换机</h3>
+<p>默认情况下，QoS 在 Catalyst 3750 交换机上处于禁用状态。当 QoS
+处于禁用状态时，所有帧/数据包均直接通过交换机，不做任何更改。例如，如果进入交换机的帧的
+CoS 为 5，帧中的数据包的 DSCP 为 EF，则 CoS 和 DSCP
+标签不会更改。数据流在离开时具有与进入时相同的 CoS 和 DSCP
+值。所有数据流（包括语音）均“尽最大努力按原样”提供。</p>
+<pre class="line-numbers language-none"><code class="language-none">Switch#show mls qos
+QoS is disabled
+QoS ip packet dscp rewrite is enabled
+
+!--- Even though it says QoS ip packet dscp rewrite is enabled,
+!--- the switch does not alter the DSCP label on the packets when
+!--- the QoS is disabled.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="cisco-catalyst-3750-交换机-qos-功能">Cisco Catalyst 3750 交换机
+QoS 功能</h3>
+<p>在 3750 交换机上启用 QoS 后，默认情况下会启用一些入口和出口 QoS
+功能。下图显示了交换机的 QoS 体系结构的高级视图：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config2.gif" title="US 网站"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config2.gif" alt="cat3750-qos-config2.gif"></a></p>
+<p>以下是基于该图的要点汇总：</p>
+<ul>
+<li><p>入口 QoS
+功能（例如分类、标记和策略）可以按端口逐个进行配置。</p></li>
+<li><p>输入映射表和入口队列可以进行全局配置。这些不能按端口逐个进行配置。</p></li>
+<li><p>入口队列的 SRR 可以进行全局配置。</p></li>
+<li><p>堆栈环带宽取决于堆栈布线。如果以全部带宽连接堆栈，则可获得 32Gbps
+带宽。此带宽由堆栈中的所有交换机共享。</p></li>
+<li><p>输出映射表和出口队列可以进行全局配置。可以设置二个队列集配置，并可以为端口应用任何一个队列集配置。</p></li>
+<li><p>出口队列的 SRR 可以按端口逐个进行配置。</p></li>
+</ul>
+<h2 id="入口-qos-功能">入口 QoS 功能</h2>
+<p>本部分介绍各种可能的入口 QoS 配置的概念。此部分包括以下主题：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept21">默认入口
+QoS 配置</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept22">分类和标记</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#cg23">管制</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#cg24">拥塞管理和避免</a></p></li>
+</ul>
+<h3 id="默认入口-qos-配置">默认入口 QoS 配置</h3>
+<p>以下是交换机在启用 QoS 后默认的帧处理方式：</p>
+<ul>
+<li><p>一个帧进入交换机端口，且未对该帧进行标记（这表示该端口为接入端口，并且该帧在进入交换机时未进行
+ISL 或 dot1q 封装）。</p></li>
+<li><p>交换机使用 dot1q 封装该帧（忽略 ISL，因为 dot1q
+是所有新交换机上的默认选项）。</p></li>
+<li><p>在 dot1q 帧标记中，存在名为 802.1p 优先级位的三个可用位，也称为
+CoS。这些位均设置为 0。</p></li>
+<li><p>随后，交换机基于 CoS-DSCP 映射表计算 DSCP
+值。根据表，交换机将DSCP值设置为0。DSCP值位于数据包的IP报头。</p></li>
+</ul>
+<p>总之，如果 QoS 在交换机上处于启用状态，默认情况下，进入交换机的帧的
+CoS 和 DSCP 值将设置为 0。</p>
+<h3 id="分类和标记">分类和标记</h3>
+<p>与路由器不同，在 Cisco Catalyst 交换机中，QoS
+分类和标记操作不尽相同。在思科路由器中，您可以根据传入数据包DSCP值或访问控制列表(ACL)使用MQC对数据包进行分类。
+这取决于您是否信任传入的数据包的 QoS 标签。在 Cisco Catalyst 3750
+交换机中，可以基于传入的 CoS/DSCP 值进行分类，也可以基于 ACL
+对帧进行分类。</p>
+<p>基于传入的 CoS/DSCP 值的配置可以通过三种不同方式实现：</p>
+<ul>
+<li><p>使用基于接口的 <strong>mls qos
+命令基于端口进行配置</strong></p></li>
+<li><p>使用 class-map 和 policy-map 基于 MQC 进行配置</p></li>
+<li><p>基于 VLAN 进行配置</p></li>
+</ul>
+<p>您可以使用这三种方法中的任意一种。不能在一个端口中使用多种方法。例如，已在端口上配置了
+<strong>mls qos trust cos 命令。</strong>在使用 <strong>service-policy
+input &lt;policy-map-name&gt; 命令配置该端口时，会自动删除 mls qos trust
+cos 命令。</strong></p>
+<p>分类和标记 - 基于端口部分将介绍基于端口的配置。</p>
+<p>分类和标记 - 基于 MQC 部分将介绍基于 MQC 的分类。</p>
+<h4 id="分类和标记---基于端口">分类和标记 - 基于端口</h4>
+<p>本部分将介绍基于特定于接口的配置的分类。在标题为“分类和标记”的部分可能会遇到问题。这是因为在
+Cisco Catalyst 3750 交换机中，将使用映射表对帧（帧中的数据包）的 CoS 或
+DSCP 值进行重新标记。但映射表在 Cisco 路由器中不可用。它们仅在 Cisco
+Catalyst 交换机中可用。在本部分中，您将了解到这些表的功能。</p>
+<p>本部分将讨论以下两种配置：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#cg211">分类
+- 端口信任配置</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#cg212">标记
+- QoS 映射表配置</a></p></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config3.gif" title="cat3750-qos-config3.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config3.gif" alt="cat3750-qos-config3.gif"></a></p>
+<h4 id="分类---端口信任配置">分类 - 端口信任配置</h4>
+<p>传入的数据包或帧可能已经分配了 QoS 标签。可能会遇到以下问题：</p>
+<ul>
+<li><p>是否信任端口上传入的数据包/帧的 QoS 标签？</p></li>
+<li><p>如果 IP 电话和 PC 连接到端口，是否信任该电话、PC 或二者的 QoS
+标签？</p></li>
+</ul>
+<p>如果不信任传入的数据包/帧的 QoS
+标签，则需要基于访问列表对数据包进行分类并标记 QoS
+标签。如果信任传入的数据包/帧的 QoS
+标签，则另一个问题是，是否需要信任端口上传入的数据包/帧的 CoS 值或 DSCP
+值？这取决于所采用的方案。在本部分中，您可以看到各种不同的方案及其示例。</p>
+<p>端口信任配置选项为：</p>
+<pre class="line-numbers language-none"><code class="language-none">Switch(config-if)#mls qos trust ?
+  cos            cos keyword
+  device         trusted device class
+  dscp           dscp keyword
+  ip-precedence  ip-precedence keyword
+  &lt;cr&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>示例 1：</strong>如果端口为接入端口或第 3 层端口，则需要配置
+<strong>mls qos trust dscp 命令。</strong>不能使用<strong>mls qos trust
+cos命令，因为来自接入端口或第3层端口的帧不包含dot1q或ISL标记。</strong>CoS
+位仅存在于 dot1q 或 ISL 帧中。</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/1
+ description **** Layer 3 Port ****
+ no switchport
+ ip address 192.168.10.1 255.255.255.0
+ mls qos trust dscp
+end
+interface GigabitEthernet1/0/2
+ description **** Access Port ****
+ switchport access vlan 10
+ switchport mode access
+ mls qos trust dscp
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><strong>示例 2：</strong>如果端口为中继端口，则可以配置
+<strong>mls qos trust cos 或 mls qos trust dscp
+命令。</strong>如果端口配置为信任 DSCP，则将使用 dscp-cos 映射表计算 CoS
+值。同样，如果端口配置为信任 CoS，则将使用 cos-dscp 映射表计算 DSCP
+值。</p>
+<p></p><pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/3
+description **** Trunk Port ****
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk native vlan 5
+switchport trunk allowed vlan 5,10,20,30,40,50
+mls qos trust cos
+end
+interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ spanning-tree portfast
+end
+
+!--- The Cisco IP Phone uses IEEE 802.1Q frames for Voice !--- VLAN traffic.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p></p></li>
+<li><p><strong>示例
+3：</strong>如果端口是dot1q中继端口，且端口配置了<strong>mls qos trust
+cos</strong>命令，则本地VLAN帧的CoS和DSCP值将为0。由于本地VLAN帧未标记，且帧在进入交换机后已标记，因此交换机会将默认CoS值设置为0，并将CoS-to-DSCP表将DSCP值设置为0。</p>
+<p><strong>注意：</strong>来自本征VLAN的数据包的DSCP值将重置为0。</p>
+<p>您还可以使用mls qos cos <strong>&lt;0-7&gt;</strong>
+命令配置交换机端口，将无标记帧的默认CoS值从0更改为0到7之间的任何其<strong>他值。</strong>此命令不会更改已标记的帧的
+CoS 值。</p>
+<p>例如，使用接入 VLAN 10 和语音 VLAN 20 配置端口
+GigabitEthernet1/0/12。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ spanning-tree portfast
+
+!--- The Cisco IP Phone uses IEEE 802.1Q frames for Voice !--- VLAN traffic. Voice VLAN is only supported on access ports and not !--- on trunk ports, even though the configuration is allowed.
+
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>默认情况下，PC 将发送未标记的数据。无论电话上的接入端口的信任状态如何，来自连接到 Cisco IP 电话的设备的未标记数据流都将直接通过电话，不做任何更改。电话发送带有语音VLAN ID 20的dot1q标记帧。因此，如果使用 `mls qos trust cos` 命令配置端口，则它信任来自电话的帧（标记帧）的CoS值，并将来自PC的帧（未标记帧）的CoS值设置为0。之后，CoS-DSSCP映射表将帧内数据包的DSCP值设置为0，因为CoS-DSCP映射表的DSCP值为0（CoS值0）。如果来自PC的数据包具有任何特定DSCP值，则该值将重置为0。如果在端口上配置 `mls qos cos 3` 命令，则会设置Co从PC到3的所有帧的S值，不会更改来自电话的帧的CoS值。</code></pre>
+<p></p><pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ mls qos cos 3
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p></p>
+<pre><code>如果使用 `mls qos cos 3 override` 命令配置端口，它会将所有帧（已标记和未标记）的CoS值设置为`3`。它将覆盖之前配置的信任值。</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ mls qos cos 3 override
+
+!--- Overrides the mls qos trust cos.
+
+
+!--- Applies CoS value 3 on all the incoming packets on both !--- the vlan 10 and 20.
+
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>示例 4：</strong>例如，请看端口 gi 1/0/12 配置：</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>如果PC使用VLAN 20标记其帧，它还将CoS值设置为5。交换机处理连接到Cisco IP电话接入端口的设备上的标记数据流量（IEEE 802.1Q或IEEE 802.1p帧类型中的流量）。由于接口配置为信任 CoS 值，因此通过 Cisco IP 电话上的接入端口接收的所有数据流都将直接通过电话，不做任何更改。交换机也信任并允许来自 PC 的数据流，并给予与 IP 电话数据流相同的优先级。这不是您希望看到的结果。使用 `switchport priority extend cos &lt;cos-value&gt;`  命令可以避免这种情况。</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ switchport priority extend cos 0
+
+!--- Overrides the CoS value of PC traffic to 0.
+
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>switchport priority extend cos &lt;cos-value&gt;</code>
+命令会对电话进行配置，以便 IP 电话将 PC 数据流的 CoS 值更改为 0。</p>
+<ul>
+<li><strong>示例 5：</strong> 例如，在同一接口中，有人将 PC
+直接连接到交换机，并使用具有较高 CoS 值的 dot1q 帧标记 PC 数据。使用
+<code>mls qos trust device cisco-phone</code>
+命令可以避免这种情况。</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ switchport priority extend cos 0
+ mls qos trust device cisco-phone 
+
+!--- Specify that the Cisco IP Phone is a trusted device.
+
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>示例 6：</strong> 例如，在接口 GigabitEthernet1/0/12
+中，必须信任来自 PC 的 QoS 标签。此外，PC 连接到本地 VLAN
+10。在这种情况下，由于 PC 数据包未标记 CoS 值，因此
+<code>mls qos trust cos</code> 命令没有任何作用。它将仅标记 DSCP
+值。因此，交换机会添加dot1q帧并将默认CoS值配置为0。然后，CoS-DSCP表计算并重置DSCP值为0。</li>
+</ul>
+<p>要解决此问题，有二种选择。一种方法是使用 MQC 配置分类和标记。可以创建
+ACL，根据源、目标 IP 地址以及源/目标端口号来匹配 PC
+数据流。然后，可以在类映射中匹配此
+ACL。可以创建策略映射以信任此数据流。将在下一部分中讨论此解决方案。本部分讨论第二种方法。第二种方法是，信任
+DSCP 标签而不是 CoS 标签。然后，DSCP-CoS 标签将计算并设置与 DSCP
+值对应的 CoS 值。</p>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust dscp
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于不建议信任所有 PC 数据流的 QoS 标签，因此首选第一种方法。</p>
+<h4 id="标记---qos-映射表配置">标记 - QoS 映射表配置</h4>
+<p>在启用 QoS 后，将使用默认值创建映射表并启用映射表。</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1#show mls qos maps cos-dscp
+   Cos-dscp map:
+        cos:   0  1  2  3  4  5  6  7
+     --------------------------------
+       dscp:   0  8 16 24 32 40 48 56
+
+Distribution1#show mls qos maps dscp-cos
+   Dscp-cos map:
+     d1 :  d2 0  1  2  3  4  5  6  7  8  9
+     ---------------------------------------
+      0 :    00 00 00 00 00 00 00 00 01 01
+      1 :    01 01 01 01 01 01 02 02 02 02
+      2 :    02 02 02 02 03 03 03 03 03 03
+      3 :    03 03 04 04 04 04 04 04 04 04
+      4 :    05 05 05 05 05 05 05 05 06 06
+      5 :    06 06 06 06 06 06 07 07 07 07
+      6 :    07 07 07 07<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><strong>示例 1：</strong> 如果将端口配置为信任
+CoS，则将信任所有传入的 CoS 值，并根据 CoS-DSCP 表重新标记 DSCP
+值。根据默认的 CoS-DSCP 配置，这些值将按以下方式映射：</p>
+<table>
+<thead>
+<tr class="header">
+<th>CoS</th>
+<th>DSCP（十进制）</th>
+<th>DSCP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>默认</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>8</td>
+<td>CS1</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>16</td>
+<td>CS2</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>24</td>
+<td>CS3</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>32</td>
+<td>CS4</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>40</td>
+<td>CS5</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>48</td>
+<td>CS6</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>56</td>
+<td>CS7</td>
+</tr>
+</tbody>
+</table>
+<p>您需要在此处注意的一个重要值是DSCP值与CoS值5对应。它是CS5。示例2介绍此值。</p></li>
+<li><p><strong>示例 2：</strong> 例如，接口 GigabitEthernet1/0/12
+配置为信任 CoS。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/12
+ description **** Cisco IP Phone  ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ mls qos trust cos
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当 Cisco IP 电话将数据流发送到交换机时，它会使用 CoS 5 和 DSCP EF
+标记语音有效负载。当数据流进入端口 Gi 1/0/12 时，交换机将信任 CoS
+值。然后，交换机从 CoS-DSCP 表获得与 CoS 值 5 对应的 DSCP 值 CS5
+(40)。所有带CoS
+5的语音负载都标有DSCP值CS5。这不是期望值。语音有效负载所需的 DSCP 值为
+DSCP EF。默认情况下，其他 CoS 值均可根据 RFC 正确映射到 DSCP 值。</p>
+<p>以下配置可帮助您配置 CoS-DSCP 映射表，以更改与 CoS 5 对应的 DSCP 值
+EF。</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)# mls qos map cos-dscp 0  8 16 
+24 32 46 48 56
+
+!--- DSCP 46 is EF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>进行此配置后，这些值将按以下方式映射：</p>
+<pre><code>| CoS | DSCP（十进制） | DSCP |
+| --- | --- | --- |
+| 0   | 0   | 默认  |
+| 1   | 8   | CS1 |
+| 2   | 16  | CS2 |
+| 3   | 24  | CS3 |
+| 4   | 32  | CS4 |
+| **5** | **46** | **EF** |
+| 6   | 48  | CS6 |
+| 7   | 56  | CS7 |</code></pre>
+<ul>
+<li><p><strong>示例 3：</strong> 如果将端口配置为信任
+DSCP，则将信任所有传入的 DSCP 值，并根据 DSCP-CoS 表重新标记 CoS
+值。根据默认的 DSCP-CoS 配置，这些值将按以下方式映射：</p>
+<table>
+<thead>
+<tr class="header">
+<th>DSCP</th>
+<th>DSCP（十进制）</th>
+<th>CoS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>默认</td>
+<td>0-7</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>CS1 AF11 AF12 AF13</td>
+<td>8-15</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>CS2 AF21 AF22 AF23</td>
+<td>16-23</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>CS3 AF31 AF32 AF33</td>
+<td>24-31</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>CS4 AF41 AF42 AF43</td>
+<td>32-39</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>CS5 EF</td>
+<td>40-47</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>CS6</td>
+<td>48-55</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>CS7</td>
+<td>56-63</td>
+<td>7</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<p>您不需要更改这些默认值。</p>
+<p>下表汇总了 DSCP 值和 CoS 值，仅供参考：</p>
+<table>
+<thead>
+<tr class="header">
+<th>DSCP（十进制）</th>
+<th>DSCP</th>
+<th>CoS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>默认</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>CS1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>AF11</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>AF12</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>AF13</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>CS2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td>AF21</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>AF22</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td>AF23</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>CS3</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>26</td>
+<td>AF31</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>AF32</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>AF33</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td>CS4</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>34</td>
+<td>AF41</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>36</td>
+<td>AF42</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>38</td>
+<td>AF43</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>CS5</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>42</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>44</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>46</td>
+<td>EF</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td>CS6</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>56</td>
+<td>CS7</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意：</strong> 在网络中，所有Cisco
+Catalyst交换机应具有相同的映射表。在不同交换机中使用不同的映射表值将导致意外的
+QoS 行为。</p>
+<h4 id="分类和标记---基于-mqc">分类和标记 - 基于 MQC</h4>
+<p>如“分类和标记”部分中所述，您可以使用 MQC
+对数据包进行分类和标记。可以使用 MQC
+而不是特定于端口的配置。还可以使用策略映射标记传入的数据包。</p>
+<p>本示例的要求如下：</p>
+<ul>
+<li><p>信任 IP 电话数据流的 CoS 值。</p></li>
+<li><p>标记来自连接 IP 电话的 PC 的软电话应用程序数据包的 DSCP
+值。</p></li>
+<li><p>不信任来自 PC 的所有其他数据流。</p></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config4.gif" title="cat3750-qos-config4.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config4.gif" alt="cat3750-qos-config4.gif"></a></p>
+<p>此图显示，策略映射应用于接口的输入端。在 Catalyst 3750
+交换机中，不能将策略映射应用于任何接口的输出端。下一个配置将呈现该图。本部分不着重介绍
+QoS 功能的排队功能。本部分仅重点介绍接口上应用的 MQC。</p>
+<p>假设数据VLAN为10，子网地址为172.16.10.0/24。语音VLAN为100，子网地址为192.168.100.0/24。</p>
+<pre class="line-numbers language-none"><code class="language-none">!--- Section A
+
+Distribution1(config)#ip access-list extended voice-traffic
+Distribution1(config-std-nacl)#permit ip 192.168.100.0 0.0.0.255 any
+
+Distribution1(config-std-nacl)#ip access-list extended
+ database-application
+Distribution1(config-ext-nacl)#permit tcp any any eq 1521
+Distribution1(config-ext-nacl)#permit tcp any any eq 1810
+Distribution1(config-ext-nacl)#permit tcp any any eq 2481
+Distribution1(config-ext-nacl)#permit tcp any any eq 7778
+Distribution1(config-ext-nacl)#exit
+
+Distribution1(config)#class-map  Class-A
+Distribution1(config-cmap)#match access-group name voice-traffic
+Distribution1(config-cmap)#exit
+Distribution1(config)#class-map  Class-B
+Distribution1(config-cmap)#match access-group name
+ database-application
+Distribution1(config-cmap)#exit
+
+
+!--- Section B
+
+Distribution1(config)#policy-map sample-policy1
+Distribution1(config-pmap)#class Class-A
+Distribution1(config-pmap-c)#trust cos
+Distribution1(config-pmap-c)#exit
+Distribution1(config-pmap)#class Class-B
+Distribution1(config-pmap-c)#set dscp af21
+Distribution1(config-pmap-c)#exit
+Distribution1(config-pmap)#exit
+
+
+!--- Section C
+
+Distribution1(config)#interface gigabitEthernet 1/0/13
+Distribution1(config-if)#switchport access vlan 10
+Distribution1(config-if)#switchport mode access
+Distribution1(config-if)#switchport voice vlan 100
+Distribution1(config-if)#spanning-tree portfast
+Distribution1(config-if)#service-policy input sample-policy1
+Distribution1(config-if)#exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>A 部分：</strong></p>
+<ul>
+<li><p>将 IP 电话数据流分类为 Class-A。IP 电话属于语音 VLAN，在
+192.168.100.0 子网中具有 IP 地址。</p></li>
+<li><p>将数据库应用程序数据流分类为 Class-B。通过端口号
+1521、1810、2481、7778 发往任何目标的 PC
+数据流（根据配置，实际上为任何数据流）被分类为 Class-B 类映射。</p></li>
+</ul>
+<p><strong>B 部分：</strong></p>
+<ul>
+<li><p>与 Class-A 匹配的数据流配置为信任 CoS 标签。这意味着信任来自 IP
+电话的所有数据流的 CoS 值。如图所示，对于 Class-A 数据流，将从 CoS-DSCP
+映射表获得 DSCP 值。</p></li>
+<li><p>匹配B类流量的流量配置为将DSCP值设置为AF21。如图所示，DCoS值从B类流量的DSCP-CoS映射表派生。</p></li>
+<li><p>策略映射的各个类别下的配置称为 PHB 操作。在 Cisco
+路由器中，支持的 PHB 操作包括标记、排队、策略、整形和拥塞避免。在 Cisco
+Catalyst 3750 交换机中，仅支持标记和策略 PHB 操作。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#policy-map test
+Distribution1(config-pmap)#class test
+Distribution1(config-pmap-c)#?
+QoS policy-map class configuration commands:
+  exit            Exit from QoS class action configuration mode
+  no              Negate or set default values of a command
+  police          Police
+  service-policy  Configure QoS Service Policy
+  set             Set QoS values
+  trust           Set trust value for the class
+  &lt;cr&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>set</code> 和 <code>trust</code> 命令是标记 PHB 操作。可以配置
+<strong>set 或 trust PHB 操作。</strong>
+在策略映射的一个类别中，不能同时配置这两项操作。但是，可以在同一策略映射的一个类别中配置
+<strong>set，并在另一个类别中配置 trust。</strong></p>
+<p><code>police</code> 命令是策略 PHB
+操作。将在下一部分中详细讨论此命令。</p>
+<p>Cisco Catalyst 3750 交换机不支持整形。Cisco Catalyst 3750
+交换机支持排队和拥塞避免，但不能使用 MQC
+进行配置。在本文档后面的部分中，将详细讨论排队和拥塞避免配置。</p>
+<p><strong>C 部分：</strong></p>
+<ul>
+<li>仅可将策略映射应用于接口的输入端。如果将其应用于接口的输出端，则会收到以下错误消息：</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#int gi 1/0/3
+Distribution1(config-if)#service-policy output test
+Warning: Assigning a policy map to the output side of an
+         interface not supported
+
+Service Policy attachment failed
+Warning: Assigning a policy map to the output side of an
+         interface not supported<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>如果在端口 gi 1/0/3 上配置了任何其他 QoS
+分类方法（例如，基于端口或基于
+VLAN），则会在应用策略映射时删除这些配置。例如，端口 Gi 1/0/13
+配置为信任 CoS，如下所示：</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">interface GigabitEthernet1/0/13
+ description **** Access Port ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 100
+ mls qos cos 3
+ mls qos trust cos
+ spanning-tree portfast<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>将策略映射应用于该接口时，它会删除 <strong>trust
+命令。</strong></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#int gi 1/0/13
+Distribution1(config-if)#service-policy input sample-policy1
+Distribution1(config-if)#do show run int gi 1/0/13
+Building configuration...
+
+Current configuration : 228 bytes
+!
+interface GigabitEthernet1/0/13
+ description **** Access Port ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 100
+ service-policy input sample-policy1  
+ 
+!--- It replaces the mls qos trust or mls qos !--- vlan-based command.
+
+ mls qos cos 3    
+ 
+!--- This command is not removed.
+
+ spanning-tree portfast
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>您可以看到，服务策略输入仅替换 <strong>mls qos trust 或 mls qos
+vlan-based 的命令。</strong> 它不会更改其他命令，例如 <strong>mls qos
+cos 或 mls qos dscp-mutation 命令。</strong> 总而言之，它将替换 QoS
+分类命令，而不会替换 QoS 标记命令。</p>
+<ul>
+<li>在策略映射中，只能看到两种类映射。Class-A 与 IP 电话数据流相匹配，而
+Class-B 与来自 PC 的数据库应用程序数据流相匹配。所有其他 PC
+数据流（访问列表中定义的数据库应用程序除外）将归类在策略映射的
+class-default
+类别下。这是一种全包容数据流，它将捕获与应用于策略映射的已定义类映射不匹配的所有数据流。因此，属于class-default的此流量不受端口信任，并且这些数据包使用默认CoS和DSCP标签设置为0。您可以将任何默认CoS或DSCP值配置为此类默认流量。</li>
+</ul>
+<p>可以使用 MQC 设置默认的 DSCP 值。从 DSCP-CoS 映射表获得 CoS 值。</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#policy-map sample-policy1
+Distribution1(config-pmap)#class class-default
+Distribution1(config-pmap-c)#set dscp af13
+Distribution1(config-pmap-c)#exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以设置默认的 CoS 值，如下所示。从 CoS-DSCP 映射表获得 DSCP 值。</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#int gi 1/0/13
+Distribution1(config-if)#mls qos cos 3
+Distribution1(config-if)#do show run int gi 1/0/13
+Building configuration...
+
+Current configuration : 228 bytes
+!
+interface GigabitEthernet1/0/13
+ description **** Access Port ****
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 100
+ service-policy input sample-policy1  
+ mls qos cos 3    
+ spanning-tree portfast<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="为流量设置最高优先级">为流量设置最高优先级</h4>
+<p>在本示例中，配置用于设置来自TCP端口1494的流量的最高优先级。</p>
+<ol type="1">
+<li>需要为VOIP流量分配DSCP值EF:</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">!--- Classifying all traffic coming with dscp value of EF !--- under this class-map.
+
+Switch(config)# class-map match-all AutoQoS-VoIP-RTP-Trust
+Switch(config-cmap)# match ip dscp ef 
+
+Switch(config)# policy-map AutoQoS-Police-CiscoPhone
+Switch(config-pmap)# class AutoQoS-VoIP-RTP-Trust
+
+!--- Again setting the dscp value back to EF.
+
+Switch(config-pmap-c)# set dscp ef
+Switch(config-pmap-c)# police 320000 8000 exceed-action 
+policed-dscp-transmit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="2" type="1">
+<li>需要为来自TCP 1494的流量分配DSCP值CS4:</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">Switch(config)# access-list 100 permit tcp  
+          eq 1494
+
+Switch(config)# class-map tcp 
+Switch(config-cmap)# match access-group 100
+
+Switch(config)# policy-map AutoQoS-Police-CiscoPhone
+Switch(config-pmap)# class tcp
+Switch(config-pmap-c)# set dscp cs4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="3" type="1">
+<li>所有其他流量需要分配CS3:</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">Switch(config)# access-list 200 permit ip any any
+
+Switch(config)# class-map default
+Switch(config-cmap)# match access-group 200
+
+Switch(config)# policy-map AutoQoS-Police-CiscoPhone
+Switch(config-pmap)# class default
+Switch(config-pmap-c)# set dscp cs3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="4" type="1">
+<li>在相关接口下应用它：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">Switch(config)# interface
+Switch(config-if)# service-policy  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="管制">管制</h3>
+<p>在 Cisco Catalyst 3750 交换机上，只能在入站端口上配置策略。只能通过
+MQC
+配置策略。这意味着没有任何特定于接口的命令用来管制数据流。可以在策略映射中配置策略，并且可以仅使用
+<strong>service-policy input <policy-name> 命令应用策略映射。</policy-name></strong>
+不能将任何策略映射应用于接口的输出端。</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config-if)#service-policy output test
+police command is not supported for this interface
+Configuration failed!
+Warning: Assigning a policy map to the output side of an 
+         interface not supported.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>本部分将讨论以下主题：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept231">分类、标记和策略（超标操作
+- drop）</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept232">分类、标记和策略（超标操作
+- policed-dscp-transmit）</a></p></li>
+</ul>
+<h4 id="分类标记和策略超标操作---drop">分类、标记和策略（超标操作 -
+drop）</h4>
+<p>本部分介绍丢弃过量的数据流的策略配置。策略测量传入的数据流，并将传入速率保持在配置的速率（比特/秒）。Cisco
+Catalyst 3750
+交换机仅支持单速率、单桶策略。这意味着交换机仅在一个速率下进行测量，且能够以二种颜色（表示达标操作和超标操作）标记数据流的概况。下图显示了具有三个类映射的策略映射
+sample-policy2。</p>
+<p>本示例的要求如下：</p>
+<ul>
+<li><p>将 ftp、pop3、imap 数据流管制为 10Mbps。</p></li>
+<li><p>信任来自连接到 IP 电话的 PC 的 IP Communicator 应用程序数据包的
+DSCP 值。同时，需要将此数据流管制为 1Mbps。</p></li>
+<li><p>标记 filnet 应用程序并进行管制。</p></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config5.gif" title="US 网站"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config5.gif" alt="cat3750-qos-config5.gif"></a></p>
+<p>以下配置体现了图中提及的策略映射：</p>
+<pre class="line-numbers language-none"><code class="language-none">!--- Create Access-list and Class map Class-A
+
+Distribution1(config)#ip access-list extended BULK-DATA
+Distribution1(config-ext-nacl)#permit tcp any any eq ftp
+Distribution1(config-ext-nacl)#permit tcp any any eq ftp-data
+Distribution1(config-ext-nacl)#permit tcp any any eq pop3
+Distribution1(config-ext-nacl)#permit tcp any any eq 143
+Distribution1(config-ext-nacl)#exit
+
+Distribution1(config)#class-map Class-A
+Distribution1(config-cmap)#match access-group name BULK-DATA
+Distribution1(config-cmap)#exit
+
+
+!--- Create Access-list and Class map Class-B
+
+Distribution1(config)#ip access-list extended IP-Communicator
+Distribution1(config-ext-nacl)#remark *** Voice Payload ***
+Distribution1(config-ext-nacl)#permit udp any any range 16384 32767
+Distribution1(config-ext-nacl)#remark *** Voice Signalling ***
+Distribution1(config-ext-nacl)#permit tcp any any range 2000 2002
+Distribution1(config-ext-nacl)#exit
+
+Distribution1(config)#class-map Class-B
+Distribution1(config-cmap)#match access-group name IP-Communicator
+Distribution1(config-cmap)#exit
+
+
+!--- Create Access-list and Class map Class-C
+
+Distribution1(config)#ip access-list extended application
+Distribution1(config-ext-nacl)#remark *** Application for example ***
+Distribution1(config-ext-nacl)#permit tcp any any eq 32768
+Distribution1(config-ext-nacl)#permit udp any any eq 32768
+Distribution1(config-ext-nacl)#permit tcp any any eq 32769
+Distribution1(config-ext-nacl)#permit udp any any eq 32769
+Distribution1(config-ext-nacl)#exit
+
+Distribution1(config)#class-map Class-C
+Distribution1(config-cmap)#match access-group name application
+Distribution1(config-cmap)#exit
+
+
+!--- Create Policy map
+
+Distribution1(config-cmap)#policy-map sample-policy2
+Distribution1(config-pmap)#class Class-A
+Distribution1(config-pmap-c)#police 10000000 8000 exceed-action drop
+Distribution1(config-pmap-c)#class Class-B
+Distribution1(config-pmap-c)#trust dscp
+Distribution1(config-pmap-c)#police 256000 8000 exceed-action drop
+Distribution1(config-pmap-c)#class Class-C
+Distribution1(config-pmap-c)#set dscp CS2
+Distribution1(config-pmap-c)#police 25000000 8000 exceed-action drop
+Distribution1(config-pmap-c)#exit
+Distribution1(config-pmap)#exit
+
+
+!--- Apply Policy map to the interface
+
+Distribution1(config)#interface GigabitEthernet1/0/20
+Distribution1(config-if)#service-policy input sample-policy2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>下面将解释策略映射中的配置：</p>
+<ul>
+<li><p><strong>Class-A：</strong> 与 Class A 匹配的数据流的速率管制为 10
+Mbps。不信任 Class A 数据流上的 QoS
+标签。CoS和DSCP值标记为0。监察器丢弃过多的数据包。</p></li>
+<li><p><strong>Class-B：</strong> 对于与 Class B
+匹配的数据流，将执行两项 PHB
+操作。一项操作是信任，另一项操作是策略。信任 Class-B 数据流的 DSCP
+值。将从 DSCP-CoS 表获得 CoS 值。然后，将 Class B 数据流的速率管制为 256
+Kbps。监察器将丢弃过量的数据包。</p></li>
+<li><p><strong>Class-C：</strong> 对于与 Class B
+匹配的数据流，将执行两项 PHB
+操作。一项操作是标记，另一项操作是策略。与C类匹配的传入数据包标有DSCP值CS2,CoS值从DSCP-CoS表（即2）中派生。然后，C类流量的速率将被管制为25
+Mbps。监察器将丢弃过量的数据包。</p></li>
+</ul>
+<h4 id="分类标记和策略超标操作---policed-dscp-transmit">分类、标记和策略（超标操作
+- policed-dscp-transmit）</h4>
+<p>本部分介绍标记并传输过量数据流的策略配置。下图显示了具有两个类映射的策略映射
+sample-policy3：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config6.gif" title="cat3750-qos-config6.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config6.gif" alt="cat3750-qos-config6.gif"></a></p>
+<p>交换机根据 policed-DSCP
+映射表值对超出配置的管制速率的数据流进行标记。只有在策略配置中配置
+policed-DSCP 映射后，才能使用该映射。下面列出了默认的 policed-DSCP
+映射表：</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#do show mls qos map policed-dscp
+   Policed-dscp map:
+     d1 :  d2 0  1  2  3  4  5  6  7  8  9
+     ---------------------------------------
+      0 :    00 01 02 03 04 05 06 07 08 09
+      1 :    10 11 12 13 14 15 16 17 18 19
+      2 :    20 21 22 23 24 25 26 27 28 29
+      3 :    30 31 32 33 34 35 36 37 38 39
+      4 :    40 41 42 43 44 45 46 47 48 49
+      5 :    50 51 52 53 54 55 56 57 58 59
+      6 :    60 61 62 63<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从此表中可以发现，将会匹配到相同的 DSCP 值。例如，DSCP 34映射到DSCP
+34。在不更改DSCP值的情况下，传输符合监察器速率的流量。对于超出监察器速率的数据流，可以使用不同的
+DSCP 值进行传输。例如，可以使用丢弃可能性更高的 DSCP 值进行标记。</p>
+<p>如果使用默认的 policed-DSCP
+值，则使用策略不会起到任何作用。例如，已在配置中将数据流的速率管制为 10
+Mbps。传入数据包的DSCP值为CS4。如果保留默认DSCP值，则符合10Mbps的流量将以CS2的DSCP值传输。此外，超过10
+Mbps的流量将以CS2的DSCP值传输。这是因为policed-DSCP映射的默认值映射相同的值。因此，建议正确地配置
+policed-DSCP 映射表以区分 DSCP 值。</p>
+<p>本示例的要求如下：</p>
+<ul>
+<li><p>配置 policed-DSCP 映射表，设置下列映射：</p>
+<ul>
+<li><p>EF 到 AF31</p></li>
+<li><p>CS3 到 AF13</p></li>
+<li><p>CS2 到 AF11</p></li>
+</ul></li>
+<li><p>信任 IP Communicator 数据包的 DSCP 值并将其速率管制为
+256Kbps。如果数据流超出 256Kbps，则使用 policed-DSCP 映射表重新标记 DSCP
+值。</p></li>
+<li><p>标记 filnet 应用程序并进行管制。如果数据流超出 25Mbps，则使用
+policed-DSCP 映射表重新标记 DSCP 值。</p></li>
+</ul>
+<p>以下配置体现了图中提及的策略映射：</p>
+<pre class="line-numbers language-none"><code class="language-none">!--- Policed DSCP table Configuration
+
+Distribution1(config)#mls qos map policed-dscp 46 to 26
+Distribution1(config)#mls qos map policed-dscp 24 to 14
+Distribution1(config)#mls qos map policed-dscp 16 to 10
+
+
+!--- Create Access-list and Class map Class-A
+
+Distribution1(config)#ip access-list extended IP-Communicator
+Distribution1(config-ext-nacl)#remark *** Voice Payload ***
+Distribution1(config-ext-nacl)#permit udp any any range 16384 32767
+Distribution1(config-ext-nacl)#remark *** Voice Signalling ***
+Distribution1(config-ext-nacl)#permit tcp any any range 2000 2002
+Distribution1(config-ext-nacl)#exit
+
+Distribution1(config)#class-map Class-A
+Distribution1(config-cmap)#match access-group name IP-Communicator
+Distribution1(config-cmap)#exit
+
+
+!--- Create Access-list and Class map Class-C
+
+Distribution1(config)#ip access-list extended application
+Distribution1(config-ext-nacl)#remark *** Application for example ***
+Distribution1(config-ext-nacl)#permit tcp any any eq 32768
+Distribution1(config-ext-nacl)#permit udp any any eq 32768
+Distribution1(config-ext-nacl)#permit tcp any any eq 32769
+Distribution1(config-ext-nacl)#permit udp any any eq 32769
+Distribution1(config-ext-nacl)#exit
+
+Distribution1(config)#class-map Class-B
+Distribution1(config-cmap)#match access-group name application
+Distribution1(config-cmap)#exit
+
+
+!--- Create Policy map
+
+Distribution1(config-cmap)#policy-map sample-policy3
+Distribution1(config-pmap-c)#class Class-A
+Distribution1(config-pmap-c)#trust dscp
+Distribution1(config-pmap-c)#police 256000 8000 exceed-action 
+policed-dscp-transmit
+Distribution1(config-pmap-c)#class Class-B
+Distribution1(config-pmap-c)#set dscp CS2
+Distribution1(config-pmap-c)#police 25000000 8000 exceed-action 
+policed-dscp-transmit
+Distribution1(config-pmap-c)#exit
+Distribution1(config-pmap)#exit
+
+
+!--- Apply Policy map to the interface
+
+Distribution1(config)#interface GigabitEthernet1/0/21
+Distribution1(config-if)#service-policy input sample-policy3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>下面将解释策略映射中的配置：</p>
+<ul>
+<li><p><strong>Policed-DSCP：</strong> 在 policed-DSCP
+映射表中，有三个值发生更改。</p>
+<ul>
+<li><p>EF 到 AF31</p></li>
+<li><p>CS3 到 AF13</p></li>
+<li><p>CS2 到 AF11</p></li>
+</ul>
+<p>前两个值是根据在 Class-A 和 Class-B
+类映射中分类的数据流类型进行修改的。</p></li>
+<li><p><strong>Class-A：</strong>
+对于来自软电话的语音有效负载和语音控制，在 Class-A
+类映射中进行分类。语音负载流量的DSCP值为EF，语音控制的DSCP值为CS3。根据策略映射配置，这些DSCP值是可信的。数据流的速率管制为
+256 Kbps 速率。对于遵从此速率的数据流，将使用传入的 DSCP
+值进行发送。对于超出此速率的数据流，将由 policed DSCP
+表重新标记并传输。policed DSCP 表将根据配置的值，将 EF 重新标记为
+AF31，将 CS3 重新标记为 AF13。然后，将从 DSCP-CoS 表获得对应的 CoS
+值。</p></li>
+<li><p><strong>Class-B：</strong>
+与B类匹配的传入数据包标有CS2的DSCP值。B类流量的速率为25
+Mbps。符合此速率的流量将以DSCP值2发送，CoS值从DSCP-CoS表（即2）派生。超过此速率的流量将由管制的DSCP表重新标记并传输。policed
+DSCP 表将根据配置的值，将 EF 重新标记为 AF31，将 CS3 重新标记为
+AF13。然后，将从 DSCP-CoS 表获得对应的 CoS 值。</p></li>
+</ul>
+<h3 id="拥塞管理和避免">拥塞管理和避免</h3>
+<p>拥塞管理和避免过程包含三个步骤。这些步骤分别为排队、丢弃和调度。排队根据
+QoS 标签将数据包放置到不同的软件队列。Cisco Catalyst 3750
+交换机有两个入口队列。在使用 QoS 标签对数据流进行分类和标记后，可以根据
+QoS 标签将数据流分配到两个不同的队列。</p>
+<p>加权尾部丢弃(WTD)用于管理队列长度并为不同的流量分类提供丢弃优先级。</p>
+<p>入口队列和出口队列均由 SRR 提供服务，SRR
+控制数据包的发送速率。在入口队列中，SRR 将数据包发送到堆栈环。SRR
+可以在称为“整形”和“共享”的两种模式下操作。对于入口队列，默认模式为“共享”，并且这是支持的唯一模式。在共享模式下，队列根据所配置的权重共享它们的带宽。可以保证得到这一级别的带宽，但不限于这一级别的带宽。</p>
+<p>本部分将介绍三种类型的配置。</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept241">默认的排队、丢弃和调度配置</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept242">排队和调度</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html#concept243">排队、丢弃和调度</a></p></li>
+</ul>
+<p>可用于这些配置的命令如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#mls qos srr-queue input ?
+
+!--- Queueing
+
+  buffers         Configure buffer allocation
+  cos-map         Configure cos-map for a queue id
+  dscp-map        Configure dscp-map for a queue id
+
+!--- Scheduling
+
+  bandwidth       Configure SRR bandwidth
+  priority-queue  Configure priority scheduling
+
+!--- Dropping
+
+  threshold       Configure queue tail-drop thresholds<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="默认的排队丢弃和调度配置">默认的排队、丢弃和调度配置</h4>
+<p>此输出显示队列映射的默认 QoS
+标签。每个队列可以支持三种阈值级别。默认情况下，每个队列仅具有一种阈值，即
+100%。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config7.gif" title="cat3750-qos-config7.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config7.gif" alt="cat3750-qos-config7.gif"></a></p>
+<ul>
+<li><p><strong>默认队列映射配置：</strong></p>
+<p>具有CoS 5（DSCP
+40到47）的数据包被放入队列2。剩余的数据包被放入队列1。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1#show mls qos maps cos-input-q
+   Cos-inputq-threshold map:
+              cos:  0   1   2   3   4   5   6   7
+              ------------------------------------
+  queue-threshold: 1-1 1-1 1-1 1-1 1-1 2-1 1-1 1-1
+
+Distribution1#show mls qos maps dscp-input-q
+   Dscp-inputq-threshold map:
+     d1 :d2  0    1    2    3    4    5    6    7    8    9
+     ------------------------------------------------------------
+      0 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+      1 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+      2 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+      3 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+      4 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 01-01 01-01
+      5 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+      6 :  01-01 01-01 01-01 01-01<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>下表显示了输入队列映射的默认 CoS/DSCP：
+
+| CoS | DSCP | 入口队列 |
+| --- | --- | --- |
+| 0   | 0 到 7 | 1   |
+| 1   | 8 到 15 | 1   |
+| 2   | 16 到 23 | 1   |
+| 3   | 24 到 31 | 1   |
+| 4   | 32 到 39 | 1   |
+| 5   | 40 到 47 | 2   |
+| 6   | 48 到 55 | 1   |
+| 7   | 56 到 63 | 1   |</code></pre>
+<ul>
+<li><p><strong>默认队列配置：</strong></p>
+<p>入口队列缓冲区由 queue 1 共享 90%，而 queue 2 共享 10%。阈值级别 1、2
+和 3 为 100%。</p></li>
+</ul>
+<p></p><pre class="line-numbers language-none"><code class="language-none">Distribution1#show mls qos input-queue
+Queue     :       1       2
+----------------------------------------------
+buffers   :      90      10
+bandwidth :       4       4
+priority  :       0      10
+threshold1:     100     100
+threshold2:     100     100<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p></p>
+<ul>
+<li><strong>默认调度程序配置：</strong></li>
+</ul>
+<p>Queue 2 为优先队列。SRR 根据所配置的权重（本例为
+10%）为优先队列提供服务。然后，SRR 与两个入口队列共享剩余带宽
+(90%)，并根据所配置的权重为它们提供服务。在本例中，queue 1 和 queue 2
+均以 45% 的比率接受服务。</p>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1#show mls qos input-queue
+Queue     :       1       2
+----------------------------------------------
+buffers   :      90      10
+bandwidth :       4       4
+priority  :       0      10
+threshold1:     100     100
+threshold2:     100     100<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="排队和调度">排队和调度</h4>
+<p>配置排队和调度分为三个步骤。这些步骤包括：</p>
+<ol type="1">
+<li><p><strong>队列映射配置：</strong></p>
+<p>队列映射配置根据 DSCP 或 CoS 值将数据包映射到两个入口队列。</p></li>
+<li><p><strong>队列配置：</strong></p>
+<p>队列配置定义在两个队列之间划分入口缓冲区的比率（分配空间）。</p></li>
+<li><p><strong>调度程序配置：</strong></p></li>
+</ol>
+<p>SRR 配置用于控制将数据包从队列移至堆栈环的出列频率的加权比。</p>
+<p>队列和调度程序配置控制在丢弃数据包前可缓冲的数据量。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config8.gif" title="cat3750-qos-config8.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config8.gif" alt="cat3750-qos-config8.gif"></a></p>
+<p>在本部分中，未配置 WTD 丢弃级别。这意味着，如果队列已满
+(100%)，则将丢弃数据包。</p>
+<ul>
+<li><p><strong>队列映射配置：</strong></p>
+<p>首先，CoS 值将映射到队列。在本部分中，未配置阈值。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">!--- Assign the frames into the queue based on the CoS value.
+
+Distribution1(config)#mls qos srr-queue input cos-map
+ queue 1 0 1 
+Distribution1(config)#mls qos srr-queue input cos-map
+ queue 2 2 3 4 5 6 7
+
+
+!--- Show output.
+
+Distribution1#show mls qos maps cos-input-q
+   Cos-inputq-threshold map:
+              cos:  0   1   2   3   4   5   6   7
+              ------------------------------------
+  queue-threshold: 1-1 1-1 2-1 2-1 2-1 2-1 2-1 2-1
+
+Distribution1#show mls qos maps dscp-input-q
+   Dscp-inputq-threshold map:
+     d1 :d2   0    1    2    3    4    5    6    7    8    9
+     ------------------------------------------------------------
+     0 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     1 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     2 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     3 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     4 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 01-01 01-01
+     5 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     6 :  01-01 01-01 01-01 01-01<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>您可以看到，在 Cos-inputq-threshold 和 Dscp-inputq-threshold 映射中存在冲突。例如，在 Cos-inputq-threshold 表中，CoS 3 映射到 queue 2。然而，在 Dscp-inputq-threshold 映射中，DSCP 值 24（对应于 CoS 3）映射到 queue 1。实际上，Dscp-inputq-threshold 映射将覆盖 Cos-inputq-threshold 映射。这些映射应尽可能保持一致，以确保行为的可预测性以及简化故障排除过程。因此，将 Dscp-inputq-threshold 映射配置为与 Cos-inputq-threshold 映射同步。</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">!--- Assign the frames into the queue based on the DSCP value.
+
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2
+  16 17 18 19 20 21 22 23
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2
+  24 25 26 27 28 29 30 31
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2
+  32 33 34 35 36 37 38 39
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2
+  48 49 50 51 52 53 54 55
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2
+  56 57 58 59 60 61 62 63
+
+Distribution1#show mls qos maps dscp-input-q
+   Dscp-inputq-threshold map:
+     d1 :d2  0   1   2    3    4    5    6    7    8    9
+     ------------------------------------------------------------
+     0 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     1 :  01-01 01-01 01-01 01-01 01-01 01-01 02-01 02-01 02-01 02-01
+     2 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01
+     3 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01
+     4 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01
+     5 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01
+     6 :  02-01 02-01 02-01 02-01<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><strong>队列配置：</strong></p>
+<p>启用 QoS 后，IOS
+将缓冲区中的默认空间分配给队列入口数据包。两个入口队列（queue 1 和 queue
+2）共享此缓冲区空间。在 Catalyst 3750
+交换机中，可以配置每个队列可使用的此缓冲区空间的百分比。入口队列总可用内存的
+67% 分配给 queue 1，33% 分配给 queue 2。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">    Distribution1(config)#mls qos srr-queue input buffers 67 33
+
+Distribution1(config)#do show mls qos input
+Queue     :       1       2
+----------------------------------------------
+buffers   :      67      33
+bandwidth :       4       4
+priority  :       0      10
+threshold1:     100     100
+threshold2:     100     100<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><strong>调度程序配置：</strong></p>
+<p>使用 <strong>mls qos srr-queue input bandwidth
+命令执行此配置。</strong>在这里，此带宽表明队列上 SRR
+服务的位数。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#mls qos srr-queue input bandwidth 90 10
+Distribution1(config)#mls qos srr-queue input priority-queue 2 
+bandwidth 20
+
+Distribution1(config)#do show mls qos input
+Queue     :       1       2
+----------------------------------------------
+buffers   :      67      33
+bandwidth :      90      10
+priority  :       0      20
+threshold1:     100     100
+threshold2:     100     100<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>默认情况下，queue 2 为优先队列，并且总内环带宽的 10% 分配给优先队列。也可以将 queue 1 配置为优先队列。但不能将两个队列同时配置为优先队列。
+
+如果环带宽达到 10Gbps，则 SRR 将 10Gbps 的 20% 提供给 queue 2，即 2 Gbps。剩余的 8 Gbps 环带宽由 queue 1 和 queue 2 共享。根据配置，queue 1 使用 8Gbps 的 90%，而 queue 2 再使用 8 Gbps 的 10%。此 8 Gbps 带宽由 SRR 以共享模式提供。这意味着可以确保所配置的带宽百分比，但不限于此百分比。
+
+**注意：**可以使用mls qos srr-queue input priority-queue 2 bandwidth 0命**令禁用优先级队列**。</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#do show mls qos input
+Queue     :       1       2
+----------------------------------------------
+buffers   :      90      10
+bandwidth :      90      10
+priority  :       0       0
+threshold1:     100     100
+threshold2:     100     100
+Distribution1(config)#<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="排队丢弃和调度">排队、丢弃和调度</h4>
+<p>在本部分中，除了配置队列缓冲区大小之外，还将配置 WTD
+阈值级别。可以将流经交换机的各个数据包分配给队列以及阈值。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config9.gif" title="cat3750-qos-config9.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config9.gif" alt="cat3750-qos-config9.gif"></a></p>
+<p>以下是配置示例和说明：</p>
+<ul>
+<li><p><strong>队列映射配置：</strong></p>
+<p>首先，CoS 值将映射到队列。</p></li>
+</ul>
+<p></p><pre class="line-numbers language-none"><code class="language-none">!--- Assign the frames into the queue based on the CoS value.
+
+Distribution1(config)#mls qos srr-queue input cos-map queue 1
+ threshold 2  1
+Distribution1(config)#mls qos srr-queue input cos-map queue 1
+ threshold 3  0
+Distribution1(config)#mls qos srr-queue input cos-map queue 2
+ threshold 1  2
+Distribution1(config)#mls qos srr-queue input cos-map queue 2
+ threshold 2  4 6 7
+Distribution1(config)#mls qos srr-queue input cos-map queue 2
+ threshold 3  3 5
+
+
+!--- Show output.
+
+Distribution1(config)#do show mls qos maps cos-input-q
+   Cos-inputq-threshold map:
+              cos:  0   1   2   3   4   5   6   7
+              ------------------------------------
+  queue-threshold: 1-3 1-2 2-1 2-3 2-2 2-3 2-2 2-2
+
+Distribution1(config)#do show mls qos maps dscp-input-q
+   Dscp-inputq-threshold map:
+     d1 :d2  0    1    2    3    4    5    6    7    8    9
+     ------------------------------------------------------------
+     0 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     1 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     2 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     3 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     4 :  02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 01-01 01-01
+     5 :  01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01 01-01
+     6 :  01-01 01-01 01-01 01-01<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p></p>
+<pre><code>您可以看到，在 Cos-inputq-threshold 和 Dscp-inputq-threshold 映射中存在冲突。例如，在 Cos-inputq-threshold 表中，CoS 3 映射到 queue 2，但在 Dscp-inputq-threshold 映射中，DSCP 值 24（对应于 CoS 3）映射到 queue 1。实际上，Dscp-inputq-threshold 映射将覆盖 Cos-inputq-threshold 映射。这些映射应尽可能保持一致，以确保行为的可预测性以及简化故障排除过程。因此，将 Dscp-inputq-threshold 映射配置为与 Cos-inputq-threshold 映射同步。</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">!--- Assign the frames into the queue based on the DSCP value.
+
+Distribution1(config)#mls qos srr-queue input dscp-map queue 1
+ threshold 2 9 10 11 12 13 14 15
+Distribution1(config)#mls qos srr-queue input dscp-map queue 1 
+ threshold 3 0 1 2 3 4 5 6 7
+Distribution1(config)#mls qos srr-queue input dscp-map queue 1 
+ threshold 3 32
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2 
+ threshold 1 16 17 18 19 20 21 22 23
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2 
+ threshold 2 33 34 35 36 37 38 39 48
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2 
+ threshold 2 49 50 51 52 53 54 55 56
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2 
+ threshold 2 57 58 59 60 61 62 63
+Distribution1(config)#mls qos srr-queue input dscp-map queue 2 
+ threshold 3 24 25 26 27 28 29 30 31
+
+Distribution1(config)#do show mls qos maps dscp-input-q
+   Dscp-inputq-threshold map:
+     d1 :d2  0    1    2    3    4    5    6    7    8    9
+     ------------------------------------------------------------
+     0 :  01-03 01-03 01-03 01-03 01-03 01-03 01-03 01-03 01-01 01-02
+     1 :  01-02 01-02 01-02 01-02 01-02 01-02 02-01 02-01 02-01 02-01
+     2 :  02-01 02-01 02-01 02-01 02-03 02-03 02-03 02-03 02-03 02-03
+     3 :  02-03 02-03 01-03 02-02 02-02 02-02 02-02 02-02 02-02 02-02
+     4 :  02-03 02-03 02-03 02-03 02-03 02-03 02-03 02-03 02-02 02-02
+     5 :  02-02 02-02 02-02 02-02 02-02 02-02 02-02 02-02 02-02 02-02
+     6 :  02-02 02-02 02-02 02-02
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><strong>队列配置：</strong></p>
+<p>默认情况下，阈值 3 为 100%，且不可更改。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#mls qos srr-queue input buffers 67 33
+Distribution1(config)#mls qos srr-queue input threshold 1 8 16
+Distribution1(config)#mls qos srr-queue input threshold 2 34 66
+
+Distribution1(config)#do show mls qos input
+Queue     :       1       2
+----------------------------------------------
+buffers   :      67      33
+bandwidth :       4       4
+priority  :       0      10
+threshold1:       8      34
+threshold2:      16      66<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><strong>调度程序配置：</strong></p>
+<p>启用 QoS 后，IOS
+将为入站端口分配缓冲区中的默认空间。两个队列共享此缓冲区空间。在
+Catalyst 3560/3750
+交换机中，可以配置每个队列可使用的此缓冲区空间的百分比。</p></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#**mls qos srr-queue input bandwidth 90 10**
+Distribution1(config)#**mls qos srr-queue input priority-queue 2
+ bandwidth 20**
+
+Distribution1(config)#**do show mls qos input**
+Queue     :       1       2
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+buffers   :      67      33
+bandwidth :      90      10
+priority  :       0      20
+threshold1:       8      34
+threshold2:      16      66<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>默认情况下，queue 2 为优先队列，并且总内环带宽的 10% 分配给优先队列。也可以将 queue 1 配置为优先队列。但不能将两个队列同时配置为优先队列。
+
+如果环带宽达到 10Gbps，则 SRR 将 10Gbps 的 20% 提供给 queue 2，即 2 Gbps。剩余的 8 Gbps 环带宽由 queue 1 和 queue 2 共享。根据配置，queue 1 使用 8Gbps 的 90%，而 queue 2 再使用 8 Gbps 的 10%。此 8 Gbps 带宽由 SRR 以共享模式提供。这意味着可以确保所配置的带宽百分比，但不限于此百分比。
+
+**注意：** 可以使用mls qos srr-queue input priority-queue 2 bandwidth 0命令 *禁用优先级队列** 。</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">Distribution1(config)#do show mls qos input
+Queue     :       1       2
+----------------------------------------------
+buffers   :      90      10
+bandwidth :      90      10
+priority  :       0       0
+threshold1:     100     100
+threshold2:     100     100
+Distribution1(config)#<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="出口-qos-功能">出口 QoS 功能</h2>
+<p>Cisco Catalyst 3750 交换机支持“拥塞管理和避免”出口 QoS
+功能。拥塞管理和避免过程包含三个步骤。这些步骤分别为排队、丢弃和调度。</p>
+<p>排队根据 QoS 标签将数据包放置到不同的软件队列。Cisco Catalyst 3750
+交换机有 4 个出口队列，每个队列有 3 个阈值。在使用 QoS
+标签对数据流进行分类和标记后，可以根据 QoS
+标签将数据流分配到四个不同的队列。</p>
+<p>可以为每个队列配置缓冲区大小、后备阈值、阈值级别和最大阈值。加权尾部丢弃(WTD)用于管理队列长度并为不同的流量分类提供丢弃优先级。入口队列参数全局配置。不能按端口逐个配置入口队列参数。但出口队列参数按端口逐个进行配置。即便如此，配置也是按端口进行的。不能为每个端口配置不同的设置。可以采用两种不同的方式配置每个端口。这称为队列集。可以在全局配置中最多配置两个不同的队列集。然后，可以在接口上应用这两个队列集之一。</p>
+<p>入口队列和出口队列均由 SRR 提供服务，SRR
+控制数据包的发送速率。在入口队列中，SRR 将数据包发送到堆栈环。SRR
+可以在称为“整形”和“共享”的两种模式下操作。对于入口队列，默认模式为“共享”，并且这是支持的唯一模式。在共享模式下，队列根据所配置的权重共享它们的带宽。可以保证得到这一级别的带宽，但不限于这一级别的带宽。在整形模式下，会保证出口队列的带宽百分比，并限制为该比率。整形的数据流不能使用比分配的带宽更多的带宽，即使链路处于空闲状态也是如此。随着时间的推移，整形可以提供更平稳的数据流，并减少突发数据流的高峰和低谷。可以将
+Queue 1 配置为优先队列。</p>
+<h3 id="出口-qos-命令">出口 QoS 命令</h3>
+<p>本部分对所有可用的出口 QoS 命令进行分类。</p>
+<ul>
+<li><p><strong>队列映射配置：</strong></p>
+<p>要将 CoS 值映射到出口队列，请使用以下命令：</p>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output cos-map queue
+?</strong> &lt;1-4&gt; enter cos-map output queue id</p>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output cos-map queue 1
+threshold ?</strong> &lt;1-3&gt; enter cos-map threshold id</p>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output cos-map queue 1
+threshold 1 ?</strong> &lt;0-7&gt; 8 cos values separated by spaces</p>
+</blockquote>
+<p>要将 DSCP 值映射到出口队列，请使用以下命令：</p>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue
+?</strong> &lt;1-4&gt; enter dscp-map output queue id</p>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 1
+threshold ?</strong> &lt;1-3&gt; enter dscp-map threshold id</p>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 1
+threshold 1 ?</strong> &lt;0-63&gt; dscp values separated by spaces (up
+to 8 values total)</p>
+</blockquote></li>
+<li><p><strong>队列配置：</strong></p>
+<p>出口队列配置允许配置两个队列集。每个队列集都具有相关选项，用于为四个出口队列配置缓冲大小和阈值。然后，可以将任何一个队列集应用于任何一个端口。当在交换机上启用
+QoS 后，默认情况下，queue set 1 将分配给所有端口。</p>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output ?</strong>
+&lt;1-2&gt; <strong>queue-set id</strong></p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 ?</strong>
+buffers <strong>assign buffers to each egress queue</strong> threshold
+<strong>Assign threshold values to a queue</strong></p>
+</blockquote>
+<p>要为所有四个出口队列配置缓冲大小，请使用以下命令：</p>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 buffers
+?</strong> &lt;0-99&gt; enter buffer percentage for <strong>queue
+1</strong> 0-99</p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 buffers 10
+?</strong> &lt;1-100&gt; enter buffer percentage for <strong>queue
+2</strong> 1-100 <strong>(includes CPU buffer)</strong></p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 buffers 10 20
+?</strong> &lt;0-99&gt; enter buffer percentage for <strong>queue
+3</strong> 0-99</p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 buffers 10 20 30
+?</strong> &lt;0-99&gt; enter buffer percentage for <strong>queue
+4</strong> 0-99</p>
+</blockquote>
+<p>要为每个队列配置两个阈值（后备阈值和最大阈值）（默认情况下，阈值 3 为
+100%，且不可更改），请使用以下命令：</p>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 threshold
+?</strong> &lt;1-4&gt; enter <strong>queue id</strong> in this queue
+set</p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 threshold 1
+?</strong> &lt;1-400&gt; enter drop <strong>threshold1</strong>
+1-400</p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 threshold 1 50
+?</strong> &lt;1-400&gt; enter drop <strong>threshold2</strong>
+1-400</p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 threshold 1 50 60
+?</strong> &lt;1-100&gt; enter <strong>reserved threshold</strong>
+1-100</p>
+<p>Rack1SW1(config)#<strong>mls qos queue-set output 1 threshold 1 50 60
+100 ?</strong> &lt;1-400&gt; enter <strong>maximum threshold</strong>
+1-400</p>
+</blockquote>
+<p>要将队列集应用于接口（当在交换机上启用 qos 后，默认情况下，queue set
+1 将分配给所有端口），请使用以下命令：</p>
+<blockquote>
+<p>Rack1SW1(config-if)#<strong>queue-set ?</strong> &lt;1-2&gt; the qset
+to which this port is mapped</p>
+</blockquote></li>
+<li><p><strong>调度程序配置：</strong></p>
+<p>可以为交换机接口使用三种不同的配置。这些配置为带宽整形、共享和限制。也可以将
+egress queue 1
+配置为优先队列。如果启用优先队列，则在为其他三个队列提供服务之前，SRR
+将始终为优先队列提供服务，直至该队列为空。但在入口优先队列中，SRR
+使用所配置的值为优先队列提供服务。</p>
+<blockquote>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth ?</strong> limit
+Configure bandwidth-limit for this interface shape Configure shaping on
+transmit queues share Configure shared bandwidth</p>
+<p>Rack1SW1(config-if)#<strong>priority-queue ?</strong> out egress
+priority queue</p>
+</blockquote>
+<p><strong>带宽限制配置：</strong></p>
+<blockquote>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth limit ?</strong>
+&lt;10-90&gt; enter bandwidth limit for interface as percentage</p>
+</blockquote>
+<p><strong>带宽整形配置：</strong></p>
+<blockquote>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth shape ?</strong>
+&lt;0-65535&gt; enter bandwidth weight for queue id 1</p>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth shape 10 ?</strong>
+&lt;0-65535&gt; enter bandwidth weight for queue id 2</p>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth shape 10 20
+?</strong> &lt;0-65535&gt; enter bandwidth weight for queue id 3</p>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth shape 10 20 30
+?</strong> &lt;0-65535&gt; enter bandwidth weight for queue id 4</p>
+</blockquote>
+<p><strong>带宽共享配置：</strong></p>
+<blockquote>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth share ?</strong>
+&lt;1-255&gt; enter bandwidth weight for queue id 1</p>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth share 10 ?</strong>
+&lt;1-255&gt; enter bandwidth weight for queue id 2</p>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth share 10 20
+?</strong> &lt;1-255&gt; enter bandwidth weight for queue id 3</p>
+<p>Rack1SW1(config-if)#<strong>srr-queue bandwidth share 10 20 30
+?</strong> &lt;1-255&gt; enter bandwidth weight for queue id 4</p>
+</blockquote>
+<p>除非启用优先队列，否则全部四个队列都将加入
+SRR，在这种情况下，将忽略第一个带宽权重，并且在比率计算也不使用第一个带宽权重。在为其他队列服务前，将始终为优先队列提供服务，直至该队列为空。通过使用
+<strong>priority-queue out
+接口配置命令，可以启用优先队列。</strong></p></li>
+</ul>
+<h3 id="默认配置">默认配置</h3>
+<p><strong>默认队列映射配置：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config10.gif" title="cat3750-qos-config10.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config10.gif" alt="cat3750-qos-config10.gif"></a></p>
+<p>以下默认映射可根据需要进行更改：</p>
+<blockquote>
+<p><em>!--- Map CoS to Egress Queue</em> Distribution1#<strong>show mls
+qos maps</strong> <strong>cos-output-q</strong> Cos-outputq-threshold
+map: cos: 0 1 2 3 4 5 6 7 ------------------------------------
+queue-threshold: 2-1 2-1 3-1 3-1 4-1 1-1 4-1 4-1</p>
+<p><em>!--- Map DSCP to Egress Queue</em> Distribution1#<strong>show mls
+qos maps</strong> <strong>dscp-output-q</strong> Dscp-outputq-threshold
+map: d1 :d2 0 1 2 3 4 5 6 7 8 9
+------------------------------------------------------------ 0 : 02-01
+02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 02-01 1 : 02-01 02-01
+02-01 02-01 02-01 02-01 03-01 03-01 03-01 03-01 2 : 03-01 03-01 03-01
+03-01 03-01 03-01 03-01 03-01 03-01 03-01 3 : 03-01 03-01 04-01 04-01
+04-01 04-01 04-01 04-01 04-01 04-01 4 : 01-01 01-01 01-01 01-01 01-01
+01-01 01-01 01-01 04-01 04-01 5 : 04-01 04-01 04-01 04-01 04-01 04-01
+04-01 04-01 04-01 04-01 6 : 04-01 04-01 04-01 04-01</p>
+</blockquote>
+<p><strong>默认队列配置：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config11.gif" title="cat3750-qos-config11.gif"><img src="https://googles.plus/images/loading.gif" data-original="https://www.cisco.com/c/dam/en/us/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config11.gif" alt="cat3750-qos-config11.gif"></a></p>
+<p>出口队列默认设置适用于大多数场合。只有在对出口队列透彻了解之后以及这些设置不能满足您的
+QoS 解决方案时，才需要更改这些设置。</p>
+<p>默认情况下，将配置两个队列集，并将 queue set 1
+分配给所有端口。为每个队列分配总缓冲区空间的
+25%。每个队列保留所分配的缓冲区空间的 50%，即总缓冲区空间的
+12.5%。所有后备缓冲区的总和表示后备池，剩余的缓冲区是公用池的一部分。默认配置将此队列可拥有的最大内存量设置为
+400%，超过此最大内存量后，将丢弃数据包。</p>
+<blockquote>
+<p>Distribution1#<strong>show mls qos</strong> <strong>queue-set
+1</strong> Queueset: 1 Queue : 1 2 3 4
+---------------------------------------------- buffers : 25 25 25 25
+threshold1: 100 200 100 100 threshold2: 100 200 100 100 reserved : 50 50
+50 50 maximum : 400 400 400 400</p>
+<p>Distribution1#<strong>show mls qos</strong> <strong>queue-set
+2</strong> Queueset: 2 Queue : 1 2 3 4
+---------------------------------------------- buffers : 25 25 25 25
+threshold1: 100 200 100 100 threshold2: 100 200 100 100 reserved : 50 50
+50 50 maximum : 400 400 400 400</p>
+<p>Distribution1#<strong>show mls qos int</strong>
+<strong>gigabitEthernet 1/0/20</strong> buffers GigabitEthernet1/0/20
+<strong>The port is mapped to qset : 1</strong> The allocations between
+the queues are : 25 25 25 25</p>
+</blockquote>
+<p><strong>默认调度程序配置：</strong></p>
+<p>优先队列处于禁用状态。同时为 SRR
+配置整形和共享模式。整形模式权重将覆盖共享模式值。因此，最终结果是，以整形模式为
+queue 1 提供服务，以共享模式为 queue 2、3 和 4
+提供服务。这意味着将使用一个绝对带宽百分比值（1/25 或百分之四）为 queue
+1 提供服务。使用 25% 的带宽为 Queue 2、3 和 4 提供服务。如果带宽可用，为
+queue 2、3 和 4 提供服务的带宽可以超过总带宽的 25%。</p>
+<blockquote>
+<p>Distribution1#<strong>show mls qos int gigabitEthernet 1/0/20
+queueing</strong> GigabitEthernet1/0/20 Egress <strong>Priority
+Queue</strong> : disabled <strong>Shaped</strong> queue weights
+(absolute) : 25 0 0 0 <strong>Shared</strong> queue weights : 25 25 25
+25 The port bandwidth <strong>limit</strong> : 100 (Operational
+Bandwidth:100.0) The port is mapped to qset : 1</p>
+</blockquote>
+<h3 id="排队丢弃和调度-1">排队、丢弃和调度</h3>
+<p>以下为示例配置：</p>
+<ul>
+<li><p><strong>队列映射配置：</strong></p>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output cos-map queue 1
+threshold 3 5</strong> Rack1SW1(config)#<strong>mls qos srr-queue output
+cos-map queue 1 threshold 1 2 4</strong> Rack1SW1(config)#<strong>mls
+qos srr-queue output cos-map queue 2 threshold 2 3</strong>
+Rack1SW1(config)#<strong>mls qos srr-queue output cos-map queue 2
+threshold 3 6 7</strong> Rack1SW1(config)#<strong>mls qos srr-queue
+output cos-map queue 3 threshold 3 0</strong>
+Rack1SW1(config)#<strong>mls qos srr-queue output cos-map queue 4
+threshold 3 1</strong></p>
+</blockquote>
+<blockquote>
+<p>Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 1
+threshold 3 46</strong> Rack1SW1(config)#<strong>mls qos srr-queue
+output dscp-map queue 2 threshold 1 16</strong>
+Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 2
+threshold 1 18 20 22</strong> Rack1SW1(config)#<strong>mls qos srr-queue
+output dscp-map queue 2 threshold 1 25</strong>
+Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 2
+threshold 1 32</strong> Rack1SW1(config)#<strong>mls qos srr-queue
+output dscp-map queue 2 threshold 1 34 36 38</strong>
+Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 2
+threshold 2 24 26</strong> Rack1SW1(config)#<strong>mls qos srr-queue
+output dscp-map queue 2 threshold 3 48 56</strong>
+Rack1SW1(config)#<strong>mls qos srr-queue output dscp-map queue 3
+threshold 3 0</strong> Rack1SW1(config)#<strong>mls qos srr-queue output
+dscp-map queue 4 threshold 1 8</strong> Rack1SW1(config)#<strong>mls qos
+srr-queue output dscp-map queue 4 threshold 3 10 12 14</strong></p>
+</blockquote></li>
+<li><p><strong>队列配置：</strong></p>
+<p>以下配置显示了 queue set 1 和 2 的配置。默认情况下，queue set 1
+应用于所有接口。</p>
+<blockquote>
+<p>Rack1SW3(config)#<strong>mls qos queue-set output 1 buffers 10 10 26
+54</strong> Rack1SW3(config)#<strong>mls qos queue-set output 2 buffers
+16 6 17 61</strong></p>
+</blockquote>
+<blockquote>
+<p>Rack1SW3(config)#<strong>mls qos queue-set output 1 threshold 2 70 80
+100 100</strong> Rack1SW3(config)#<strong>mls qos queue-set output 1
+threshold 4 40 100 100 100</strong></p>
+<p>Rack1SW3(config)#<strong>mls qos queue-set output 2 threshold 1 149
+149 100 149</strong> Rack1SW3(config)#<strong>mls qos queue-set output 2
+threshold 2 118 118 100 235</strong> Rack1SW3(config)#<strong>mls qos
+queue-set output 2 threshold 3 41 68 100 272</strong>
+Rack1SW3(config)#<strong>mls qos queue-set output 2 threshold 4 42 72
+100 242</strong></p>
+</blockquote>
+<blockquote>
+<p>Rack1SW3(config)#<strong>int fa 1/0/11</strong>
+Rack1SW3(config-if)#<strong>queue-set 2</strong></p>
+</blockquote>
+<p>queue set 2 应用于接口 1/0/11。</p>
+<blockquote>
+<p>Rack1SW3(config-if)#<strong>do show mls qos int fa 1/0/10
+buffers</strong> FastEthernet1/0/10 The port is mapped to qset : 1 The
+allocations between the queues are : 10 10 26 54</p>
+<p>Rack1SW3(config-if)#<strong>do show mls qos int fa 1/0/11
+buffers</strong> FastEthernet1/0/11 The port is mapped to qset : 2 The
+allocations between the queues are : 16 6 17 61</p>
+</blockquote></li>
+<li><p><strong>调度程序配置：</strong></p>
+<blockquote>
+<p>Rack1SW3(config-if)#<strong>srr-queue bandwidth share 1 75 25
+5</strong> Rack1SW3(config-if)#<strong>srr-queue bandwidth shape 3 0 0
+0</strong></p>
+</blockquote>
+<p>Cisco Catalyst 3750出口队列不支持低延迟队列(LLQ)。
+它支持优先队列。配置 priority-queue out 后，如果 queue 1
+具有数据包，则始终为该队列提供服务。</p>
+<blockquote>
+<p>Rack1SW3(config-if)#<strong>srr-queue bandwidth share 1 75 25
+5</strong> Rack1SW3(config-if)#<strong>srr-queue bandwidth shape 3 0 0
+0</strong> Rack1SW3(config-if)#<strong>priority-queue out</strong></p>
+</blockquote>
+<p>配置此命令时，因为有一个较小的队列加入 SRR，所以 SRR
+权重和队列大小比率会受到影响。这意味着将忽略 <strong>srr-queue bandwidth
+shape 或 srr-queue bandwidth share 命令中的
+weight1（不用于比率计算）。</strong></p></li>
+</ul>
+<p>以下为查看特定队列上的丢包的命令：</p>
+<p>步骤 1：</p>
+<blockquote>
+<p>1/ #<strong>show platform pm if-numbers</strong></p>
+</blockquote>
+<p>使用<strong>show platform pm
+if-numbers</strong>命令并检查与接口对应的端口信息（这是3750上的传出接口）。
+例如，fas
+0/3将是端口0/4。将4保留为端口值；如果第一个值不是零，则在端口号后输入asic编号。</p>
+<blockquote>
+<p>interface gid gpn lpn port slot unit slun port-type lpn-idb gpn-idb
+------------------------------------------------------------------------
+--------- Gi0/1 1 1 25 0/1 1 1 1 local Yes Yes Gi0/2 2 2 26 0/0 1 2 2
+local Yes Yes Fa0/1 3 3 1 0/2 1 1 3 local Yes Yes Fa0/2 4 4 2 0/3 1 2 4
+local Yes Yes <strong>Fa0/3</strong> 5 5 3 <strong>0/4</strong> 1 3 5
+local Yes Yes Fa0/4 6 6 4 0/5 1 4 6 local Yes Yes Fa0/5 7 7 5 0/6 1 5 7
+local Yes Yes Fa0/6 8 8 6 0/7 1 6 8 local Yes Yes</p>
+</blockquote>
+<p>与接口fa 0/3对应的端口值为0/4。现在，您可以使用<strong>show platform
+port-asic stats drop port 4命令看到接口fa 0/3的队列丢弃</strong>。</p>
+<blockquote>
+<p>2/ #<strong>show platform port-asic stats drop port 4</strong></p>
+<h1 id="port-asic-port-drop-statistics---summary">Port-asic Port Drop
+Statistics - Summary</h1>
+<p>RxQueue 0 Drop Stats: 0 RxQueue 1 Drop Stats: 0 RxQueue 2 Drop Stats:
+0 RxQueue 3 Drop Stats: 0 ...</p>
+<p>Port 4 TxQueue Drop Statistics Queue 0 Weight 0 Frames 0 Weight 1
+Frames 0 Weight 2 Frames 0 Queue 1 Weight 0 Frames 0 Weight 1 Frames
+2755160 &lt;--- Here is an example of drops Weight 2 Frames 0 Queue 2
+Weight 0 Frames 0 Weight 1 Frames 0 Weight 2 Frames 0 Queue 3 Weight 0
+Frames 0 Weight 1 Frames 0 Weight 2 Frames 8</p>
+</blockquote>
+<p>步骤 2：</p>
+<ul>
+<li><p><strong>带宽限制配置：</strong></p>
+<p>要限制端口的最大输出速率，请配置 srr-queue bandwidth limit
+接口配置命令。如果将此命令配置为 80%，则端口的空闲时间为
+20%。线路速率将下降到连接速度的
+80%。由于硬件将以六为增量调整线路速率，因此这些值并非精确值。此命令在万兆以太网接口上不可用。</p></li>
+</ul>
+<p><code>srr-queue bandwidth limit weight1</code></p>
+<p>其中，_weight1 为应将端口限制到的端口速度百分比。_范围是 10 到
+90。</p>
+<p><strong>注意：</strong>
+出口队列默认设置适用于大多数情况。只有在对出口队列有全面了解且这些设置不符合服务质量(QoS)解决方案时，才应更改这些设置。</p>
+<h2 id="相关信息">相关信息</h2>
+<ul>
+<li><strong><a target="_blank" rel="noopener" href="https://www.cisco.com/c/zh_cn/support/docs/switches/catalyst-3750-series-switches/91862-cat3750-qos-config.html">Cisco
+Catalyst 3750 QoS 配置示例</a></strong></li>
+<li><strong><a target="_blank" rel="noopener" href="https://www.cisco.com/en/US/docs/switches/lan/catalyst3750/software/release/12.2_35_se/configuration/guide/swqos.html?referring_site=bodynav">配置
+QoS</a></strong></li>
+<li><strong><a target="_blank" rel="noopener" href="https://www.cisco.com/en/US/products/hw/switches/ps5023/tsd_products_support_series_home.html?referring_site=bodynav" title="US 网站">Cisco Catalyst 3750 系列交换机 -
+支持文档</a></strong></li>
+<li><strong><a target="_blank" rel="noopener" href="https://www.cisco.com/web/psa/products/tsd_products_support_general_information.html?c=268438038&amp;sc=278875285&amp;referring_site=bodynav">LAN
+产品支持</a></strong></li>
+<li><strong><a target="_blank" rel="noopener" href="https://www.cisco.com/web/psa/technologies/tsd_technology_support_technology_information.html?c=268435696&amp;referring_site=bodynav">LAN
+交换技术支持</a></strong></li>
+<li><strong><a target="_blank" rel="noopener" href="https://www.cisco.com/cisco/web/support/index.html?referring_site=bodynav" title="US 网站">技术支持和文档 - Cisco Systems</a></strong></li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">sfc9982</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2022/02/24/cisco-qos-pei-zhi/">https://googles.plus/2022/02/24/cisco-qos-pei-zhi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">sfc9982</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Cisco/">
+                                    <span class="chip bg-color">Cisco</span>
+                                </a>
+                            
+                                <a href="/tags/QoS/">
+                                    <span class="chip bg-color">QoS</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/02/27/pip-bao-quan-bu-geng-xin/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/city-night.avif" class="responsive-img" alt="pip包全部更新">
+                        
+                        <span class="card-title">pip包全部更新</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-02-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%BC%96%E7%A8%8B/" class="post-category">
+                                    编程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/02/15/atcoder-contest-238-g-ti-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/anotherdot.avif" class="responsive-img" alt="AtCoder Contest 238 - G 题解">
+                        
+                        <span class="card-title">AtCoder Contest 238 - G 题解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/ACM/" class="post-category">
+                                    ACM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ACM/">
+                        <span class="chip bg-color">ACM</span>
+                    </a>
+                    
+                    <a href="/tags/Hash/">
+                        <span class="chip bg-color">Hash</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">198.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body>
+
+</html>

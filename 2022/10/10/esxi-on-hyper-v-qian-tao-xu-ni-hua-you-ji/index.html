@@ -1,0 +1,1285 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="ESXi, Hyper-V, 嵌套虚拟化, nest, nested, virtualization, windows, vsphere, hyperv">
+    <meta name="description" content="VMware vSphere
+ESXi on Hyper-V 嵌套虚拟化游记
+知识梳理
+
+梳理一下 Windows 的
+Hyper-V、Hypervisor
+
+Microsoft Hyper-V 限制
+安装向导
+
+虚拟机代数需选择 Gene">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>ESXi on Hyper-V 嵌套虚拟化游记 | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/748936370.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">ESXi on Hyper-V 嵌套虚拟化游记</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/VMware/">
+                                <span class="chip bg-color">VMware</span>
+                            </a>
+                        
+                            <a href="/tags/Hyper-V/">
+                                <span class="chip bg-color">Hyper-V</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">
+                                <span class="chip bg-color">虚拟化</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-10-10
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    5 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="vmware-vsphere-esxi-on-hyper-v-嵌套虚拟化游记">VMware vSphere
+ESXi on Hyper-V 嵌套虚拟化游记</h1>
+<h2 id="知识梳理">知识梳理</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/381969738">梳理一下 Windows 的
+Hyper-V、Hypervisor</a></p>
+</blockquote>
+<h2 id="microsoft-hyper-v-限制">Microsoft Hyper-V 限制</h2>
+<h3 id="安装向导">安装向导</h3>
+<ul>
+<li>虚拟机代数需选择 <strong>Generation 1</strong></li>
+<li>网络驱动器只能存在传统驱动器</li>
+</ul>
+<h3 id="虚拟化通告">虚拟化通告</h3>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Set-VMProcessor</span> <span class="token operator">-</span>VMName <span class="token string">"&lt;Hyper-V 虚拟机名称&gt;"</span> <span class="token operator">-</span>ExposeVirtualizationExtensions <span class="token boolean">$true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="cpu-核数">CPU 核数</h3>
+<p>ESXi 安装时，要求 CPU 核数 &gt; 2，所以需要转到 Hyper-V
+管理器中：</p>
+<ol type="1">
+<li>在处理器处添加不少于 2 个虚拟处理器
+<strong>（但此时相当于两个核，并不是两个能被 ESXi 识别的 CPU
+）</strong></li>
+<li>转到 NUMA 选单中，将NUMA拓扑中最大处理器数量改为上一步 vCPU
+数量的一半</li>
+<li>检查内存大小以及单宿主机 CPU 插槽上最大 NUMA 节点数</li>
+</ol>
+<h3 id="无法安装-hyper-v">无法安装 Hyper-V</h3>
+<p>无法安装 Hyper-V: 虚拟机监控程序已在运行中。</p>
+<p>在配置文件末尾附加：</p>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token key attr-name">hypervisor.cpuid.v0</span> <span class="token punctuation">=</span> <span class="token value attr-value">“FALSE”</span>
+<span class="token key attr-name">mce.enable</span> <span class="token punctuation">=</span> <span class="token value attr-value">“TRUE”</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="vmware-vsphere-esxi-限制">VMware vSphere ESXi 限制</h2>
+<h3 id="驱动封锁">驱动封锁</h3>
+<p>官方在 <code>ESXi-6.0.0-20170604001</code>
+之后的版本中封锁了这种方法，基于 Hyper-V 的嵌套虚拟化暂时不再可行。</p>
+<blockquote>
+<p>另一说是 ESXi 6.5（</p>
+</blockquote>
+<p>EoL 版本的下载地址藏得比较深，在专门的一个分类里。</p>
+<h3 id="无法识别虚拟网卡">无法识别虚拟网卡</h3>
+<p>现象为安装时提示无网络，只能重启。</p>
+<p>需要先安装 ESXi-Customizer-PS 后，自己对 Offline Bundle 格式的 ESXi
+安装包集成网络适配器驱动，脚本会自动导出 ISO 文件。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">ESXi-Customizer-<span class="token function">PS</span><span class="token punctuation">.</span>ps1 <span class="token operator">-</span>iZip <span class="token string">"path\to\esxi\installer\in\zip\ESXi600-201706001.zip"</span> <span class="token operator">-</span>pkgDir <span class="token string">"path\to\dir\contains\tulip"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这里我采用离线安装，如果需要在线安装 <code>net-tulip</code>
+驱动包的话，需要把 <code>-pkgDir ...</code> 替换为
+<code>-vft -load net-tulip</code> 参数。</p>
+<h3 id="启动失败">启动失败</h3>
+<p>在进入引导后按 <kbd>Tab</kbd>，附加启动参数
+<code>ignoreHeadless=TRUE</code>.</p>
+<h3 id="内核参数-bypass">内核参数 bypass</h3>
+<p>在系统安装成功之后，在 Shell 或 SSH 中执行命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost:~<span class="token punctuation">]</span> esxcfg-advcfg <span class="token parameter variable">-k</span> TRUE ignoreHeadless<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>后，先 <kbd>F12</kbd> 关机，再次开启 vSphere ESXi 即可。</p>
+<p><strong>注意：在我的环境中，这一步按 F12
+后如果重启是无法写入内核参数，导致命令看似无效。</strong></p>
+<h2 id="共存解决方案windows-hypervisor-platform">共存解决方案：Windows
+Hypervisor Platform</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/oldfish__/article/details/88641864">开启
+Windows Hypervisor Platform</a></p>
+</blockquote>
+<h2 id="虚拟机无法联网">虚拟机无法联网</h2>
+<p>由于整个 ESXi Hypervisor 都要通过 Hyper-V 的 vNIC
+与外界联网，所以需要做一个 MAC 地址欺骗。</p>
+<p>注意在网上找到的英文教程中，会提示要在 ESXi vSwitch
+中开启混杂模式，这样做恰恰相反了。教程中是在 ESXi 中嵌套了 Windows
+Server 所自带的 Hyper-V，这时需要为 ESXi 的虚拟交换机开启混杂模式。</p>
+<p>而我们的宿主机和客户机的 Hypervisor 是反过来的，所以需要为 Windows
+Server 中 Hyper-V 的 vNIC 开启混杂模式。</p>
+<h3 id="步骤">步骤</h3>
+<ol type="1">
+<li>Hyper-V 虚拟交换机需<strong>关闭</strong> SR-IOV
+多VM增强模式（直通）支持</li>
+<li>开启 MAC
+地址欺骗：<code>Get-VMNetworkAdapter -VMName &lt;VMName&gt; | Set-VMNetworkAdapter -MacAddressSpoofing On</code></li>
+</ol>
+<h2 id="hyper-v-官方脚本">Hyper-V 官方脚本</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://timothygruber.com/hyper-v-2/run-a-nested-vm-on-kvm-qemu-vm-in-hyper-v/">RUN
+A NESTED VM ON KVM / QEMU VM IN HYPER-V</a> <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/virtualization/">Microsoft
+虚拟化文档</a> <a target="_blank" rel="noopener" href="https://github.com/MicrosoftDocs/Virtualization-Documentation/blob/main/hyperv-tools/Nested/Enable-NestedVm.ps1">https://github.com/MicrosoftDocs/Virtualization-Documentation/blob/main/hyperv-tools/Nested/Enable-NestedVm.ps1</a></p>
+</blockquote>
+<h2 id="hyper-v-vnic-开启混杂模式">Hyper-V vNIC 开启混杂模式</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://cloudbase.it/hyper-v-promiscuous-mode/">Hyper-V
+promiscuous mode for monitoring external traffic</a></p>
+</blockquote>
+<h4 id="nat可选">NAT（可选）</h4>
+<p>首先在宿主虚拟机（中间VM）中创建一个虚拟 NAT 交换机。注意 IP
+地址只是一个示例，会因环境而异。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">New-VMSwitch</span> <span class="token operator">-</span>Name VmNAT <span class="token operator">-</span>SwitchType Internal
+<span class="token function">New-NetNat</span> –Name LocalNAT –InternalIPInterfaceAddressPrefix “192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>100<span class="token punctuation">.</span>0/24”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>然后为 vNIC 分配一个 IP 地址： </p><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Get-NetAdapter</span> <span class="token string">"vEthernet (VmNat)"</span> <span class="token punctuation">|</span> <span class="token function">New-NetIPAddress</span> <span class="token operator">-</span>IPAddress 192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>100<span class="token punctuation">.</span>1 <span class="token operator">-</span>AddressFamily IPv4 <span class="token operator">-</span>PrefixLength 24<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p></p>
+<p>每个嵌套的虚拟机都必须有一个分配给它的 IP
+地址和缺省网关。请注意，网关 IP 必须指向上一步中的 NAT
+适配器。可能还需要分配 DNS 服务器：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Get-NetAdapter</span> <span class="token string">"vEthernet (VmNat)"</span> <span class="token punctuation">|</span> <span class="token function">New-NetIPAddress</span> <span class="token operator">-</span>IPAddress 192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>100<span class="token punctuation">.</span>2 <span class="token operator">-</span>DefaultGateway 192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>100<span class="token punctuation">.</span>1 <span class="token operator">-</span>AddressFamily IPv4 <span class="token operator">-</span>PrefixLength 24
+Netsh interface ip add dnsserver “vEthernet <span class="token punctuation">(</span>VmNat<span class="token punctuation">)</span>” address=&lt;my DNS server&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="vm-无法启动">VM 无法启动</h2>
+<p>需要在 VM 配置中或 vSphere Client 高级设置 中添加
+<code>vmx.allowNested = TRUE</code> 以允许嵌套虚拟化。</p>
+<p>但这是无法再为客户机 VM 开启虚拟化通告了（无法多层嵌套虚拟化）。</p>
+<h2 id="有用的链接">有用的链接</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.dinghui.org/vmware-iso-download.html">VMware常用软件ISO下载汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.molipre.com/posts/d4a7aac.html">为PC安装ESXI</a></li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dscottraynsford.wordpress.com/2016/04/22/install-a-vmware-esxi-6-0-hypervisor-in-a-hyper-v-vm/">https://dscottraynsford.wordpress.com/2016/04/22/install-a-vmware-esxi-6-0-hypervisor-in-a-hyper-v-vm/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.nakivo.com/blog/install-esxi-hyper-v/">Install
+ESXi on Hyper-V</a></li>
+<li><a target="_blank" rel="noopener" href="http://woshub.com/install-vmware-esxi-on-hyper-v-vm/">http://woshub.com/install-vmware-esxi-on-hyper-v-vm/</a></li>
+<li><a target="_blank" rel="noopener" href="http://realtechtalk.com/Relocating_modules_and_starting_up_the_kernel_VMWare_ESXi_67_Error_and_Solution-2032-articles">http://realtechtalk.com/Relocating_modules_and_starting_up_the_kernel_VMWare_ESXi_67_Error_and_Solution-2032-articles</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.myvirtualvision.com/2013/04/03/vmware-vsphere-nested/">驱动整合</a></li>
+<li><a target="_blank" rel="noopener" href="https://communities.vmware.com/t5/Nested-Virtualization/VMware-ESXi-5-1-can-run-Microsoft-Hyper-V-Server-2012-VMs-too/m-p/424504?start=0&amp;tstart=0">https://communities.vmware.com/t5/Nested-Virtualization/VMware-ESXi-5-1-can-run-Microsoft-Hyper-V-Server-2012-VMs-too/m-p/424504?start=0&amp;tstart=0</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization">https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization</a></li>
+<li><a target="_blank" rel="noopener" href="https://communities.vmware.com/t5/ESXi-Discussions/Running-VMs-in-VMware-ESXi-VM-on-Hpyer-V/td-p/1752644">https://communities.vmware.com/t5/ESXi-Discussions/Running-VMs-in-VMware-ESXi-VM-on-Hpyer-V/td-p/1752644</a></li>
+<li><a target="_blank" rel="noopener" href="https://communities.vmware.com/t5/Nested-Virtualization/Running-ESX-under-KVM-with-VM-x-EPT/td-p/2668850">https://communities.vmware.com/t5/Nested-Virtualization/Running-ESX-under-KVM-with-VM-x-EPT/td-p/2668850</a></li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">sfc9982</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2022/10/10/esxi-on-hyper-v-qian-tao-xu-ni-hua-you-ji/">https://googles.plus/2022/10/10/esxi-on-hyper-v-qian-tao-xu-ni-hua-you-ji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">sfc9982</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/VMware/">
+                                    <span class="chip bg-color">VMware</span>
+                                </a>
+                            
+                                <a href="/tags/Hyper-V/">
+                                    <span class="chip bg-color">Hyper-V</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">
+                                    <span class="chip bg-color">虚拟化</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/10/16/shi-yong-winrm-fu-wu-he-windows-admin-ceter-shi-xian-yuan-cheng-kong-zhi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/959363550.avif" class="responsive-img" alt="使用 WinRM 服务和 Windows Admin Ceter 实现远程控制">
+                        
+                        <span class="card-title">使用 WinRM 服务和 Windows Admin Ceter 实现远程控制</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTF/" class="post-category">
+                                    CTF
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">网络安全</span>
+                    </a>
+                    
+                    <a href="/tags/CTF/">
+                        <span class="chip bg-color">CTF</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="chip bg-color">服务器</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">
+                        <span class="chip bg-color">虚拟化</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/10/05/yuan-cheng-xian-cheng-dll-zhu-ru/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/95373509_p0.avif" class="responsive-img" alt="远程线程DLL注入">
+                        
+                        <span class="card-title">远程线程DLL注入</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E9%80%86%E5%90%91/">
+                        <span class="chip bg-color">逆向</span>
+                    </a>
+                    
+                    <a href="/tags/Reverse/">
+                        <span class="chip bg-color">Reverse</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">198.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body>
+
+</html>

@@ -1,0 +1,1500 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="C,C++,内存管理,malloc,calloc,free">
+    <meta name="description" content="任何一个对C稍稍有了解的人都知道malloc、calloc、free。前面两个是用户态在堆上分配一段连续（虚拟地址）的内存空间，然后可以通过free释放，但是，同时也会有很多人对其背后的实现机制不了解。这篇文章则是通过介绍这三个函数，并简单">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>C语言内存管理 | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/958526090.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">C语言内存管理</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%BC%96%E7%A8%8B/">
+                                <span class="chip bg-color">编程</span>
+                            </a>
+                        
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C</span>
+                            </a>
+                        
+                            <a href="/tags/%E9%94%90%E6%A0%BC/">
+                                <span class="chip bg-color">锐格</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%86%85%E5%AD%98/">
+                                <span class="chip bg-color">内存</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%BC%96%E7%A8%8B/" class="post-category">
+                                编程
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-05-05
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>任何一个对C稍稍有了解的人都知道malloc、calloc、free。前面两个是用户态在堆上分配一段连续（虚拟地址）的内存空间，然后可以通过free释放，但是，同时也会有很多人对其背后的实现机制不了解。这篇文章则是通过介绍这三个函数，并简单的予以实现，对比现有C的标准库实现（glibc等）相比，并不是特别高效，我们重在阐述背后的基本原理。</p>
+<p><strong>一、C程序的存储空间布局</strong></p>
+<p><img src="https://googles.plus/images/loading.gif" data-original="https://pic1.zhimg.com/80/v2-89eca99a6848e8e0433f2fbc3e9bef30_720w.jpg"></p>
+<ul>
+<li>text：整个用户空间的最低地址部分，存放的是指令（程序所编译成的可执行机器码）。可共享，即使是频繁操作执行的程序，在存储器中也只需有一个副本，通常是只读的。</li>
+<li>initialized
+data(data)：存放初始化过的全局变量，包含了程序中需明确地赋初值的变量。</li>
+<li>uninitialized
+data(bss)：存放的是未初始化过的全局变量，在程序开始执行之前，内核将此段中的数据初始化为0或者NULL。</li>
+<li>heap：堆，自低地址向高地址增长，后面重点剖析</li>
+<li>stack：栈，自高地址向低地址增长，自动变量以及每次函数调用时所需保存的信息都存放在此段中。</li>
+</ul>
+<p><strong>二、Heap 内存模型</strong></p>
+<p>一般来说，malloc所申请的内存主要从heap区域分配的。 <a href="https://link.zhihu.com/?target=http%3A//blog.csdn.net/wenqian1991/article/details/25159545">linux内存管理</a>，从这里可以了解到linux下虚拟地址与物理地址。</p>
+<p>linux对堆的管理如下：</p>
+<p><img src="https://googles.plus/images/loading.gif" data-original="https://pic1.zhimg.com/80/v2-e8b63ad7142e564f45b5d9c5fb0a2850_720w.jpg"></p>
+<p>linux
+内核维护一个break指针，这个指针指向堆空间的某个地址。从堆起始地址（Heap’s
+Start）到break之间的地址空间为映射好的（虚拟地址与物理地址的映射，通过MMU实现），可以供进程访问；而从break往上，是未映射的地址空间，如果访问这段空间则程序会报错。</p>
+<p>所以，如果Mapped Region
+空间不够时，会调整break指针，扩大映射空间，重新分配内存。</p>
+<p><strong>三、调整break：brk()和sbrk()</strong></p>
+<p>最初break的位置正好位于bss端末尾之后，看图1，在break指针的位置升高时，程序可以访问新分配区域内的任何内存地址，而此时物理内存页尚未分配，内存会在京城首次试图访问这些虚拟内存地址时自动分配新的物理内存页。</p>
+<p>linux通过brk和sbrk系统调用操作break指针：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">brk</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">sbrk</span><span class="token punctuation">(</span>intptr_t increment<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><code>brk()</code> 将<code>break</code>指针设置为 <code>addr</code>
+所指定的位置，由于虚拟内存以页为单位进行分配，<code>addr</code>实际会四舍五入到下一个内存也的边界处。由于<code>brk</code>是直接指定一个地址，所以一旦这个值取得过低，有可能导致不可预知的行为，对照上图，<code>brk</code>只能在指定的区域内调整<code>break</code>。</p>
+<p><code>sbrk()</code> 将<code>break</code>指针在原有地址增加从参数
+<code>increment</code>
+传入的大小（linux中，sbrk是基于brk基础上实现的一个库函数），用于声明<code>increment</code>
+的<code>intptr_t</code> 类型属于整数数据类型。
+若调用成功，<code>sbrk()</code> 返回前一个<code>break</code>
+的地址，换言之，如果<code>break</code>
+增加，那么返回值是指向这块新分配内存起始位置的指针。<code>sbrk(0)</code>
+将得到当前<code>break</code>指针的位置。</p>
+<p>系统对每一个进程所分配的资源不是无限的，包括可映射的内存空间，图2，未映射内存的尾端有个<code>rlimit</code>表示当前进程可用的资源上限。</p>
+<p><strong>三、malloc</strong></p>
+<p>根据标准C库函数的定义，malloc 具有如下模型：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">malloc</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个函数要实现的功能是在系统中分配一段连续的可用的内存，具体有如下要求：</p>
+<ul>
+<li>malloc分配的内存大小至少为size参数所指定的字节数</li>
+<li>malloc的返回值是一个指针，指向一段可用内存的起始地址</li>
+<li>多次调用malloc所分配的地址不能有重叠部分，除非该地址已经被释放掉</li>
+<li>malloc应该尽快完成内存分配并返回（不能使用<a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/NP-hardness">NP-hard</a>的内存分配算法）</li>
+<li>实现malloc时，应该同时实现内存大小调整和内存释放函数（calloc和free）-
+malloc分配失败时必须返回NULL</li>
+</ul>
+<p>malloc
+返回内存块所采用的字节对齐方式，总是适宜于高效访问任何类型的C语言数据结构。</p>
+<p><strong>四、初探实现malloc：</strong></p>
+<p>我们假定整个内存处于初始状态，即break指针位于bss段的单位，整个heap都是
+Unmapped
+Region。（图2）基于此，我们可以实现一个简单但毫无实际价值的malloc：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/types.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h&gt;</span></span>
+
+<span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">malloc</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+    p <span class="token operator">=</span> <span class="token function">sbrk</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">sbrk</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> p<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个<code>malloc</code>就是从未映射区域直接划出一块，但是<code>malloc</code>对这块已分配的内存缺乏记录，不便于内存释放。</p>
+<p><strong>五、正式实现malloc</strong></p>
+<p>上面说到分配的内存没有记录，一旦调用<code>free</code>释放，<strong>free</strong>不知道它到底要释放多大的内存，所以我们需要额外一个数据结构来记录这些信息。</p>
+<p><strong>5.1、数据结构</strong>一个简单可行方案是将堆内存以块的形式组织起来，每个块（block）由meta区和数据区组成，meta去记录数据块的元信息（数据块大小、空闲标志位、指针等），数据区则是真实分配的内存区域，并且数据区的第一个字节地址即为malloc返回的地址。</p>
+<p>可用如下结构体定义一个<code>block</code>：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">s_block</span> <span class="token operator">*</span>t_block<span class="token punctuation">;</span>
+<span class="token keyword">struct</span> <span class="token class-name">s_block</span> <span class="token punctuation">{</span>
+    size_t size<span class="token punctuation">;</span>
+    t_block next<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> free<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://googles.plus/images/loading.gif" data-original="https://pic2.zhimg.com/80/v2-c9856e521c9441ca74b853c6110f73c1_720w.jpg"></p>
+<p>那么用这个结构体来分配内存，而不用malloc则是下面一番场景：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">t_block b<span class="token punctuation">;</span>
+b <span class="token operator">=</span> <span class="token function">sbrk</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sbrk</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">s_block</span><span class="token punctuation">)</span> <span class="token operator">+</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+b<span class="token operator">-&gt;</span>size <span class="token operator">=</span> size<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>5.2、寻找合适的block</strong></p>
+<p>我们从堆的起始地址开始查找第一个符合要求的<code>block</code>，并返回<code>block</code>起始地址，如果找不到就返回<code>NULL</code>；</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">t_block <span class="token function">find_block</span><span class="token punctuation">(</span>t_block <span class="token operator">*</span>last<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    t_block b <span class="token operator">=</span> base<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>b <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>free <span class="token operator">&amp;&amp;</span> b<span class="token operator">-&gt;</span>size <span class="token operator">&gt;=</span> size<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token operator">*</span>last <span class="token operator">=</span> b<span class="token punctuation">;</span>
+        b <span class="token operator">=</span> b<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里<code>base</code>是一个全局变量，维护整个堆的起始地址。另外，这里在遍历时会更新一个<code>last</code>指针，这个指针始终指向当前遍历的<code>block</code>，如果找不到合适的<code>block</code>，那么<code>malloc</code>将很容易的开辟新的<code>block</code>使用。</p>
+<p><strong>5.3、开辟新的block</strong></p>
+<p>如果现有<strong>block</strong>都不能满足需求，则需要在链表最后开辟一个新的block。最简单的方式就是利用sbrk升高break位置然后对其初始化，然后更新对应block指针，将其add到链表最后。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">t_block <span class="token function">extend_heap</span><span class="token punctuation">(</span>t_block last<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    t_block b<span class="token punctuation">;</span>
+    b <span class="token operator">=</span> <span class="token function">sbrk</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">sbrk</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">s_block</span><span class="token punctuation">)</span> <span class="token operator">+</span> size<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    b<span class="token operator">-&gt;</span>size <span class="token operator">=</span> size<span class="token punctuation">;</span>
+    b<span class="token operator">-&gt;</span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>last<span class="token punctuation">)</span>
+        last<span class="token operator">-&gt;</span>next <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    b<span class="token operator">-&gt;</span>free <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>5.4、分裂block</strong> 看前面 <code>find_block()</code>
+的实现，如果我们申请的 <code>size</code> 远小于查找到的
+<code>block</code>。（这种情况是可能，它是查到第一个满足条件（大小，可用）的block），这样会导致较大内部碎片的产生。所以，应该在剩余数据区足够大的情况下，将其分裂成一个新的block：</p>
+<p><img src="https://googles.plus/images/loading.gif" data-original="https://pic3.zhimg.com/80/v2-f75ee142d5ed002b7026cf0219fde822_720w.jpg"></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">split_block</span><span class="token punctuation">(</span>t_block b<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    t_block <span class="token keyword">new</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token operator">=</span> b<span class="token operator">-&gt;</span>data <span class="token operator">+</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">new</span><span class="token operator">-&gt;</span>size <span class="token operator">=</span> b<span class="token operator">-&gt;</span>size <span class="token operator">-</span> size <span class="token operator">-</span> BLOCK_SIZE<span class="token punctuation">;</span>
+    <span class="token keyword">new</span><span class="token operator">-&gt;</span>next <span class="token operator">=</span> b<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+    <span class="token keyword">new</span><span class="token operator">-&gt;</span>free <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    b<span class="token operator">-&gt;</span>size <span class="token operator">=</span> size<span class="token punctuation">;</span>
+    b<span class="token operator">-&gt;</span>next <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>看了上面一大串，是不是跟伙伴算法很像。但是这里的分裂block函数，得视情况调用，如果申请的size
+&lt;
+block-&gt;size，但是又不是小太多，如果分裂block的话，会导致分裂后剩余未分配出去的数据块过小，无法满足其余需求，很容易形成内存碎片。</p>
+<p>所以，伙伴算法有更高效的处理（实际上伙伴算法也会产生内部碎片）。</p>
+<p><strong>5.5、malloc 的实现</strong></p>
+<p>铺垫做了那么多，我们可以利用它们整合成一个简单可用的malloc。首先定义一个block链表的头指针，初始化为NULL，另外，我们需要剩余空间至少有
+<code>BLOCK_SIZE + 4</code> 才执行分离操作。</p>
+<p>此外，一开始我们讲到，<code>malloc</code>对分配的内存大小也有要求，是按4字节对齐，所以申请的size不为4的倍数时，我们需要将其调整为大于size的最小的4的倍数。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">align4</span><span class="token expression"><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&gt;&gt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span> </span><span class="token comment">// align to 4 bytes</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">BLOCK_SIZE</span> <span class="token expression"><span class="token number">12</span> </span><span class="token comment">// 12 bytes</span></span>
+<span class="token keyword">void</span> <span class="token operator">*</span>base <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span> <span class="token comment">// base address of the block</span>
+<span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">malloc</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    t_block b<span class="token punctuation">,</span> last<span class="token punctuation">;</span>
+    size_t s<span class="token punctuation">;</span>
+    s <span class="token operator">=</span> <span class="token function">align4</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>base<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        last <span class="token operator">=</span> base<span class="token punctuation">;</span>
+        b <span class="token operator">=</span> <span class="token function">find_block</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>last<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>size <span class="token operator">-</span> s<span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token punctuation">(</span>BLOCK_SIZE <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token function">split_block</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            b<span class="token operator">-&gt;</span>free <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            b <span class="token operator">=</span> <span class="token function">extend_heap</span><span class="token punctuation">(</span>last<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>b<span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">{</span>
+        b <span class="token operator">=</span> <span class="token function">extend_heap</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>b<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+        base <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> b<span class="token operator">-&gt;</span>data<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>实现思路很简单：首先往链表中查找合适的block，如果找到了，看是否可以分裂，如果可以就分裂；如果没有找到合适的，就开辟一个新的block；如果是第一次分配，即整个内存链表不存在，则一开始就得新开辟一个block。</p>
+<p><strong>六、calloc 的实现</strong></p>
+<p>先看calloc的标准库语义：函数 calloc()
+用于给一组相同对象分配内存。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">calloc</span><span class="token punctuation">(</span>size_t numitems<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>参数numitems指定分配对象的数量，size指定每个对象的大小。</p>
+<p>calloc 与之malloc 不同之处在于，calloc
+会将分配后的内存空间初始化，而malloc
+申请的是一块未初始化的内存。所以，实现calloc，只需两步：</p>
+<ol type="1">
+<li>malloc 一块内存</li>
+<li>将数据区内容初始化为0</li>
+</ol>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">calloc</span><span class="token punctuation">(</span>size_t numitems<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    size_t <span class="token operator">*</span><span class="token keyword">new</span><span class="token punctuation">;</span>
+    size_t s<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span>numitems <span class="token operator">*</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">new</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        s <span class="token operator">=</span> <span class="token function">align4</span><span class="token punctuation">(</span>numitems <span class="token operator">*</span> size<span class="token punctuation">)</span> <span class="token operator">&gt;&gt;</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> s<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+            <span class="token keyword">new</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>七、free 的实现</strong></p>
+<p>free 的实现并不像看上去那么简单，需要解决两个关键问题：</p>
+<ol type="1">
+<li><p>如何验证所传入的地址是有效地址（malloc方式分配的）</p></li>
+<li><p>如何解决碎片问题</p></li>
+</ol>
+<p><strong>7.1、先看如何解决碎片问题</strong>，就是把相邻的空闲内存合并为大的（伙伴算法类似）：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">t_block <span class="token function">fusion</span><span class="token punctuation">(</span>t_block b<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>next <span class="token operator">&amp;&amp;</span> b<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>free<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        b<span class="token operator">-&gt;</span>size <span class="token operator">+=</span> BLOCK_SIZE <span class="token operator">+</span> b<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>size<span class="token punctuation">;</span>
+        b<span class="token operator">-&gt;</span>next <span class="token operator">=</span> b<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>next<span class="token punctuation">)</span>
+            b<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>prev <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再看如何验证所传入的地址是有效的，位于heap内。
+一个解决方法是，在block结构体中添加一个 ptr
+指针，用于指向数据块区域，如果 b-&gt;ptr == b-&gt;data，则表示 b
+极有可能是一个有效block。所以我们对block数据结构进行了扩展：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">s_block</span> <span class="token punctuation">{</span>
+    size_t size<span class="token punctuation">;</span>
+    t_block next<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> free<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">s_block</span> <span class="token operator">*</span>next<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">s_block</span> <span class="token operator">*</span>prev<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>7.2、根据给定地址得到对应的block</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">t_block <span class="token function">get_block</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>p<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>tmp<span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> p<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>p <span class="token operator">=</span> tmp <span class="token operator">-=</span> BLOCK_SIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>7.3、下面则验证是不是有效的block：</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">valid_addr</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>p<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>base<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">&gt;</span> base <span class="token operator">&amp;&amp;</span> p <span class="token operator">&lt;</span> <span class="token function">sbrk</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token function">get_block</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span>ptr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>7.4、下面就实现free</strong></p>
+<p>这里我们采用的合并策略是这样的：先合并相邻的空闲内存块，合并之后，再检查是否还有空闲的相邻内存块，如果有则继续合并，直到最后，该内存块是最大的连续内存块。另外，对于break指针的调整（降低），必须保证在该释放的block与
+Unmapped Region之间是空闲的，没有被占。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">free</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>p<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    t_block b<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">valid_addr</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        b <span class="token operator">=</span> <span class="token function">get_block</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        b<span class="token operator">-&gt;</span>free <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>prev <span class="token operator">&amp;&amp;</span> b<span class="token operator">-&gt;</span>prev<span class="token operator">-&gt;</span>free<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            b <span class="token operator">=</span> <span class="token function">fusion</span><span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>prev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>next<span class="token punctuation">)</span>
+            <span class="token function">fusion</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token constant">NULL</span> <span class="token operator">==</span> b<span class="token operator">-&gt;</span>next<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>prev<span class="token punctuation">)</span>
+                b<span class="token operator">-&gt;</span>prev<span class="token operator">-&gt;</span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span>
+                base <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+            <span class="token function">brk</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>八、realloc的实现</strong></p>
+<p>同样先看标准库中realloc的语义：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">realloc</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>ptr 是指向需要调整大小的内存块的指针，参数 size
+指定所需调整大小的期望值。</p>
+<p>realloc()
+用来调整（通常是增加）一块内存的大小，而此块内存应是之前由malloc函数分配的。若
+realloc 增加了已分配内存块的大小，则不会对额外分配的内存进行初始化。</p>
+<p><strong>8.1、内存块复制</strong></p>
+<p>看了realloc的语义，我们首先得实现一个内存复制方法。如同calloc一样，我们以4字节为单位进行复制：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">copy_block</span><span class="token punctuation">(</span>t_block src<span class="token punctuation">,</span> t_block dst<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>sdata<span class="token punctuation">,</span> <span class="token operator">*</span>dtata<span class="token punctuation">;</span>
+    size_t i<span class="token punctuation">;</span>
+    sdata <span class="token operator">=</span> src<span class="token operator">-&gt;</span>ptr<span class="token punctuation">;</span>
+    ddata <span class="token operator">=</span> dst<span class="token operator">-&gt;</span>ptr<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">*</span> <span class="token number">4</span> <span class="token operator">&lt;</span> src<span class="token operator">-&gt;</span>size <span class="token operator">&amp;&amp;</span> i <span class="token operator">*</span> <span class="token number">4</span> <span class="token operator">&lt;</span> dst<span class="token operator">-&gt;</span>size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+        ddata<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> sdata<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>8.2、实现realloc</strong>为了更高效，我们考虑以下几个方面：</p>
+<ol type="1">
+<li>如果当前block的数据区大于等于realloc要求的size，则考虑能不能split，然后直接返回</li>
+<li>如果新的size变小了，考虑split</li>
+<li>如果当前block的数据区不能满足size，但是其后继block是free，并且合并后可以满足size，则考虑合并，然后再考虑能不能split</li>
+<li>如果以上都不行，则调用malloc重新分配size大小内存，然后内存复制</li>
+</ol>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">realloc</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>p<span class="token punctuation">,</span> size_t size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    size_t s<span class="token punctuation">;</span>
+    t_block b<span class="token punctuation">,</span> _new<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>p<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token function">malloc</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">valid_addr</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        s <span class="token operator">=</span> <span class="token function">align4</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        b <span class="token operator">=</span> <span class="token function">get_block</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>size <span class="token operator">&gt;=</span> s<span class="token punctuation">)</span> <span class="token comment">//如果size变小了，考虑split</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>size <span class="token operator">-</span> s <span class="token operator">&gt;=</span> <span class="token punctuation">(</span>BLOCK_SIZE <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token function">split_block</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token comment">//如果当前block的数据区不能满足size</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">//如果后继block是free的，并且合并后大小满足size，考虑合并</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>next <span class="token operator">&amp;&amp;</span> b<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>free <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>size <span class="token operator">+</span> BLOCK_SIZE <span class="token operator">+</span> b<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>size<span class="token punctuation">)</span> <span class="token operator">&gt;=</span> s<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">fusion</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//合并后满足size，再看能不能split</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token operator">-&gt;</span>size <span class="token operator">-</span> s <span class="token operator">&gt;=</span> <span class="token punctuation">(</span>BLOCK_SIZE <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token function">split_block</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span> <span class="token comment">//以上都不满足，则malloc新区域</span>
+            <span class="token punctuation">{</span>
+                newp <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>newp<span class="token punctuation">)</span>
+                    <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span> <span class="token comment">//内存复制</span>
+                _new <span class="token operator">=</span> <span class="token function">get_block</span><span class="token punctuation">(</span>newp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">copy_block</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> <span class="token keyword">new</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">free</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> newp<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> p<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>九、总结</strong></p>
+<p>以上是一个比较简陋，存在很大的优化空间，但大致阐述了malloc的机制，这也是本篇博文的目的。</p>
+<p>对于更好的优化读者可以参考<a href="https://link.zhihu.com/?target=http%3A//blog.csdn.net/wenqian1991/article/details/27968779">linux内核伙伴算法</a>、以及<a href="https://link.zhihu.com/?target=http%3A//blog.csdn.net/wenqian1991/article/details/19605727">STL空间配置器</a>。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">sfc9982</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2022/05/05/c-yu-yan-nei-cun-guan-li/">https://googles.plus/2022/05/05/c-yu-yan-nei-cun-guan-li/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">sfc9982</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E7%BC%96%E7%A8%8B/">
+                                    <span class="chip bg-color">编程</span>
+                                </a>
+                            
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C</span>
+                                </a>
+                            
+                                <a href="/tags/%E9%94%90%E6%A0%BC/">
+                                    <span class="chip bg-color">锐格</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%86%85%E5%AD%98/">
+                                    <span class="chip bg-color">内存</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/05/08/openwrt-huan-jing-xia-shua-ru-bootloader/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/780858450.avif" class="responsive-img" alt="OpenWrt环境下刷入Breed Bootloader">
+                        
+                        <span class="card-title">OpenWrt环境下刷入Breed Bootloader</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-08
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/" class="post-category">
+                                    网络工程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">网络</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/">
+                        <span class="chip bg-color">路由器</span>
+                    </a>
+                    
+                    <a href="/tags/OpenWrt/">
+                        <span class="chip bg-color">OpenWrt</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/04/19/cong-chen-mei-cheng-ben-miu-wu-dao-sun-shi-yan-e-qing-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/636303560.avif" class="responsive-img" alt="从“沉没成本谬误”到“损失厌恶情结”">
+                        
+                        <span class="card-title">从“沉没成本谬误”到“损失厌恶情结”</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Program Think
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%94%9F%E6%B4%BB/">
+                        <span class="chip bg-color">生活</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%93%B2%E5%AD%A6/">
+                        <span class="chip bg-color">哲学</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">198.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body>
+
+</html>

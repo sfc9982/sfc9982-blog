@@ -1,0 +1,1367 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Chrome Hook 去除圆角, sfc9982">
+    <meta name="description" content="Chrome Hook 去除圆角
+我就是想去除，告诉我方法
+https://github.com/sfc9982/ChromeDisableRoundedCorners
+下载 Release, 参数为 Chrome 位置，附加参数启动即可。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>Chrome Hook 去除圆角 | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/852817290.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Chrome Hook 去除圆角</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Reverse/">
+                                <span class="chip bg-color">Reverse</span>
+                            </a>
+                        
+                            <a href="/tags/Windows/">
+                                <span class="chip bg-color">Windows</span>
+                            </a>
+                        
+                            <a href="/tags/Chrome/">
+                                <span class="chip bg-color">Chrome</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-01-11
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    7 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="chrome-hook-去除圆角">Chrome Hook 去除圆角</h1>
+<h2 id="我就是想去除告诉我方法">我就是想去除，告诉我方法</h2>
+<p>https://github.com/sfc9982/ChromeDisableRoundedCorners</p>
+<p>下载 Release, 参数为 Chrome 位置，附加参数启动即可。</p>
+<h2 id="起因">起因</h2>
+<p>Chrome 在 Windows 11
+下的右键菜单和系统菜单会自动启用圆角，由于我使用了 <a target="_blank" rel="noopener" href="https://github.com/valinet/Win11DisableRoundedCorners">Win11DisableOrRestoreRoundedCorners</a></p>
+<p>，所以这个和系统的又不匹配（Chrome 的菜单不经由 DWM
+渲染），所以得另寻他法。</p>
+<h2 id="chromium-代码">Chromium 代码</h2>
+<p>自从 <a target="_blank" rel="noopener" href="https://chromium-review.googlesource.com/c/chromium/src/+/3176190">https://chromium-review.googlesource.com/c/chromium/src/+/3176190</a>
+起, Chromium 监测到 Windows 版本 &gt;= 11 时就会自动开启圆角, 基于
+Chromium 内核的浏览器, CEF 与 Electron App
+也是如此。在以前可以通过附加参数或 <code>chrome://flags</code>
+进行关闭，但是这个功能取消了测试被正式合并，变成了默认开启状态。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token class-name">MenuConfig</span><span class="token double-colon punctuation">::</span><span class="token function">Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+    
+  win11_style_menus <span class="token operator">=</span> base<span class="token double-colon punctuation">::</span>win<span class="token double-colon punctuation">::</span><span class="token function">GetVersion</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> base<span class="token double-colon punctuation">::</span>win<span class="token double-colon punctuation">::</span>Version<span class="token double-colon punctuation">::</span>WIN11<span class="token punctuation">;</span>
+  <span class="token function">UMA_HISTOGRAM_BOOLEAN</span><span class="token punctuation">(</span><span class="token string">"Windows.Menu.Win11Style"</span><span class="token punctuation">,</span> win11_style_menus<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  separator_upper_height <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+  separator_lower_height <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>win11_style_menus<span class="token punctuation">)</span>
+    corner_radius <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可见，只要满足
+<code>base::win::GetVersion() &gt;= base::win::Version::WIN11</code>
+就会开启圆角。</p>
+<p><code>base::win::GetVersion()</code> 返回的定义在
+<code>base/win/windows_version.cc</code> 中，</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// static</span>
+OSInfo<span class="token operator">*</span><span class="token operator">*</span> <span class="token class-name">OSInfo</span><span class="token double-colon punctuation">::</span><span class="token function">GetInstanceStorage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Note: we don't use the Singleton class because it depends on AtExitManager,</span>
+  <span class="token comment">// and it's convenient for other modules to use this class without it.</span>
+  <span class="token keyword">static</span> OSInfo<span class="token operator">*</span> info <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    _OSVERSIONINFOEXW version_info <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>version_info<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">clang diagnostic push</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">clang diagnostic ignored </span><span class="token string">"-Wdeprecated-declarations"</span></span>
+    <span class="token comment">// GetVersionEx() is deprecated, and the suggested replacement are</span>
+    <span class="token comment">// the IsWindows*OrGreater() functions in VersionHelpers.h. We can't</span>
+    <span class="token comment">// use that because:</span>
+    <span class="token comment">// - For Windows 10, there's IsWindows10OrGreater(), but nothing more</span>
+    <span class="token comment">//   granular. We need to be able to detect different Windows 10 releases</span>
+    <span class="token comment">//   since they sometimes change behavior in ways that matter.</span>
+    <span class="token comment">// - There is no IsWindows11OrGreater() function yet.</span>
+    <span class="token double-colon punctuation">::</span><span class="token function">GetVersionEx</span><span class="token punctuation">(</span><span class="token generic-function"><span class="token function">reinterpret_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>_OSVERSIONINFOW<span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token operator">&amp;</span>version_info<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">clang diagnostic pop</span></span>
+
+    DWORD os_type <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token double-colon punctuation">::</span><span class="token function">GetProductInfo</span><span class="token punctuation">(</span>version_info<span class="token punctuation">.</span>dwMajorVersion<span class="token punctuation">,</span> version_info<span class="token punctuation">.</span>dwMinorVersion<span class="token punctuation">,</span>
+                     <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>os_type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token function">OSInfo</span><span class="token punctuation">(</span>version_info<span class="token punctuation">,</span> <span class="token function">GetSystemInfoStorage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> os_type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token operator">&amp;</span>info<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意代码与注释，这里使用了一个在 Windows 8 后被 deprecated 的函数
+(<code>GetVersionEx</code>)，在 Unicode 环境下，被宏定义为
+<code>GetVersionExW</code></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexw">https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexw</a></p>
+</blockquote>
+<h3 id="参数">参数</h3>
+<pre class="line-numbers language-none"><code class="language-none">[in, out] lpVersionInformation<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>接收操作系统信息的 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/api/winnt/ns-winnt-osversioninfoa">OSVERSIONINFO</a>
+或 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/api/winnt/ns-winnt-osversioninfoexa">OSVERSIONINFOEX</a>
+结构。</p>
+<p>在调用 <strong>GetVersionEx</strong> 函数之前，请根据需要设置结构的
+<strong>dwOSVersionInfoSize</strong>
+成员，以指示要传递给此函数的数据结构。</p>
+<h3 id="返回值">返回值</h3>
+<p>如果函数成功，则返回值为非零值。</p>
+<p>如果函数失败，则返回值为零。 要获得更多的错误信息，请调用
+GetLastError。 如果为 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/api/winnt/ns-winnt-osversioninfoa">OSVERSIONINFO</a>
+或 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/desktop/api/winnt/ns-winnt-osversioninfoexa">OSVERSIONINFOEX</a>
+结构的 <strong>dwOSVersionInfoSize</strong>
+成员指定无效值，则函数将失败。</p>
+<p>这里我想 Hook 这个 API，让它返回一个 Windows 10
+的版本信息。事实上我们只要修改版本结构体的成员即可。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_OSVERSIONINFOEXA</span> <span class="token punctuation">{</span>
+  DWORD dwOSVersionInfoSize<span class="token punctuation">;</span>
+  DWORD dwMajorVersion<span class="token punctuation">;</span>
+  DWORD dwMinorVersion<span class="token punctuation">;</span>
+  DWORD dwBuildNumber<span class="token punctuation">;</span>
+  DWORD dwPlatformId<span class="token punctuation">;</span>
+  CHAR  szCSDVersion<span class="token punctuation">[</span><span class="token number">128</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  WORD  wServicePackMajor<span class="token punctuation">;</span>
+  WORD  wServicePackMinor<span class="token punctuation">;</span>
+  WORD  wSuiteMask<span class="token punctuation">;</span>
+  BYTE  wProductType<span class="token punctuation">;</span>
+  BYTE  wReserved<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> OSVERSIONINFOEXA<span class="token punctuation">,</span> <span class="token operator">*</span>POSVERSIONINFOEXA<span class="token punctuation">,</span> <span class="token operator">*</span>LPOSVERSIONINFOEXA<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">dwMajorVersion<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>操作系统的主要版本号。</p>
+<pre class="line-numbers language-none"><code class="language-none">dwMinorVersion<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>操作系统的次要版本号。</p>
+<pre class="line-numbers language-none"><code class="language-none">dwBuildNumber<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>操作系统的内部版本号。</p>
+<p>这三个是我们需要的。</p>
+<h2 id="hook">Hook</h2>
+<p>这里我使用了 Detours 库。Microsoft Detours
+是一个开源库，用于在Microsoft
+Windows上拦截，监视和检测二进制函数。最常用于在Windows应用程序中拦截
+Win32 API 调用。可以添加调试工具并将任意DLL附加到任何现有的 Win32
+二进制文件。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/Detours">https://github.com/microsoft/Detours</a></p>
+</blockquote>
+<p>这里为了方便调试，我写了一个 dummy client，先对它进行 API 劫持。</p>
+<h3 id="dummy-client">Dummy Client</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression"><span class="token function">warning</span><span class="token punctuation">(</span>disable <span class="token operator">:</span> <span class="token number">4996</span> </span><span class="token comment">// GetVersionExW() 是一个 deprecated 函数</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">UNICODE</span>                <span class="token comment">// GetVersionEx() 在 define 了 UNICODE 之后才是 GetVersionExW()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;windows.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+
+<span class="token keyword">int</span> __cdecl <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	OSVERSIONINFO osvi<span class="token punctuation">;</span>
+    <span class="token function">ZeroMemory</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>osvi<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>OSVERSIONINFO<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    osvi<span class="token punctuation">.</span>dwOSVersionInfoSize <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>OSVERSIONINFO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">GetVersionExW</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>osvi<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Windows Version: %ld.%ld.%ld\n"</span><span class="token punctuation">,</span> osvi<span class="token punctuation">.</span>dwMajorVersion<span class="token punctuation">,</span> osvi<span class="token punctuation">.</span>dwMinorVersion<span class="token punctuation">,</span> osvi<span class="token punctuation">.</span>dwBuildNumber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里直接编译运行会提示 Windows NT 6.2 (Windows 8).</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/58294262/getversionex-windows-10-detected-as-windows-8">https://stackoverflow.com/questions/58294262/getversionex-windows-10-detected-as-windows-8</a></p>
+</blockquote>
+<pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile"><span class="token target symbol">mt /manifest GetVersion.manifest -outputresource</span><span class="token punctuation">:</span><span class="token variable">$</span><span class="token punctuation">(</span>BIND<span class="token punctuation">)</span>\GetVersion.exe<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="getversion.manifest">GetVersion.manifest</h4>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- GetVersion.exe.manifest --&gt;</span>
+<span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>assembly</span> <span class="token attr-name">manifestVersion</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0<span class="token punctuation">"</span></span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>urn:schemas-microsoft-com:asm.v1<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>asmv3</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>urn:schemas-microsoft-com:asm.v3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>assemblyIdentity</span>
+        <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>win32<span class="token punctuation">"</span></span>
+        <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Contoso.ExampleApplication.ExampleBinary<span class="token punctuation">"</span></span>
+        <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0.0.0<span class="token punctuation">"</span></span>
+        <span class="token attr-name">processorArchitecture</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>x86<span class="token punctuation">"</span></span>
+    <span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>description</span><span class="token punctuation">&gt;</span></span>Contoso Example Application<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>description</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>compatibility</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>urn:schemas-microsoft-com:compatibility.v1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>application</span><span class="token punctuation">&gt;</span></span>
+            <span class="token comment">&lt;!-- Windows 10 and Windows 11 --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>supportedOS</span> <span class="token attr-name">Id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+            <span class="token comment">&lt;!-- Windows 8.1 --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>supportedOS</span> <span class="token attr-name">Id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{1f676c76-80e1-4239-95bb-83d0f6d0da78}<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+            <span class="token comment">&lt;!-- Windows 8 --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>supportedOS</span> <span class="token attr-name">Id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+            <span class="token comment">&lt;!-- Windows 7 --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>supportedOS</span> <span class="token attr-name">Id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{35138b9a-5d96-4fbd-8e2d-a2440225f93a}<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+            <span class="token comment">&lt;!-- Windows Vista --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>supportedOS</span> <span class="token attr-name">Id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{e2011457-1546-43c5-a5fe-008deee3d3f0}<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>application</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>compatibility</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>trustInfo</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>urn:schemas-microsoft-com:asm.v3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>security</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>requestedPrivileges</span><span class="token punctuation">&gt;</span></span>
+                <span class="token comment">&lt;!--
+                  UAC settings:
+                  - app should run at same integrity level as calling process
+                  - app does not need to manipulate windows belonging to
+                    higher-integrity-level processes
+                  --&gt;</span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>requestedExecutionLevel</span>
+                    <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>asInvoker<span class="token punctuation">"</span></span>
+                    <span class="token attr-name">uiAccess</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span>
+                <span class="token punctuation">/&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>requestedPrivileges</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>security</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>trustInfo</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>assembly</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意 <code>supportedOS</code></p>
+<h3 id="hook-1">Hook</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token function">BOOL</span> <span class="token punctuation">(</span>WINAPI <span class="token operator">*</span> TrueGetVersionEx<span class="token punctuation">)</span><span class="token punctuation">(</span>OSVERSIONINFO <span class="token operator">*</span>osvi<span class="token punctuation">)</span> <span class="token operator">=</span> GetVersionEx<span class="token punctuation">;</span>
+
+BOOL WINAPI <span class="token function">W10GetVersionEx</span><span class="token punctuation">(</span>OSVERSIONINFO <span class="token operator">*</span>osvi<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    BOOL ret <span class="token operator">=</span> <span class="token function">TrueGetVersionEx</span><span class="token punctuation">(</span>osvi<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>ret<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		osvi<span class="token operator">-&gt;</span>dwMajorVersion <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+		osvi<span class="token operator">-&gt;</span>dwMinorVersion <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+		osvi<span class="token operator">-&gt;</span>dwBuildNumber  <span class="token operator">=</span> <span class="token number">19045</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Called W10GetVersionEx().\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="注入">注入</h2>
+<p>但 Chrome 貌似用绝对路径加载，自己的dll还有签名。所以 DLL
+劫持路子暂时走不通。</p>
+<p>这里使用 Detour 的 <code>withdll</code>，或者改 IAT。</p>
+<h2 id="参考">参考</h2>
+<h3 id="chromium-代码-1">Chromium 代码</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://source.chromium.org/chromium/chromium/src/+/main:base/win/windows_version.cc;l=254;drc=632f7d125c559e4d9dadba662558c33b474df1cb?q=22000&amp;ss=chromium%2Fchromium%2Fsrc">https://source.chromium.org/chromium/chromium/src/+/main:base/win/windows_version.cc;l=254;drc=632f7d125c559e4d9dadba662558c33b474df1cb?q=22000&amp;ss=chromium%2Fchromium%2Fsrc</a></li>
+<li><a target="_blank" rel="noopener" href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/updater/util/win_util.cc?q=RtlGetVersion&amp;ss=chromium%2Fchromium%2Fsrc">https://source.chromium.org/chromium/chromium/src/+/main:chrome/updater/util/win_util.cc?q=RtlGetVersion&amp;ss=chromium%2Fchromium%2Fsrc</a></li>
+</ul>
+<h3 id="dll-劫持">DLL 劫持</h3>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/build/linking-an-executable-to-a-dll?view=msvc-170">将可执行文件链接到
+DLL</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7087400001458536479">DLL的两种加载方式的过程</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.gl-ns.com/contents/60/8518.shtml">如何禁用软件DLL劫持（Disable
+DLL Hijacking）</a></p></li>
+</ul>
+<h3 id="poc-里无法劫持的-ubr-update-build-revision-版本号">PoC
+里无法劫持的 UBR (Update Build Revision) 版本号</h3>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://social.technet.microsoft.com/Forums/en-US/cadee4de-24d0-403e-9f3e-75868abf8f34/when-ubr-update-build-revision-registry-key-is-introduced-and-how-it-is-pushed-to-2008-r2-amp?forum=winservercore">https://social.technet.microsoft.com/Forums/en-US/cadee4de-24d0-403e-9f3e-75868abf8f34/when-ubr-update-build-revision-registry-key-is-introduced-and-how-it-is-pushed-to-2008-r2-amp?forum=winservercore</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/65315845/how-can-i-get-a-windows-10-build-version-revision-number-in-winapi">How
+can I get a Windows 10 build version, revision number in
+WINAPI?</a>](https://stackoverflow.com/questions/65315845/how-can-i-get-a-windows-10-build-version-revision-number-in-winapi)</p></li>
+</ul>
+<h3 id="setdll.exe-原理---iat">setdll.exe 原理 - IAT</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.ired.team/offensive-security/code-injection-process-injection/import-adress-table-iat-hooking">Import
+Adress Table (IAT) Hooking</a></li>
+</ul>
+<h3 id="使-withdll.exe-后台运行">使 withdll.exe 后台运行</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6989148694314483726">写一个函数专门来隐藏窗口</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/console/freeconsole">FreeConsole</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66185000/how-can-i-do-the-freeconsole-but-faster-on-c">[How
+can I do the FreeConsole() but faster on
+c++](https://stackoverflow.com/questions/66185000/how-can-i-do-the-freeconsole-but-faster-on-c)</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/xmake-io/xmake/issues/10">连接器指令</a></li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">sfc9982</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2023/01/11/chrome-hook-qu-chu-yuan-jiao/">https://googles.plus/2023/01/11/chrome-hook-qu-chu-yuan-jiao/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">sfc9982</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Reverse/">
+                                    <span class="chip bg-color">Reverse</span>
+                                </a>
+                            
+                                <a href="/tags/Windows/">
+                                    <span class="chip bg-color">Windows</span>
+                                </a>
+                            
+                                <a href="/tags/Chrome/">
+                                    <span class="chip bg-color">Chrome</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2023/01/16/yi-xie-c-c-wei-yun-suan-you-hua/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/91237515_p0.avif" class="responsive-img" alt="一些C/C++位运算优化">
+                        
+                        <span class="card-title">一些C/C++位运算优化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-C/">
+                        <span class="chip bg-color">C/C++</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">
+                        <span class="chip bg-color">编译原理</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/12/01/shi-yong-trycatchfinally-bi-mian-ohmyposh-de-bian-ma-wu-ran/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/838358560.avif" class="responsive-img" alt="使用TryCatchFinally避免OhMyPosh的编码污染">
+                        
+                        <span class="card-title">使用TryCatchFinally避免OhMyPosh的编码污染</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Powershell/">
+                        <span class="chip bg-color">Powershell</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">198.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body>
+
+</html>

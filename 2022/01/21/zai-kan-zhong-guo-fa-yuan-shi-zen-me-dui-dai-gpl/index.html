@@ -1,0 +1,1396 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="再看中国法院如何对待GPL, sfc9982">
+    <meta name="description" content="最近，朋友推荐我阅读一份和GPL1有关的判决书，说写得很好。
+抽时间看了一下，果然水平很高，完全不亚于上次我介绍的深圳市中级人民法院写的判决书（判决时间2021年4月30日），上次是罗盒诉风灵（以下简称“风灵案”），我专门写了一篇解读文章：">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>再看中国法院如何对待GPL | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/373112790.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">再看中国法院如何对待GPL</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/GPL/">
+                                <span class="chip bg-color">GPL</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%BC%80%E6%BA%90/">
+                                <span class="chip bg-color">开源</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-01-21
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    22 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>最近，朋友推荐我阅读一份和GPL<ins>1</ins>有关的<ins>判决书</ins>，说写得很好。</p>
+<p>抽时间看了一下，果然水平很高，完全不亚于上次我介绍的深圳市中级人民法院写的判决书（判决时间2021年4月30日），上次是罗盒诉风灵（以下简称“风灵案”），我专门写了一篇解读文章：<ins>“看看中国法院是怎么对待GPL的”</ins>。</p>
+<p>这次是罗盒诉玩友（简称“玩友案”），广州知识产权法院判决，判决时间是2021年9月29日。</p>
+<p>总体而言，判决书写得很好，是教科书级别的好。我觉得有必要再写篇文章总结和解读一下，毕竟原文<ins>2</ins>很长，一般人是没有耐心认真读完的。</p>
+<p>不过，判决书仍有个别地方没有说明白，本文最后一章专门讨论一下。</p>
+<h2 id="一总体概述">一、总体概述</h2>
+<p>原告还是“罗盒”（感觉罗盒一直在各种告），被告是“玩友”。</p>
+<blockquote>
+<p>罗盒：济宁市罗盒网络科技有限公司</p>
+<p>玩友：广州市玩友网络科技有限公司</p>
+</blockquote>
+<p>罗盒还顺便告了冠准航公司、奥斯坦公司、祥运公司，因为这几位是帮着玩友收费的。</p>
+<p>罗盒要1500万元，最后只要到了50万元。</p>
+<p>罗盒告玩友说用了它的商业软件VirtualApp，但没有给罗盒钱。</p>
+<p>玩友说你那个是开源软件，我又不需要你服务，要什么钱。</p>
+<p>法院认可VirtualApp是开源软件，认可GPL的效力。</p>
+<p>但由于玩友没有开源，玩友败诉，赔罗盒50万元。</p>
+<p>法院判决亮点：</p>
+<p>和“风灵案”一样：</p>
+<ol type="1">
+<li>承认GPL是合同。</li>
+<li>承认GPL授权不可撤销。</li>
+<li>用GPL却不开源就是违规。</li>
+<li>违规则GPL授权终止。</li>
+</ol>
+<p>但在本案判决中，法院又浓墨重彩地阐述了以下观点：</p>
+<ol type="1">
+<li>作者不能在GPL之外添加进一步限制。</li>
+<li>开源不等于免费。</li>
+<li>法院认可GPL具备强传染性。</li>
+</ol>
+<p>不过有个重大问题：<strong>用了GPL后能否转闭源？</strong></p>
+<p>由于这两个案子都是针对GitHub上那个开源版本讨论的，所以都没有正面讨论这个。本文最后部分讨论一下。</p>
+<h2 id="二判决精华">二、判决精华</h2>
+<p>这篇判决书，有很多精华之处，值得反复回味，我简单罗列一下。</p>
+<p>注：判决书原文均以双引号标识。</p>
+<p>法院认为：</p>
+<h3 id="gpl-v3协议具有合同性质">1、GPL V3协议具有合同性质</h3>
+<p>这和“风灵案”中法院的态度是一样的，GPL的效力被正式认可，原告被告都要按照GPL规定的条款玩。</p>
+<blockquote>
+<p>法院说：GPL
+V3协议的条款“符合合同法关于要约和承诺的规定，通过电子文本形式由授权方或用户加入开源项目中，电子文本是一种有形的表现形式，属于以书面形式订立的合同。综上，GPL
+V3协议具有合同性质，是授权方和用户订立的格式化著作权协议，属于我国合同法调整的范围。”</p>
+</blockquote>
+<p>简单地说，GPL规定了使用开源软件的人，有什么权利，应遵循什么义务；同时也规定了软件发行者有什么权利和义务。</p>
+<p>然后大家就按这个协议玩，如果有人不遵守，就可以告他。</p>
+<h3 id="用了gpl就永远是gpl的">2、用了GPL，就永远是GPL的</h3>
+<p>罗盒主导开发的VirtualApp（以下简称VA），以前是开源的（2016～2017），用的是GPL；后来罗盒又把GPL声明删了，说不准商业使用，如果商业使用，得给罗盒交钱；再后来，罗盒干脆不再维护GitHub上的版本，专心致志卖商业版了（商业版是闭源的）。</p>
+<p>玩友没有买商业版的VA，用了GitHub上的VA，罗盒不干，认为自己说过要花钱买的，结果玩友不买就用，所以起诉。</p>
+<p>罗盒背后的逻辑是，GitHub上那个版本已经不是GPL的，不是开源的，所以不能随便用，要按自己的要求来用：即购买商业使用授权。</p>
+<p>法院认为，罗盒说的不对，GitHub上那个还是开源的，还是GPL的。</p>
+<blockquote>
+<p>法院查明，“项目管理者asLody于2016年7月7日首次提交涉案VirtualApp项目，于2016年7月8日加入LGPL
+V3协议，于2016年9月10日将授权许可协议更改为GPL
+V3协议，于2017年10月29日删除了GPL
+V3协议，于2017年12月31日停止更新该开源版本并转为开发不开源的商业版本。”</p>
+<p>“本院认为，根据GPL V3协议条款约定和性质，只要某个软件版本加入GPL
+V3协议，则无法随意删除GPL
+V3协议，该版本源代码将永久保持开源，即使授权方删除GPL
+V3协议也无回溯力，授权方只能在后续的版本中变更或删除GPL
+V3协议，但并不影响此前版本继续适用GPL
+V3协议的效力。本案中，罗盒公司确认其主张的涉案软件2017年12月30日版本与撤回GPL
+V3协议即2017年10月29日前的版本差别不大，因此本院认定罗盒公司主张权利的版本仍属于适用GPL
+V3协议的开源软件。</p>
+</blockquote>
+<p>注意，估计<ins>判决书</ins>原文有Bug，感觉是手误，把上面最后一个日期2017年10月29日误写为2019年10月29日。</p>
+<p>法院说得很明白，GitHub上的那个VA，就是开源的，就是GPL的，虽然你删掉了GPL声明，但你曾经声明过，那就不能撤销。你可以在后续版本用新协议，但这个版本是不能改协议了。</p>
+<p>GitHub有个好处，历史上的所有修改都有记录，都是公开透明的，比如，我一查，就能看到在2017年10月29日，Lody（就是VA的原初作者，罗盒的实际控制人罗迪）把GPL声明给删除了。</p>
+<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片">Lody在2017年10月29日删除了GPL声明</p>
+<p>法院的意思就是：删了这几行，也没用，VA也还是GPL的。</p>
+<h3 id="用了gpl就不能加额外限制">3、用了GPL，就不能加额外限制</h3>
+<p>罗盒在GitHub上VA项目的首页写到：</p>
+<p>“当您需要使用GitHub上的代码时，请购买商业授权，获取商业授权后将可以收到最新VirtualApp商业版全部源代码。”</p>
+<p>以下是截图：</p>
+<p><img src="https://googles.plus/images/loading.gif" data-original="https://mmbiz.qpic.cn/mmbiz_png/icavwoK66Ip7UUMyM2yLq31lVvMvn5RWHCnEHtz2q61wxiaL610gics1wAiaLdxCJJJPykH14GbW7sKQvcU13RwMuA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">罗盒在GPL之外添加的授权限制（法院认定无效！）</p>
+<p>这么干行吗？能在一个GPL授权的项目上，再加上“请购买商业授权”这样的限制条件呢？</p>
+<p>众所周知，GPL本身就是一种授权，授予用户对开源软件的免费使用，现在罗盒又说要使用者购买授权，这不矛盾了吗？按哪个算？</p>
+<p>其实GPL在第7条里面明确说了：“如果你接收到的程序或其部分，声称受本协议约束，却补充了这种进一步的限制条款，你可以去掉它们。”</p>
+<p>据此，玩友可以大大方方不用理会“请购买商业授权”这种要求。</p>
+<p>GPL不愧是有律师帮着设计出来的，考虑得很周全，大赞！</p>
+<p>法院怎么说呢？法院理解得很明白：</p>
+<blockquote>
+<p>“罗盒公司的商业使用限制保留条款对于用户使用其源代码的目的进行了限制，从而也限制了用户范围，即只有非商业用途的用户才可以使用其源代码，这显然与GPL
+V3协议的“著佐权”特性矛盾。该限制保留条款也不属于第7条规定的可以添加的6种补充附加条款之一，应属于非许可性附加条款，属于第10条中的“进一步限制”，因此罗盒公司无权在适用GPL
+V3协议的涉案VirtualApp项目中添加商业使用限制保留条款。综上所述，玩友公司无需遵循该限制保留条款，罗盒公司主张玩友公司违反商业使用限制保留条款缺乏理据，本院不予支持。</p>
+</blockquote>
+<p>判决书还给出一个信息，让我们知道罗盒要的授权费是多少：</p>
+<blockquote>
+<p>“2017年10月12日，工作人员通过QQ联系罗盒公司的法定代表人张璐（QQ号为10890，备注为“张总
+开源VirtualApp”）询问收费情况，张璐回复‘单款产品一年5万元。‘此后，张璐又回复‘VA商业授权费用：单款APP一年20万元，单独购买技术支持一年15万。’”</p>
+</blockquote>
+<h3 id="用了开源代码产品能收费吗">4、用了开源代码，产品能收费吗？</h3>
+<p>罗盒公司还认为，玩友违背了GPL
+V3协议，变相收取许可费及不提供开源代码，构成无权使用，其行为构成侵权。</p>
+<blockquote>
+<p>判决书中写到：“罗盒公司主张玩友公司同时违反商业使用限制保留条款以及GPL
+V3协议（变相收取许可费及不提供开源代码），构成无权使用，其行为构成侵权，应承担侵权责任。”</p>
+</blockquote>
+<p>罗盒的指控很有意思，他说对了一半，就是玩友应该提供源代码，但也错了一半，玩友收的并不是许可费。</p>
+<p>玩友收的是会员费。</p>
+<p>这个会员费是什么呢，法院说：</p>
+<blockquote>
+<p>“经查，从华为应用市场和应用宝上下载的被诉侵权软件有30分钟免费试用时间，之后需支付会员费才可以继续使用。被诉侵权软件的“用户协议”第五条“用户注意事项”规定，你理解并同意支付相关费用（运营维护费用及技术支持费用）以维持本软件的持续运营。”</p>
+</blockquote>
+<p>法院认为，这个会员费就是软件服务费用。</p>
+<p>法院还专门论证了GPL是允许商业使用的、允许收费的。注意下面这段是精华中的精华。</p>
+<blockquote>
+<p>“GPL V3协议规定，所谓自由软件，强调自由，而非免费”，“GPL
+V3协议旨在保证用户可以自由使用源代码而非免费使用源代码，开源并不等于免费。承前认定，限制开源软件商业使用与GPL
+V3协议的宗旨相抵触，若强制要求所有开源软件都完全免费或限制商业使用，那么开发者的工作价值将无从体现”，GPL
+V3协议“并不排斥软件开发者从软件中获取利益，只是盈利的方式有所改变:从过去依赖软件拷贝的销售，转向主要提供软件及信息服务。”</p>
+<p>“简而言之，如果软件可以视作下列组成等式，即：软件＝程序＋文档＋支持＋培训＋服务，虽然代表“软件形态”的程序、文档可以免费，但作为“软件服务”的支持等环节可以收费。本案被诉侵权软件收取会员费是用于运营维护和技术支持，而下载软件是不需要支付费用的。因此，玩友公司收取被诉侵权软件的会员费并不违反GPL
+V3协议的规定。”</p>
+</blockquote>
+<p>有人会觉得，什么？罗盒就不能收费？玩友就可以收费？</p>
+<p>这里我不想多说（说起来费劲），我只想说：罗盒公开了源码，罗盒可以卖源码，但不能因为别人不买你源码而告人家；玩友也一样，玩友也可以卖软件服务费，但不能因为别人不买而告人家。</p>
+<p>总之，如果开源了，别人想买可以买，别人不买你也不能告。</p>
+<blockquote>
+<p>对，你没有看错，源码也可以卖，但你源码都在GitHub上公开了，你觉得还会有人向你买吗？抑或是你改动了源码然后卖钱，那么买了你源码的人又可以按照GPL第4条免费公开它，所以大家还是可以拿到免费开源版本。</p>
+</blockquote>
+<h3 id="用了gpl自己也要开源">5、用了GPL，自己也要开源</h3>
+<p>上面说，罗盒说对的一半，没错，玩友应该开源。</p>
+<p>法院看得也很清楚：</p>
+<blockquote>
+<p>“本院认为，用户依据GPL
+V3协议授权可以获取软件源代码进行修改、再发布，那么他必须保证其他用户可以获取到修改后的源代码，这也是GPL
+V3协议保持开源传染性的核心要求。因此，玩友公司至少应当公开被诉侵权软件中使用了涉案软件沙盒分身功能部分的源代码。”</p>
+</blockquote>
+<p>感觉这里很仁慈，说<strong>至少</strong>应该开源沙盒部分的代码。</p>
+<p>说到这里，这里简要介绍一下玩友的产品到底是个啥：</p>
+<blockquote>
+<p>根据我的大致分析（只能保证大致正确，我没有时间专门测试）：玩友卖的是“微信视频美颜版”这样的东西（涉案一共4款软件），可以在微信的视频通话过程中，实现美颜效果（微信本身是不支持的）。为了实现这功能，玩友做了一个微信的美颜模块（插件），而且要安装在手机沙盒（类似手机上的虚拟机）中才能实现。所以这个“微信视频美颜版”，需要内含一个沙盒（这就是VA干的事！）。</p>
+</blockquote>
+<p>至于玩友是否应该开源除沙盒之外的源代码（也即视频美颜的代码），法院专门分析了GPL的传染性。（所以说这法院不愧是专业法院啊！）</p>
+<h3 id="法院认为gpl是强传染性的">6、法院认为，GPL是强传染性的</h3>
+<p>法院为了说明这个问题，还专门拿安卓举例子，先说明了一下谷歌是怎么把GPL的传染性在安卓操作系统和上层应用隔离开来的。</p>
+<blockquote>
+<p>“为了解决GPL协议过于严格的问题，谷歌公司发布的安卓移动操作系统通过将系统分为多个独立的不同层级框架，并对每个层级适用不同的开源授权许可协议。谷歌公司在安卓操作系统的内核使用了遵循GPL许可协议的开源Linux内核，那么个人或企业为安卓系统开发的应用软件也必须遵循GPL进行公开，这将严重降低企业和个人开发者参与安卓系统开发的积极性，妨碍了整个开源操作系统生态环境的建立。谷歌公司为了解决该问题，通过将GPL的适用局限在安卓系统独立的底层Linux内核空间中，而在上层的类库和应用框架以及用户空间部分则适用较为宽松的ASL开源软件许可协议。由于上层的类库和应用框架以及用户空间部分并不视为底层Linux内核的衍生产品，因此避开了GPL许可协议传染至整个安卓系统，那么安卓系统上层的硬件驱动和应用框架程序就是独立的，其开发者适用ASL进行开发，可以自由选择是否公开其源代码。”</p>
+</blockquote>
+<p>然后，法院承认了GPL的强传染性，认为玩友应该开源整个软件的源代码（包括美颜部分的代码）。</p>
+<blockquote>
+<p>“承前所述，对于在逻辑上与开源代码有关联性且整体发布的衍生作品，只要其中有一部分适用了GPL
+V3协议发布，那么整个衍生作品都必须适用GPL
+V3协议而公开。本案中，沙盒分身部分功能代码是作为被诉侵权软件的衍生部分而整体发布的，玩友公司并未举证证明沙盒分身功能部分源代码是独立的，或使用了类似谷歌公司的安卓系统方法，即在各个独立的不同层级框架中适用不同的开源授权许可协议，因此被诉侵权软件应整体适用GPL
+V3协议，玩友公司应开源整个被诉侵权软件的源代码。综上，玩友公司虽主张被诉侵权软件中只有沙盒分身使用了被诉部分源代码，但被诉侵权软件仍应遵循GPL
+V3协议向用户开放源代码下载，玩友公司未向用户提供被诉侵权软件源代码下载已经违反GPL
+V3协议的规定。</p>
+</blockquote>
+<p>如果想进一步了解谷歌如何在安卓中隔离GPL的传染性，可以看看<ins>这篇文章</ins>。</p>
+<h3 id="用了gpl不开源就撤销对你的授权">7、用了GPL不开源，就撤销对你的授权</h3>
+<p>玩友并没有开源自己的产品，那么怎么办？</p>
+<p>那罗盒通过GPL授予玩友的权利统统收回。</p>
+<p>法院先是介绍了德国的做法：</p>
+<blockquote>
+<p>“德国法院倾向于将GPL开源许可协议所设定的条件认定为附解除条件的合同。法院认为，GPL开源许可协议中所设定的使用条件应当认定为“解除条件”，当被许可人违反该条件时，GPL许可协议属无效，被许可人的行为便构成了侵权行为”</p>
+</blockquote>
+<p>然后指出，玩友因不开源而违反了GPL，从而造成授权终止，构成侵权。</p>
+<blockquote>
+<p>“GPL
+V3协议属于附解除条件的著作权合同，许可条款是版权许可的条件，如果用户违背条款规定，那么许可的前提条件已不复存在，则GPL
+V3协议终止适用，用户获得的授权也将自动终止。如前所述，玩友公司未向用户提供被诉侵权软件源代码下载已经违反GPL
+V3协议规定，则玩友公司对涉案软件源代码的复制、发布行为因失去权利来源而构成侵权。”</p>
+</blockquote>
+<p>精华之处就介绍结束了。</p>
+<p>如果对GPL有兴趣，又不想看英文原版，可以读读我写的<ins>《人话解读GPL
+V3》</ins>。</p>
+<h2 id="三几件小事">三、几件小事</h2>
+<h3 id="不要扯上别人">1. 不要扯上别人</h3>
+<blockquote>
+<p>“罗盒公司还主张冠准航公司、奥斯坦公司、祥运公司与玩友公司构成共同侵权，承担连带责任。本院对此认为，准航公司、奥斯坦公司、祥运公司仅代玩友公司收取用户的会员费，其已对上述含有侵权沙盒分身功能源代码的四款软件具有著作权登记证书做了初步审查，再施加过高的审查注意义务不符常理，故仅凭代收会员充值款项的事实尚不足以认定该三公司与玩友公司构成共同侵权。罗盒公司的该主张缺乏依据，本院不予支持。”</p>
+</blockquote>
+<h3 id="再有人告也不管了">2. 再有人告也不管了</h3>
+<p>如果哪天又冒出一个人，说他是VA的贡献者之一，也向玩友索赔的话，法院说，你找罗盒要钱去。</p>
+<blockquote>
+<p>判决书说：“特别需要指出的是，以后涉案软件的贡献者以同一事实向玩友公司索赔的，若能证明其属于合作作品作者之一的，应基于前述赔偿数额向罗盒公司主张分割赔偿款。”</p>
+</blockquote>
+<h3 id="翻译来自哪里">3. 翻译来自哪里？</h3>
+<p>我在解读“风灵案”的文章中，有一个疑惑：GPL中文翻译版本到底来自哪里？</p>
+<p>从文字上看，和阮坤良版本<ins>3</ins>非常接近，但又有细小的差异，这就让我大惑不解。</p>
+<p>这次终于明白了：</p>
+<p>判决书中说到：“罗盒公司为本案支付了公证费、鉴定费、翻译费。”</p>
+<p>那就是罗盒请的翻译呗。</p>
+<p>而翻译费也着实够便宜，所以译者也就是在阮版上略微做了一点小改动。</p>
+<blockquote>
+<p>“关于维权的合理开支，罗盒公司提交民事委托代理合同一份、律师费发票一张（金额10万元），公证费发票九张（金额合计11500元），鉴定费发票一张（金额30000元），翻译费发票一张（金额820元）。”</p>
+</blockquote>
+<p>这820元，除了翻译GPL V3，估计还包括翻译GitHub用户条款的费用。</p>
+<h2 id="四裁判结果">四、裁判结果</h2>
+<p>简略地讲：</p>
+<p>一、玩友立即停止侵害罗盒，相关侵权软件（共4款）下架，停止相关运营。</p>
+<p>二、玩友赔偿罗盒经济损失及维权合理开支共计50万元。</p>
+<p>这50万是怎么算出来的呢，这里简要说一下，详情见判决书。</p>
+<p>侵权费计算的主要考虑因素：</p>
+<blockquote>
+<p>VA实现的是沙盒分身功能，并非玩友4款软件的核心功能，玩友的核心功能是美颜；2.
+玩友4款软件虽然在各个平台的下载累计上百万次，但玩友说里面存在刷量；3.
+VA商业版授权一年20万；4.
+综合考虑玩友的侵权性质、侵权时间及不履行GPL协议的情况。</p>
+</blockquote>
+<p>维权合理费用：</p>
+<blockquote>
+<p>罗盒为本案支付的公证费、鉴定费、翻译费、律师费。</p>
+</blockquote>
+<p>三、驳回罗盒的其他控诉。</p>
+<p><img src="https://googles.plus/images/loading.gif" data-original="https://mmbiz.qpic.cn/mmbiz_jpg/icavwoK66Ip7UUMyM2yLq31lVvMvn5RWH8FYEBLWS2dm2OJQvOb5mU4J27TrbTxzlkZzvk1blwHlADTIhUlHfxg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"><em>广州知识产权法院</em></p>
+<h2 id="五还有一个重大问题">五、还有一个重大问题</h2>
+<p>有一个重大问题，“风灵案”和“玩友案”的判决书都没有正面去说。</p>
+<p>玩友认为：</p>
+<blockquote>
+<p>“VirtualApp项目人aslody罔顾社区其他开发者的贡献及相应著作权权利，将开源项目据为私有并进行大肆敛财，违背开源社区的基本准则。”</p>
+</blockquote>
+<p>如果我没有理解错，玩友诟病的是罗盒闭源的那个商业版。</p>
+<p>广州知识产权法院是这么回答的：</p>
+<blockquote>
+<p>“至于玩友公司称涉案软件使用了其他开源项目源代码却将项目据为私有违背开源社区基本准则的问题，在软件开发中使用他人开源代码只要不违反开源协议即属合规行为，罗盒公司在引用其他开源代码时保留了相关权利人信息及开源授权许可协议且保持项目开源，玩友公司该主张缺乏理据，本院不予支持。”</p>
+</blockquote>
+<p>在我看来，这段说得不够清楚，回答得不够完整。</p>
+<p>法院说的是GitHub上那个VA，但罗盒那个已经闭源了的商业版VA是什么性质呢？</p>
+<blockquote>
+<p>所谓闭源软件，就是没有按照任何开源协议发布的软件。罗盒现在的商业版VA（不在GitHub上公开的那个），我看并没有按照开源协议授权，虽然购买授权者可以拿到源码。</p>
+</blockquote>
+<p>这涉及的关键问题是：罗盒能不能把多人共同创作的VirtualApp闭源为自己的商业版？</p>
+<p>我认为，从严格意义上讲，是不可以的。（虽然可能确实有超过90%的代码都是asLody完成的）</p>
+<p>如果罗盒是VA的唯一作者，私有化没问题，当然可以。（参见我对“风灵案”的解读文章）</p>
+<p>但罗盒并非VA的唯一作者，如果要私有化，就要征得所有作者同意，而且还要把商业版收益分给所有作者。这在我国著作权法实施条例中说得很清楚：</p>
+<blockquote>
+<p>《中华人民共和国著作权法实施条例》第九条规定：“合作作品不可以分割使用的，其著作权由各合作作者共同享有，通过协商一致行使；不能协商一致，又无正当理由的，任何一方不得阻止他方行使除转让以外的其他权利，但是所得收益应当合理分配给所有合作作者。”</p>
+</blockquote>
+<p>在VA按照GPL开源期间，有30多位贡献者，这些贡献者，每人都拥有部分版权（著作权）。</p>
+<blockquote>
+<p>法院说：“访问GitHub官网，搜索查看VirtualApp项目的开源许可、合作者、版本等信息。2016年至2017年期间，该项目有三十多位贡献者，其中paulo-raca提交19次（增加721行，删除2622行），prife提交16次（增加274行，减少59行）。该项目于2016年7月7日首次提交并开源。该项目使用了Cydia
+Substrate、LAYOUT、FB等开源源代码。”</p>
+</blockquote>
+<p>这些GitHub上的贡献者（也即作者）是否把著作权转让给了罗盒？</p>
+<p>判决中说：</p>
+<blockquote>
+<p>GitHub用户协议条款说：“6.每当您对含有许可协议通知的仓库做出贡献时，您将按照相同的条款许可您的贡献，并且您同意您有权按照这些条款许可您的贡献。如果您有一个单独的协议来根据不同的条款许可您的贡献，例如贡献者许可协议，那么该单独的协议将会取而代之。”</p>
+</blockquote>
+<p><img src="https://googles.plus/images/loading.gif" data-original="/images/git-curlic.webp">
+GitHub的用户协议条款<ins>4</ins></p>
+<p>由于罗盒与贡献者并没有签单独的协议（GitHub上没有，也未在历次官司中出示），按照GitHub用户协议，贡献者们仅仅是将代码按照GPL授权给罗迪（罗盒）使用，而没有将著作权送出。而GPL是不允许衍生程序闭源的，VA的商业版也必须按照GPL继续开源。</p>
+<p>更不要说，VA中还使用了Cydia
+Substrate开源软件，这也是GPL的，按照强传染性，VA是其衍生品，也必须继续使用GPL。（至于LAYOUT、FB是不是GPL的，我懒得查了）</p>
+<p>VA商业版如果继续使用GPL，就要允许别人不买授权也可以商业使用。而且，如果有人从罗盒那里买了商业版VA，他就可以按照GPL第4条，把商业版VA源码放到GitHub上公开，我想这是罗盒所不愿看到的。</p>
+<p>所以，为了避免今后的麻烦，罗盒公司应该正视这个问题，想办法解决（比如完全剥离干净）。</p>
+<p>如果没有解决好，这就始终是一把悬在罗盒上方的达摩克利斯之剑。</p>
+<p>因为谁知道哪天会冒出来一个作者，指控罗盒违背GPL授权，要求罗盒赔偿呢。(至少是索取应得收益)</p>
+<p>如果真有，按照我国法院现在对GPL的理解，罗盒很难打赢官司的。</p>
+<p>文｜卫剑钒</p>
+<hr>
+<ol type="1">
+<li><ins>
+《人话解读GPL V3》
+</ins>
+&nbsp;</li>
+<li><ins>
+罗盒诉玩友一案判决书
+</ins>
+&nbsp;</li>
+<li><a target="_blank" rel="noopener" href="https://jxself.org/translations/gpl-3.zh.shtml">阮坤良版GPLv3翻译</a>&nbsp;</li>
+<li><a target="_blank" rel="noopener" href="https://docs.github.com/en/github/site-policy/github-terms-of-service">GitHub用户协议</a></li>
+</ol>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">卫剑钒</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2022/01/21/zai-kan-zhong-guo-fa-yuan-shi-zen-me-dui-dai-gpl/">https://googles.plus/2022/01/21/zai-kan-zhong-guo-fa-yuan-shi-zen-me-dui-dai-gpl/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">卫剑钒</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/GPL/">
+                                    <span class="chip bg-color">GPL</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%BC%80%E6%BA%90/">
+                                    <span class="chip bg-color">开源</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/01/23/bei-zhuang-de-xue-xi-fang-shi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/929839320.avif" class="responsive-img" alt="悲壮的学习方式">
+                        
+                        <span class="card-title">悲壮的学习方式</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-23
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%9C%89%E6%84%9F/" class="post-category">
+                                    有感
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%A4%A7%E5%AD%A6/">
+                        <span class="chip bg-color">大学</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">学习</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/01/20/ta-po-zi-zhi-gong-shi/">
+                    <div class="card-image">
+                        
+                        <img src="/images/Tupper.png" class="responsive-img" alt="塔珀自指公式">
+                        
+                        <span class="card-title">塔珀自指公式</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%95%B0%E5%AD%A6/">
+                        <span class="chip bg-color">数学</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%8F%92%E5%80%BC/">
+                        <span class="chip bg-color">插值</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">198.1k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body>
+
+</html>

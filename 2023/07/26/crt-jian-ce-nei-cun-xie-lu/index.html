@@ -4,14 +4,16 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++字符串数组, sfc9982">
-    <meta name="description" content="C++字符串数组
-字符指针
-char *str[]=&#34;Hello World!&#34;;
+    <meta name="keywords" content="CRT 检测内存泄露, sfc9982">
+    <meta name="description" content="
+定义宏_CRTDBG_MAP_ALLOC_
+包含头文件crtdbg.h
+调用_CrtDumpMemoryLeaks
+需要在Debug模式：
 
-char *str;
-str = &#34;Hello world&#34;
-理解：字符串指针变量本身是一个变量，用于存放字符串的首地址。而字符串本身是存放在以该首地址为">
+#define _CRTDBG_MAP_ALLOC
+
+#include &amp;lt;crtdbg.h">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -33,7 +35,7 @@ str = &#34;Hello world&#34;
 </script>
 
 
-    <title>C++字符串数组 | sfc9982&#39;s blog</title>
+    <title>CRT 检测内存泄露 | sfc9982&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.avif">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -245,12 +247,12 @@ str = &#34;Hello world&#34;
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/774109200.avif')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/955274740.avif')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++字符串数组</h1>
+                    <h1 class="description center-align post-title">CRT 检测内存泄露</h1>
                 </div>
             </div>
         </div>
@@ -364,33 +366,12 @@ str = &#34;Hello world&#34;
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/ACM/">
-                                <span class="chip bg-color">ACM</span>
-                            </a>
-                        
-                            <a href="/tags/%E7%BC%96%E7%A8%8B/">
-                                <span class="chip bg-color">编程</span>
-                            </a>
-                        
-                            <a href="/tags/C/">
-                                <span class="chip bg-color">C++</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E7%BC%96%E7%A8%8B/" class="post-category">
-                                编程
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -399,28 +380,28 @@ str = &#34;Hello world&#34;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-11-11
+                    2023-07-26
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-07-19
+                    2023-07-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    661
+                    104
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -443,73 +424,40 @@ str = &#34;Hello world&#34;
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="c字符串数组">C++字符串数组</h2>
-<h3 id="字符指针">字符指针</h3>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> <span class="token operator">*</span>str<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"Hello World!"</span><span class="token punctuation">;</span>
+                <ul>
+<li>定义宏_CRTDBG_MAP_ALLOC_</li>
+<li>包含头文件crtdbg.h</li>
+<li>调用_CrtDumpMemoryLeaks</li>
+<li>需要在Debug模式：</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">_CRTDBG_MAP_ALLOC</span></span>
 
-<span class="token keyword">char</span> <span class="token operator">*</span>str<span class="token punctuation">;</span>
-str <span class="token operator">=</span> <span class="token string">"Hello world"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>理解：字符串指针变量本身是一个变量，<strong>用于存放字符串的首地址</strong>。而字符串本身是存放在以该首地址为首的一块连续的内存空间中并以
-0 作为串的结束。</p>
-<ul>
-<li>*<strong>a只是指向一个字符</strong></li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>  
-    <span class="token keyword">char</span> <span class="token operator">*</span>a<span class="token operator">=</span> <span class="token string">"bcd"</span> <span class="token punctuation">;</span>  
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"输出字符：%c \n"</span><span class="token punctuation">,</span> <span class="token operator">*</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">/*输出字符，使用"%c"*/</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"输出字符：%c \n"</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">(</span>a<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">/*输出字符，使用"%c"*/</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"输出字符串：%s \n"</span><span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/*输出字符串，使用"%s"；而且a之前不能有星号"*"  */</span>
-    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>运行结果：</p>
-<pre class="line-numbers language-none"><code class="language-none">输出字符：b 
-输出字符：c 
-输出字符串：bcd <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><strong>若字符串常量出现在在表达式中，代表的值为该字符串常量的第一个字符的地址</strong></li>
-</ul>
-<h3 id="字符数组">字符数组</h3>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"Iamhappy"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>理解：<strong>字符数组是由若干个数组元素组成的</strong>，它可用来存放整个字符串。（即用字符数组来存放字符串）。</p>
-<ul>
-<li>这种字符数组只能在字符数组初始化时使用，字符数组的赋值只能对其元素一一赋值。</li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token char">'I'</span><span class="token punctuation">,</span><span class="token char">''</span><span class="token punctuation">,</span><span class="token char">'a'</span><span class="token punctuation">,</span><span class="token char">'m'</span><span class="token punctuation">,</span><span class="token char">''</span><span class="token punctuation">,</span><span class="token char">'h'</span><span class="token punctuation">,</span><span class="token char">'a'</span><span class="token punctuation">,</span><span class="token char">'p'</span><span class="token punctuation">,</span><span class="token char">'p'</span><span class="token punctuation">,</span><span class="token char">'y'</span><span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>错误的赋值方式：</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-str <span class="token operator">=</span> <span class="token string">"Iamhappy"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h3 id="总结">总结</h3>
-<p>在C语言，有两种方式表示和存放一个字符串</p>
-<ul>
-<li>用字符数组存放一个字符串</li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"I love u"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>数组名就是字符串的首地址</p>
-<ul>
-<li>用字符指针指向一个字符串</li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> <span class="token operator">*</span>str <span class="token operator">=</span> <span class="token string">"I love u"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>指针变量就是字符串的首地址</p>
-<blockquote>
-<p>两种表示方式的字符串输出都用：printf（"%sn", str); %s
-表示输出一个字符串，给出字符指针变量名
-str（对于第一种表示方法，字符数组名即是字符数组的首地址，与第二种中的指针意义是一致的），则系统先输出它所指向的一个字符数据，然后自动使
-str 自动加 1，使之指向下一个字符...，如此，直到遇到字符串结束标识符 0
-。</p>
-</blockquote>
-<h3 id="字符串指针数组">字符串指针数组</h3>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">char</span> <span class="token operator">*</span>str<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"Hello"</span><span class="token punctuation">,</span> <span class="token string">"C++"</span><span class="token punctuation">,</span> <span class="token string">"World"</span><span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment">// char (*str)[] = ...</span>
-<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
-   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><strong>char
-*str[]</strong>：表示str是数组，数组中的元素是指针，指向char类型</li>
-<li><strong>str+1</strong>：表示str的第二个元素的内存地址，所以是加8字节</li>
-<li>*(str+1)：表示数组的第二个元素的内容
-（是个char类型的指针，表示C++字符串的地址）</li>
-<li><code>*(*(str+1)+2)</code>：表示数组的第二个元素的内容（char指针），指向的第三个字符（C++中的第二个+）</li>
-</ul>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;crtdbg.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdlib&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MEMLEAK_REPORT</span>                                   <span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtSetReportMode</span><span class="token punctuation">(</span>_CRT_WARN<span class="token punctuation">,</span> _CRTDBG_MODE_FILE<span class="token punctuation">)</span><span class="token punctuation">;</span>     </span><span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtSetReportFile</span><span class="token punctuation">(</span>_CRT_WARN<span class="token punctuation">,</span> _CRTDBG_FILE_STDOUT<span class="token punctuation">)</span><span class="token punctuation">;</span>   </span><span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtSetReportMode</span><span class="token punctuation">(</span>_CRT_ERROR<span class="token punctuation">,</span> _CRTDBG_MODE_FILE<span class="token punctuation">)</span><span class="token punctuation">;</span>    </span><span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtSetReportFile</span><span class="token punctuation">(</span>_CRT_ERROR<span class="token punctuation">,</span> _CRTDBG_FILE_STDOUT<span class="token punctuation">)</span><span class="token punctuation">;</span>  </span><span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtSetReportMode</span><span class="token punctuation">(</span>_CRT_ASSERT<span class="token punctuation">,</span> _CRTDBG_MODE_FILE<span class="token punctuation">)</span><span class="token punctuation">;</span>   </span><span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtSetReportFile</span><span class="token punctuation">(</span>_CRT_ASSERT<span class="token punctuation">,</span> _CRTDBG_FILE_STDOUT<span class="token punctuation">)</span><span class="token punctuation">;</span> </span><span class="token punctuation">\</span>
+    <span class="token expression"><span class="token function">_CrtDumpMemoryLeaks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello World!\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>x <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">*</span>x     <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token operator">*</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    x    <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">calloc</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0x3F</span><span class="token punctuation">;</span>
+    x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0xABCD</span><span class="token punctuation">;</span>
+    x<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0xDEADBEEF</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d %d %d\n"</span><span class="token punctuation">,</span> x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    MEMLEAK_REPORT
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -536,7 +484,7 @@ str 自动加 1，使之指向下一个字符...，如此，直到遇到字符�
                     </i>
                     </span>
                 <span class="reprint-info">
-                    <a href="https://googles.plus/2021/11/11/c-zi-fu-chuan-shu-zu/">https://googles.plus/2021/11/11/c-zi-fu-chuan-shu-zu/</a>
+                    <a href="https://googles.plus/2023/07/26/crt-jian-ce-nei-cun-xie-lu/">https://googles.plus/2023/07/26/crt-jian-ce-nei-cun-xie-lu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -573,19 +521,7 @@ str 自动加 1，使之指向下一个字符...，如此，直到遇到字符�
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/ACM/">
-                                    <span class="chip bg-color">ACM</span>
-                                </a>
-                            
-                                <a href="/tags/%E7%BC%96%E7%A8%8B/">
-                                    <span class="chip bg-color">编程</span>
-                                </a>
-                            
-                                <a href="/tags/C/">
-                                    <span class="chip bg-color">C++</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -626,70 +562,18 @@ str 自动加 1，使之指向下一个字符...，如此，直到遇到字符�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2021/11/11/ru-he-fei-diao-yi-ge-da-xue-sheng/">
+                <a href="/2023/07/26/crt-jian-ce-nei-cun-xie-lu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages_anime/774257870.avif" class="responsive-img" alt="如何废掉一个大学生？">
+                        <img src="/medias/featureimages_anime/955274740.avif" class="responsive-img" alt="CRT 检测内存泄露">
                         
-                        <span class="card-title">如何废掉一个大学生？</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-11
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%9C%89%E6%84%9F/" class="post-category">
-                                    有感
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%A4%A7%E5%AD%A6/">
-                        <span class="chip bg-color">大学</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%93%B2%E5%AD%A6/">
-                        <span class="chip bg-color">哲学</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/11/11/ti-gao-python-yun-xing-xiao-lu/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages_anime/825230700.avif" class="responsive-img" alt="提高Python运行效率">
-                        
-                        <span class="card-title">提高Python运行效率</span>
+                        <span class="card-title">CRT 检测内存泄露</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -700,7 +584,7 @@ str 自动加 1，使之指向下一个字符...，如此，直到遇到字符�
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-26
                             </span>
                         <span class="publish-author">
                             
@@ -710,17 +594,43 @@ str 自动加 1，使之指向下一个字符...，如此，直到遇到字符�
                         </span>
                     </div>
                 </div>
+
                 
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E7%BC%96%E7%A8%8B/">
-                        <span class="chip bg-color">编程</span>
-                    </a>
-                    
-                    <a href="/tags/Python/">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/07/26/clang-bi-gcc-hao-zai-na-li/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/8.avif" class="responsive-img" alt="Clang 比 GCC 好在哪里？">
+                        
+                        <span class="card-title">Clang 比 GCC 好在哪里？</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-26
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
                 </div>
                 
             </div>

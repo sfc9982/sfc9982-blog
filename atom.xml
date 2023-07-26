@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-07-26T11:43:38.212Z</updated>
+  <updated>2023-07-26T14:18:46.793Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CRT 检测内存泄露</title>
+    <link href="https://googles.plus/2023/07/26/crt-jian-ce-nei-cun-xie-lu/"/>
+    <id>https://googles.plus/2023/07/26/crt-jian-ce-nei-cun-xie-lu/</id>
+    <published>2023-07-26T14:18:03.000Z</published>
+    <updated>2023-07-26T14:18:46.793Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;定义宏_CRTDBG_MAP_ALLOC_&lt;/li&gt;
+&lt;li&gt;包含头文件crtdbg.h&lt;/li&gt;
+&lt;li&gt;调用_CrtDumpMemoryLeaks&lt;/li&gt;
+&lt;li&gt;需要在Debug模式：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Clang 比 GCC 好在哪里？</title>
@@ -464,27 +491,6 @@ C++</summary>
     <summary type="html">&lt;h2 id=&quot;federal-government&quot;&gt;Federal Government&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Agency or website (Tool, product or service)&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Bvp47 - NSA</title>
-    <link href="https://googles.plus/2023/04/14/bvp47-nsa/"/>
-    <id>https://googles.plus/2023/04/14/bvp47-nsa/</id>
-    <published>2023-04-14T11:50:01.000Z</published>
-    <updated>2023-07-19T02:09:29.797Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;bvp47---nsa&quot;&gt;Bvp47 -</summary>
         
       
     

@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-07-19T02:42:27.551Z</updated>
+  <updated>2023-07-26T11:43:38.212Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Clang 比 GCC 好在哪里？</title>
+    <link href="https://googles.plus/2023/07/26/clang-bi-gcc-hao-zai-na-li/"/>
+    <id>https://googles.plus/2023/07/26/clang-bi-gcc-hao-zai-na-li/</id>
+    <published>2023-07-26T11:42:58.000Z</published>
+    <updated>2023-07-26T11:43:38.212Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;作者：Incredibuild
+链接：https://www.zhihu.com/question/20235742/answer/3105870528
+来源：知乎&lt;/p&gt;
+&lt;p&gt;在《Effective C++》一书中，Scott Meyers 谈到了使用 lhs 和</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>在 C++ 项目中使用 Google Test &amp; Benchmark</title>
@@ -461,28 +485,6 @@ C++</summary>
         
         
     <summary type="html">&lt;h1 id=&quot;bvp47---nsa&quot;&gt;Bvp47 -</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>通过 screen 后台运行程序</title>
-    <link href="https://googles.plus/2023/04/14/tong-guo-screen-hou-tai-yun-xing-cheng-xu/"/>
-    <id>https://googles.plus/2023/04/14/tong-guo-screen-hou-tai-yun-xing-cheng-xu/</id>
-    <published>2023-04-14T11:49:05.000Z</published>
-    <updated>2023-07-19T02:09:29.831Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;strong&gt;一、背景&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;系统管理员经常需要SSH 或者telent</summary>
         
       
     

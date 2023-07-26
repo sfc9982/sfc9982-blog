@@ -1,0 +1,1282 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Clang 比 GCC 好在哪里？, sfc9982">
+    <meta name="description" content="作者：Incredibuild
+链接：https://www.zhihu.com/question/20235742/answer/3105870528
+来源：知乎
+在《Effective C++》一书中，Scott Meyers 谈到了使">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="google-site-verification" content="VHbds6A71Ln4-2rYPTAdF_Fvy2j0UDrLSa8d4CNXNT0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CVFRQD6QTZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CVFRQD6QTZ');
+</script>
+
+
+    <title>Clang 比 GCC 好在哪里？ | sfc9982&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.avif">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.avif" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">sfc9982&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.avif" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">sfc9982&#39;s blog</div>
+        <div class="logo-desc">
+            
+            sfc9982 Personal Study Blog of Sci &amp; Tech
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages_anime/8.avif')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Clang 比 GCC 好在哪里？</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-07-26
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-07-26
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    8 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>作者：Incredibuild
+链接：https://www.zhihu.com/question/20235742/answer/3105870528
+来源：知乎</p>
+<p>在《Effective C++》一书中，Scott Meyers 谈到了使用 lhs 和 rhs 作为<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=参数名&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">参数名</a>的方式:“……这是我最喜欢的两个参数名。但在你没有接触过编译器编写工作的情况下，它们的优势和含义可能并不突出。”</p>
+<p>大约在1992年，当 Scott 写这篇文章时，他一定是联想到了 GCC，因为当时
+Clang/LLVM 还没出现。Clang/LLVM
+从根本上改变了人们对编译器的思考方式，揭开了<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=手动编译器&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">手动编译器</a>制作的神秘面纱。点击链接，阅读更多<a href="https://link.zhihu.com/?target=https%3A//www.incredibuild.cn/integrations/clang%3Futm_source%3Dcsdn%26utm_medium%3Dsocial%26utm_campaign%3Dblog_post_083021">什么是
+Clang</a> 以及 <a href="https://link.zhihu.com/?target=https%3A//www.incredibuild.cn/blog/gcc-vs-clang-battle-of-the-behemoths%3Futm_source%3Dcsdn%26utm_medium%3Dsocial%26utm_campaign%3Dblog_post_083021">GCC
+vs Clang</a> 的内容。</p>
+<p>在这篇博客中，我想说明的是，你不需要接触编译器编写工作就可以理解
+Clang 的优化方式。我希望能解释 Clang 优化 Flag
+的原理，帮助大家充分利用这个功能，并学会使用不同的 Clang 优化 Flag。</p>
+<p>这篇文章将在 Windows 环境中使用 Clang（Clang 支持 Windows
+编译，前面推荐的博客中已进行了详细解释）。然而，在本篇博客中，我们并没有特别针对
+Windows 系统，而是聚焦 Clang
+优化功能，并阅读一些汇编语言，这些语言也同样适用于 Linux
+系统。所以，如果你是一个 Linux C++
+程序员，请继续阅读，因为这个帖子也适合你。</p>
+<p>在我尝试破译 Clang 优化标志之前，请注意一点，Clang/LLVM
+是一个非常活跃的项目。我正在研究 2021 年 4 月 15 日发布的最新 Clang/LLVM
+版本，但从这次发布以来，主机上显示已有 12228
+次提交，所以我担心我写的内容可能很快就会过时。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">C<span class="token operator">:</span>\<span class="token operator">&gt;</span>clang <span class="token operator">--</span>version
+clang version <span class="token number">12.0</span><span class="token punctuation">.</span><span class="token number">0</span>
+Target<span class="token operator">:</span> x86_64<span class="token operator">-</span>pc<span class="token operator">-</span>windows<span class="token operator">-</span>msvc
+Thread model<span class="token operator">:</span> posix
+InstalledDir<span class="token operator">:</span> C<span class="token operator">:</span>\Program Files\LLVM\bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先，将继续采用我在<a href="https://link.zhihu.com/?target=https%3A//www.incredibuild.cn/blog/how-to-avoid-a-c-compilation-failure%3Futm_source%3Dcsdn%26utm_medium%3Dsocial%26utm_campaign%3Dblog_post_083021">如何避免
+C++ 编译失败</a>博客中使用的案例，让大家更好地理解优化标志。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">ConvertStringToPasswordForm</span><span class="token punctuation">(</span><span class="token keyword">char</span> password<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">*</span>password <span class="token operator">!=</span> <span class="token char">'\0'</span><span class="token punctuation">)</span> <span class="token operator">*</span>password<span class="token operator">++</span> <span class="token operator">=</span> <span class="token char">'*'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以及 driver:</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">nt <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+   <span class="token keyword">char</span> password<span class="token punctuation">[</span><span class="token punctuation">]</span>  <span class="token operator">=</span> <span class="token string">"MyTopSecurePasswordPublishedInABlog:-)"</span><span class="token punctuation">;</span>
+   <span class="token function">ConvertStringToPasswordForm</span><span class="token punctuation">(</span>password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Password :: "</span> <span class="token operator">&lt;&lt;</span> password <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果我们使用 Clang 编译器运行下列命令：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">C<span class="token operator">:</span>\Work\Temp<span class="token operator">&gt;</span>clang Example1<span class="token punctuation">.</span>cpp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>默认情况下，Clang 编译器会静默地进行编译，并创建一个可执行的 a.exe
+文件。 接下来，我们简要对比一下 Clang 和 Microsoft C++ 编译器(Cl)
+的行为。</p>
+<p><strong>Clang:</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">C<span class="token operator">:</span>\Work\Temp<span class="token operator">&gt;</span>clang Example1<span class="token punctuation">.</span>cpp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出: a.exe 大小: 244,224 bytes</p>
+<p><strong>Microsoft C++ compiler (Cl)</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">C<span class="token operator">:</span>\Work\Temp<span class="token operator">&gt;</span>cl Example1<span class="token punctuation">.</span>cpp
+<span class="token function">Microsoft</span> <span class="token punctuation">(</span>R<span class="token punctuation">)</span> C<span class="token operator">/</span>C<span class="token operator">++</span> Optimizing Compiler Version <span class="token number">19.27</span><span class="token punctuation">.</span><span class="token number">29111</span> <span class="token keyword">for</span> x86
+<span class="token function">Copyright</span> <span class="token punctuation">(</span>C<span class="token punctuation">)</span> Microsoft Corporation<span class="token punctuation">.</span>  All rights reserved<span class="token punctuation">.</span>
+
+Example1<span class="token punctuation">.</span>cpp
+C<span class="token operator">:</span>\Program <span class="token function">Files</span> <span class="token punctuation">(</span>x86<span class="token punctuation">)</span>\Microsoft Visual Studio\<span class="token number">2019</span>\Enterprise\VC\Tools\MSVC\<span class="token number">14.27</span><span class="token punctuation">.</span><span class="token number">29110</span>\include\<span class="token function">ostream</span><span class="token punctuation">(</span><span class="token number">747</span><span class="token punctuation">)</span><span class="token operator">:</span> warning C4530<span class="token operator">:</span> C<span class="token operator">++</span> exception handler used<span class="token punctuation">,</span> but unwind semantics are <span class="token operator">not</span> enabled<span class="token punctuation">.</span> Specify <span class="token operator">/</span>EHsc
+Example1<span class="token punctuation">.</span><span class="token function">cpp</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token operator">:</span> note<span class="token operator">:</span> see reference to function <span class="token keyword">template</span> instantiation 'std<span class="token double-colon punctuation">::</span>basic_ostream<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token punctuation">,</span>std<span class="token double-colon punctuation">::</span>char_traits<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">&gt;&gt;</span> <span class="token operator">&amp;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword">operator</span> <span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>char_traits<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">&gt;&gt;</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>basic_ostream<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token punctuation">,</span>std<span class="token double-colon punctuation">::</span>char_traits<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">&gt;&gt;</span> <span class="token operator">&amp;</span><span class="token punctuation">,</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">)</span>' being compiled
+<span class="token function">Microsoft</span> <span class="token punctuation">(</span>R<span class="token punctuation">)</span> Incremental Linker Version <span class="token number">14.27</span><span class="token punctuation">.</span><span class="token number">29111.0</span>
+<span class="token function">Copyright</span> <span class="token punctuation">(</span>C<span class="token punctuation">)</span> Microsoft Corporation<span class="token punctuation">.</span>  All rights reserved<span class="token punctuation">.</span>
+<span class="token operator">/</span>out<span class="token operator">:</span>Example1<span class="token punctuation">.</span>exe
+Example1<span class="token punctuation">.</span>obj<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出: Example.exe 大小: 186,368 byte</p>
+<p>Microsoft
+编译器清晰完整地展示了使用的编译器和链接器版本信息，并生成较小的可执行文件。问题是：应该将哪些标志传递给
+Clang，使其空间优化与 Cl 相当甚至超过 Cl？</p>
+<p>在回答这个问题之前，让我们先看一下文档信息，其中讨论了 Clang
+标志的代码生成选项：<a href="https://link.zhihu.com/?target=https%3A//clang.llvm.org/docs/CommandGuide/clang.html">https://clang.llvm.org/docs/CommandGuide/clang.html</a>。为了便于讨论，我复制了以下信息：</p>
+<figure>
+<img src="https://googles.plus/images/loading.gif" data-original="https://picx.zhimg.com/80/v2-8f24a9b3796b52cbd14ac7a04be4e1ef_720w.webp?source=1940ef5c" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ul>
+<li>-O4 及更高版本– 目前相当于 -O3，更多内容： <a href="https://link.zhihu.com/?target=https%3A//clang.llvm.org/docs/CommandGuide/clang.html%23code-generation-options">https://clang.llvm.org/docs/CommandGuide/clang.html#code-generation-options</a></li>
+</ul>
+<p>有了这些信息，现在让我们从 -O1 开始进行空间优化。</p>
+<h3 id="空间优化">空间优化</h3>
+<p>使用 -O1 标志运行 Clang：clang -O1 Example1.cpp 为 a.exe 提供 236032
+字节，可执行文件的大小有一定的减少。默认的 Clang 标志为
+-O0，它生成了一些未优化的代码。</p>
+<figure>
+<img src="https://googles.plus/images/loading.gif" data-original="https://pica.zhimg.com/80/v2-5022637f2cff82321fee0b43a35bfff1_720w.webp?source=1940ef5c" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>如果你将获得的可执行文件的二进制文件与 -O0 和 -O1
+标志进行比较，你将看到一些差异，但你无法找出这些差异的原因。我们启用了哪些优化？为此，我们来看一下使用标志
+-O0 和 -O1 生成的代码汇编列表。我们通过命令 -O0 和 -O1
+生成汇编代码列表。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">clang <span class="token operator">-</span>S <span class="token operator">-</span>O1 <span class="token operator">-</span>mllvm <span class="token operator">--</span>x86<span class="token operator">-</span><span class="token keyword">asm</span><span class="token operator">-</span>syntax<span class="token operator">=</span>intel Example1<span class="token punctuation">.</span>cpp
+clang <span class="token operator">-</span>S <span class="token operator">-</span>mllvm <span class="token operator">--</span>x86<span class="token operator">-</span><span class="token keyword">asm</span><span class="token operator">-</span>syntax<span class="token operator">=</span>intel Example1<span class="token punctuation">.</span>cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>注意，-S 标志仅运行预处理和编译步骤。</p>
+<figure>
+<img src="https://googles.plus/images/loading.gif" data-original="https://pica.zhimg.com/80/v2-fcceab4b93527738a3a930c404ea2781_720w.webp?source=1940ef5c" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p><strong># — Begin function and #
+-End函数之间的汇编代码列表，清楚地展示了对 ConvertStringToPasswordForm
+所做的优化</strong></p>
+<p>接下来列出我们观察到的汇编代码的差异：</p>
+<ol type="1">
+<li>O1 标志无法生成 .seh_proc、 .seh_stackalloc、.seh_endprologue 和
+.seh_endproc 函数。对于带有 -O1
+标志的函数ConvertStringToPasswordForm，结构化异常处理已完全关闭。</li>
+<li>使用 -O1 标志生成了紧密的循环，从而减少了空间：</li>
+</ol>
+<figure>
+<img src="https://googles.plus/images/loading.gif" data-original="https://pic1.zhimg.com/80/v2-26dc5e94ddee2344bc0ae679be5d01ae_720w.webp?source=1940ef5c" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>在使用 -O0 标志生成的上下文中，我们应该可以看到：</p>
+<figure>
+<img src="https://googles.plus/images/loading.gif" data-original="https://pic1.zhimg.com/80/v2-e7b70c4c60204dd895ab56026990dc7e_720w.webp?source=1940ef5c" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>这里的重点是：</p>
+<ol type="1">
+<li>标签数量减少。</li>
+<li>使用了 lea（加载有效地址）和 jne（跳转不等于）等高效指令</li>
+<li>如果 eax 为 0，比较和跳出循环以标记 LBB0_3 等步骤已完全跳过。</li>
+</ol>
+<ul>
+<li>注意：我在 example1.cpp 上进一步试验了 Clang 优化标志 -O2 和
+-Os。以下是空间缩减的列表，供大家快速对比：</li>
+</ul>
+<p>-O0 244,224 bytes -O1 236,032 bytes -O2 233,984 bytes -Os 231,424
+bytes -Oz 229,376 bytes 可以看出，在从 -O0（无优化）到
+-Oz（积极的空间优化）的过程中，<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=可执行文件&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">可执行文件</a>大小逐渐减小。尽管我没有对其进行测量，但可以确定的是，在这些阶段，<a href="https://link.zhihu.com/?target=https%3A//www.incredibuild.cn/product/dev-acceleration%3Futm_source%3Dcsdn%26utm_medium%3Dsocial%26utm_campaign%3Dblog_post_083021">编译时间</a>也在逐渐增加。</p>
+<h3 id="深入分析"><strong>深入分析</strong></h3>
+<p>如果没有实际去操作，可能很难分析汇编代码。阅读（而不是编写）汇编代码是我真心推荐给所有开发人员的一项学习技能。请放心，Clang/LLVM
+有一个开关，描述了编译运行期间使用的具体优化：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">clang <span class="token operator">-</span>O3 <span class="token operator">-</span>foptimization<span class="token operator">-</span>record<span class="token operator">-</span>file<span class="token operator">=</span>Opt<span class="token punctuation">.</span>txt Example1<span class="token punctuation">.</span>cpp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Opt.txt 文件将包含所有优化的详细信息。你将获得如下条目：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token operator">--</span><span class="token operator">-</span> <span class="token operator">!</span>Analysis
+Pass<span class="token operator">:</span>            prologepilog
+Name<span class="token operator">:</span>            StackSize
+DebugLoc<span class="token operator">:</span>        <span class="token punctuation">{</span> File<span class="token operator">:</span> Example1<span class="token punctuation">.</span>cpp<span class="token punctuation">,</span> Line<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> Column<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span>
+Function<span class="token operator">:</span>        '<span class="token operator">?</span>ConvertStringToPasswordForm@@YAXQEAD@Z<span class="token number">'</span>
+Args<span class="token operator">:</span>
+<span class="token operator">-</span> NumStackBytes<span class="token operator">:</span>   <span class="token char">'0'</span>
+<span class="token operator">-</span> String<span class="token operator">:</span>          <span class="token char">' stack bytes in function'</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 LLVM
+中，实现优化是通过程序的某些部分来收集信息或转换程序的过程。在上述条目中，通行证名称为“prologepilog”。你可以从线上的参考资料中获得不同编译器开关的完整信息：
+<a href="https://link.zhihu.com/?target=https%3A//clang.llvm.org/docs/ClangCommandLineReference.html%20.">https://clang.llvm.org/docs/ClangCommandLineReference.html
+.</a></p>
+<p>你还可以运行 clang–help 或 clang–help hidden
+获得联机帮助。有一个隐藏的帮助功能，介绍了所有可用的高级开关！</p>
+<h3 id="clang-优化标志我们还没完成"><strong>Clang
+优化标志，我们还没完成！</strong></h3>
+<p>Clang 的核心是 LLVM。因此如果不介绍如何使用 LLVM 中间语言， Clang
+优化标志的文章是不完整的。以下是如何获取中间语言字节码的方式：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">clang <span class="token operator">-</span>c <span class="token operator">-</span>O1 <span class="token operator">-</span>emit<span class="token operator">-</span>llvm Example1<span class="token punctuation">.</span>cpp <span class="token operator">-</span>o Example<span class="token punctuation">.</span>bc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>一般来说，LLVM <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=字节码文件&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">字节码文件</a>的扩展名为
+.bc。要进一步使用字节码文件，你需要借助一些工具，这些工具是 Clang/LLVM
+安装程序没有提供的。</p>
+<p>首先，点击链接<a href="https://link.zhihu.com/?target=https%3A//github.com/llvm/llvm-project/releases/tag/llvmorg-12.0.0">下载
+LLVM 源代码</a>。提取源代码并存储到名为 <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=llvm-project-llvmorg-12.0.0&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">llvm-project-llvmorg-12.0.0</a>
+的文件夹中。在 llvm-project-llvmorg-12.0.0下创建一个名为 build
+的文件夹，这个步骤需要提前安装 python。</p>
+<p>现在你可以使用 CMake 了，如果你还不了解什么是 CMake ，<a href="https://link.zhihu.com/?target=https%3A//www.incredibuild.cn/integrations/cmake%3Futm_source%3Dcsdn%26utm_medium%3Dsocial%26utm_campaign%3Dblog_post_083021">请点击阅读</a>。</p>
+<p>下面，我将展示 LLVM tools 文件夹中一个名为 opt
+的工具。要从源代码处编译此文件，请使用以下命令：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">cd build
+cmake <span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token operator">-</span>DLLVM_TARGETS_TO_BUILD<span class="token operator">=</span>X86
+cmake <span class="token operator">--</span>build <span class="token punctuation">.</span> <span class="token operator">-</span>t opt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>记住，这不是一个快速构建。在获得 <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=opt.exe&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">opt.exe</a>
+最终工件之前，需要构建 92 个依赖库。你可以利用 opt.exe
+打印帮助，并且可以查看 LLVM
+支持的所有优化。以下是你将获得的部分信息：</p>
+<figure>
+<img src="https://googles.plus/images/loading.gif" data-original="https://picx.zhimg.com/80/v2-1d93b4328f040ef407f03fb758901c3e_720w.webp?source=1940ef5c" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="总结"><strong>总结</strong></h3>
+<p>文章即将结束，我需要反思一下，是否本文已经达到了我设定的目标，大家理解了
+Clang <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=优化标志&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">优化标志</a>的用法了吗？我相信我已经说清楚了。Clang/LLVM
+并不是一个趣味性工具，而是有其实际的功能。理解开发中的基本工具——编译器——及其行为，对开发新手的成长来说至关重要。作为程序员，你需要了解改变编译输出的
+Clang 编译器标志。当然，如果你已经编写了 LLVM 优化过程，而且开始使用
+LLVM 进行静态代码分析，或者对<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=全局值编号&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3105870528%7D">全局值编号</a>（Global
+Value
+Numbering）有了深入地了解，那么你已经是大师级的程序员了！我也为你的成绩感到骄傲！</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus" rel="external nofollow noreferrer">sfc9982</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                    </span>
+                <span class="reprint-info">
+                    <a href="https://googles.plus/2023/07/26/clang-bi-gcc-hao-zai-na-li/">https://googles.plus/2023/07/26/clang-bi-gcc-hao-zai-na-li/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-ND 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://googles.plus" target="_blank">sfc9982</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/07/26/clang-bi-gcc-hao-zai-na-li/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/8.avif" class="responsive-img" alt="Clang 比 GCC 好在哪里？">
+                        
+                        <span class="card-title">Clang 比 GCC 好在哪里？</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-26
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/07/19/zai-c-xiang-mu-zhong-shi-yong-google-test-benchmark/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages_anime/wallhaven-md29x1_1920x1080.avif" class="responsive-img" alt="在 C++ 项目中使用 Google Test &amp; Benchmark">
+                        
+                        <span class="card-title">在 C++ 项目中使用 Google Test &amp; Benchmark</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            sfc9982
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-C/">
+                        <span class="chip bg-color">C/C++</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="song"
+                   id="5213502"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='one'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                本网站由
+                <img border="0" height="26" src="/images/upyun.png" align="center">
+                提供CDN加速/云存储服务
+            </a>
+            <br>
+            
+            <a href="https://www.cloudflare.com/" target="_blank">
+                CDN Services for countries and regions out of Mainland China are powered by
+                <img border="0" height="18" src="/images/CF_logo_horizontal_whitetype.svg" align="top">
+            </a>
+            <br>
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021-2023</span>
+            
+            <a href="/about" target="_blank">sfc9982</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">200.3k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2021";
+                        var startMonth = "11";
+                        var startDate = "7";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/sfc9982/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:admin@googles.plus" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2120935182" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2120935182" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+<!--
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="/live2d-widget/autoload.js"></script>
+ -->
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 2,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body>
+
+</html>

@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-07-26T14:18:46.793Z</updated>
+  <updated>2023-07-27T07:07:24.761Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ Compare float values</title>
+    <link href="https://googles.plus/2023/07/27/c-compare-float-values/"/>
+    <id>https://googles.plus/2023/07/27/c-compare-float-values/</id>
+    <published>2023-07-27T07:05:56.000Z</published>
+    <updated>2023-07-27T07:07:24.761Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;foreword&quot;&gt;Foreword&lt;/h2&gt;
+&lt;p&gt;We want to compare two obviously equal floating point values
+(something like 3.456) in C++ but we</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>CRT 检测内存泄露</title>
@@ -468,29 +491,6 @@ C++</summary>
         
     <summary type="html">&lt;h1 id=&quot;windows-tcp-拥塞控制算法&quot;&gt;Windows TCP 拥塞控制算法&lt;/h1&gt;
 &lt;h2</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>美国政府网站使用的CMS平台</title>
-    <link href="https://googles.plus/2023/04/14/mei-guo-zheng-fu-wang-zhan-shi-yong-de-cms-ping-tai/"/>
-    <id>https://googles.plus/2023/04/14/mei-guo-zheng-fu-wang-zhan-shi-yong-de-cms-ping-tai/</id>
-    <published>2023-04-14T11:51:40.000Z</published>
-    <updated>2023-07-19T02:09:29.830Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;federal-government&quot;&gt;Federal Government&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Agency or website (Tool, product or service)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
         
       
     

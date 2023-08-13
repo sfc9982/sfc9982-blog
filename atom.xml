@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-07-27T07:07:24.761Z</updated>
+  <updated>2023-08-13T10:15:30.591Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WSL 与 WINE: Subsystem 与 API 翻译</title>
+    <link href="https://googles.plus/2023/08/13/wsl-yu-wine-subsystem-yu-api-fan-yi/"/>
+    <id>https://googles.plus/2023/08/13/wsl-yu-wine-subsystem-yu-api-fan-yi/</id>
+    <published>2023-08-13T10:11:47.000Z</published>
+    <updated>2023-08-13T10:15:30.591Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;WSL 对于 Windows 系统来说属于用户态程序，通过虚拟文件系统接口，以
+DriveFs 文件系统挂载到 Windows 从而提供和 Windows 的互操作能力。
+lxss.sys 和 lxcore.sys 这两个驱动负责模拟</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>C++ 模板元编程</title>
+    <link href="https://googles.plus/2023/08/13/c-mo-ban-yuan-bian-cheng/"/>
+    <id>https://googles.plus/2023/08/13/c-mo-ban-yuan-bian-cheng/</id>
+    <published>2023-08-13T10:10:17.000Z</published>
+    <updated>2023-08-13T10:10:52.316Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>C++ Compare float values</title>
@@ -451,51 +495,6 @@ C++</summary>
     <category term="CTF" scheme="https://googles.plus/tags/CTF/"/>
     
     <category term="Cybersecurity" scheme="https://googles.plus/tags/Cybersecurity/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 网卡名称更改</title>
-    <link href="https://googles.plus/2023/04/14/linux-wang-qia-ming-cheng-geng-gai/"/>
-    <id>https://googles.plus/2023/04/14/linux-wang-qia-ming-cheng-geng-gai/</id>
-    <published>2023-04-14T11:59:51.000Z</published>
-    <updated>2023-07-19T02:09:29.806Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;linux-网卡名称更改&quot;&gt;Linux 网卡名称更改&lt;/h1&gt;
-&lt;h2 id=&quot;网卡配置文件名称重命名&quot;&gt;网卡配置文件名称重命名&lt;/h2&gt;
-&lt;pre class=&quot;line-numbers language-text&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Windows TCP 拥塞控制算法</title>
-    <link href="https://googles.plus/2023/04/14/windows-tcp-yong-sai-kong-zhi-suan-fa/"/>
-    <id>https://googles.plus/2023/04/14/windows-tcp-yong-sai-kong-zhi-suan-fa/</id>
-    <published>2023-04-14T11:53:12.000Z</published>
-    <updated>2023-07-19T02:09:29.813Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;windows-tcp-拥塞控制算法&quot;&gt;Windows TCP 拥塞控制算法&lt;/h1&gt;
-&lt;h2</summary>
-        
-      
-    
-    
-    
     
   </entry>
   

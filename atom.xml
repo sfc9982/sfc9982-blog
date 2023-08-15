@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-08-13T10:15:30.591Z</updated>
+  <updated>2023-08-15T10:49:27.627Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我们终将一战 - 里根</title>
+    <link href="https://googles.plus/2023/08/15/wo-men-zhong-jiang-yi-zhan-li-gen/"/>
+    <id>https://googles.plus/2023/08/15/wo-men-zhong-jiang-yi-zhan-li-gen/</id>
+    <published>2023-08-15T10:23:59.000Z</published>
+    <updated>2023-08-15T10:49:27.627Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;让我把话说清楚，在战争与和平之间选择的结果已毫无争议可言，但是有一个方法，可以实现绝对的和平，而且你在下一秒就可以获得和平，那就是投降。&lt;/p&gt;
+&lt;p&gt;必须承认，除了投降之外的所有道路都需要我们冒着未知的危险。但是历史上无数的事实告诉我们，姑息养恶、后患无穷，而这正是我们一</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈虚拟化技术难点</title>
+    <link href="https://googles.plus/2023/08/14/qian-tan-xu-ni-hua-ji-zhu-nan-dian/"/>
+    <id>https://googles.plus/2023/08/14/qian-tan-xu-ni-hua-ji-zhu-nan-dian/</id>
+    <published>2023-08-14T03:05:06.000Z</published>
+    <updated>2023-08-14T03:20:29.692Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;VMM 在 2006 年之后的确变简单了。1998年之前的 x86
+是号称无法完全虚拟化的，然后“某几个人”搞了出来，于是就有了 VMware。&lt;/p&gt;
+&lt;p&gt;早期 VMM 难以实现的原因：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最大难题：x86 的某些指令，在非 ring 0</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>WSL 与 WINE: Subsystem 与 API 翻译</title>
@@ -448,53 +495,6 @@ C++</summary>
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>计算机延迟比较</title>
-    <link href="https://googles.plus/2023/04/14/ji-suan-ji-yan-chi-bi-jiao/"/>
-    <id>https://googles.plus/2023/04/14/ji-suan-ji-yan-chi-bi-jiao/</id>
-    <published>2023-04-14T12:08:18.000Z</published>
-    <updated>2023-07-19T02:09:29.831Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;pre class=&quot;line-numbers language-none&quot;&gt;&lt;code class=&quot;language-none&quot;&gt;Latency Comparison Numbers</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>SMTP 发信人伪造攻击</title>
-    <link href="https://googles.plus/2023/04/14/smtp-fa-xin-ren-wei-zao-gong-ji/"/>
-    <id>https://googles.plus/2023/04/14/smtp-fa-xin-ren-wei-zao-gong-ji/</id>
-    <published>2023-04-14T12:02:26.000Z</published>
-    <updated>2023-07-19T02:09:29.809Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;smtp-发信人伪造攻击&quot;&gt;SMTP 发信人伪造攻击&lt;/h1&gt;
-&lt;h2</summary>
-        
-      
-    
-    
-    
-    
-    <category term="CTF" scheme="https://googles.plus/tags/CTF/"/>
-    
-    <category term="Cybersecurity" scheme="https://googles.plus/tags/Cybersecurity/"/>
     
   </entry>
   

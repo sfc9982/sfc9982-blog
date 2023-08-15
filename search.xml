@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title>我们终将一战 - 里根</title>
+      <link href="/2023/08/15/wo-men-zhong-jiang-yi-zhan-li-gen/"/>
+      <url>/2023/08/15/wo-men-zhong-jiang-yi-zhan-li-gen/</url>
+      
+        <content type="html"><![CDATA[<p>让我把话说清楚，在战争与和平之间选择的结果已毫无争议可言，但是有一个方法，可以实现绝对的和平，而且你在下一秒就可以获得和平，那就是投降。</p><p>必须承认，除了投降之外的所有道路都需要我们冒着未知的危险。但是历史上无数的事实告诉我们，姑息养恶、后患无穷，而这正是我们一厢情愿的自由主义朋友们拒绝面对的事实——他们的迁就正纵欲养恶，使我们在战争与和平之间别无他法，只有战斗和投降。如果我们继续妥协、退缩、撤退、逃避，最终我们将面对敌人的最后苛求与最后通牒。然后呢？当尼基塔·赫鲁晓夫告诉苏联人：他已经知道美国佬对于问题的答案是什么了。他会说，我们在冷战的压力之下节节败退。最终当有一日，他们发出最后通牒时，我们的投降是完全自愿、不由自主的，因为到那时候，我们早已在精神、道德和经济层面上都已经千疮百孔、不堪一击。我们的敌人坚信这一点，因为他已经听到“不惜一切代价换取和平”和“红了总比死了好”的论调。或者像某个评论员说的那样——“宁可跪着生，也不愿站着死”。到那时候战争将会爆发，因为这些观点不能代表我们剩下的人。</p><p>你我都清楚，勿信谗言。交出你宝贵的自由并不能换取风调雨顺。如果没有事情值得我们以死相搏，那么我们在今天才学会勇敢，来对抗我们今天的敌人？摩西会告诉以色列的子民们世世代代活在法老王的奴役之下？难道耶稣该逃避受十字架之刑而苟且偷生？康科德战役中的美国爱国者该丢下枪举起手，让那响彻全世界的枪声消失在历史之中吗？历史上的先烈并不是傻瓜，而那些在抵抗纳粹战斗中为国捐躯的士兵们并没有白白死去。</p><p>那么敢问和平之路究竟在何方？这个沉重的问题有一个十分简单的答案。</p><p>就是你与我都鼓起勇气，面对我们的敌人说：“有一种代价我们绝不能容忍，有些界限我们永远不会允许别人逾越”。温斯顿·丘吉尔曾说：“人的命运，不是物质和数字能够运算出来的。当命运的巨轮转动世界时，我们会发觉，人类不是没有灵魂的躯壳，这是永恒的真理，不管我们喜欢与否，那叫做“责任”。</p><p>你和我命运有约。</p><p>我们要为下一代捍卫其福祉，否则会万劫不复。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>浅谈虚拟化技术难点</title>
+      <link href="/2023/08/14/qian-tan-xu-ni-hua-ji-zhu-nan-dian/"/>
+      <url>/2023/08/14/qian-tan-xu-ni-hua-ji-zhu-nan-dian/</url>
+      
+        <content type="html"><![CDATA[<p>VMM 在 2006 年之后的确变简单了。1998年之前的 x86是号称无法完全虚拟化的，然后“某几个人”搞了出来，于是就有了 VMware。</p><p>早期 VMM 难以实现的原因：</p><ul><li>最大难题：x86 的某些指令，在非 ring 0 的情况下执行，行为和在 ring 0下不同，并且不会产生 fault，这导致了 trap-n-emulate 形式的Virtualization没办法直接实现，这也是早期被认为是无法虚拟化的主要原因。</li><li>解决方法是 binarytranslation，代码极其复杂，需要深厚内力才能读懂，更别说写出来。compiler、OS、architecture的知识一样不能少。</li><li>MMU的虚拟化。虚拟内存提供了virtual address -&gt; physical address 的mapping，但是要想 virtualize 一个 guest OS，那么就要做到virtual address-&gt; guest virtual physical address -&gt; machine address 的mapping。于是就要在MMU里面动手脚，创建一个 shadow page table，完成virtual address -&gt; machine address的直接翻译，为了保持正确性，必须对OS透明地维护好TLB，并监视 guest OS对自己认为的真正的 page table的一切修改。这个过程可以简单粗暴，只要guest一load CR3就清空shadow pagetable，flush TLB。也可是十分细腻，对 shadow page table做更加细致的更新。前者实现复杂度略低，性能自然很差，因为TLB missrate奇高，并且由于要经常清空 shadow page table，page fault也更多。后者性能好，但是实现异常复杂，cache consistency难以维护。</li><li>IO。如果不计性能，这块其实比较容易解决，但是也需要对 PCI device的工作机制有着深厚的理解。早期的 vmm 对 IO 几乎就是直接 emulate。</li><li>CPU 的虚拟化，CPU的型号一大堆，每个型号之间的指令集和指令行为都有不同。还有很多 CPU有bug，于是为了 over come 这些，monitor 里面要做很多 ad hoc的修改。</li><li>其他：BIOS，perforamce monitoring，hardwarecounters，graphics，guest crash handling，interrupt delivery 等今天 VMM难以实现：</li><li>CPU种类繁多</li><li>PCI pass through 的维护</li><li>达到近乎 native running 的速度</li><li>高并发 I/O</li><li>concurrent bugs 和 lock contention</li><li>numa</li><li>security</li><li>cache consistency...</li><li>Virtualization 的好朋友 Emulation 本身也很复杂，参考 qemu</li></ul><p>在硬件虚拟化技术推出之前，VMware 使用动态二进制翻译（Dynamic BinaryTranslation，DBT）技术，其中的工作个人认为和搞编译器后端的那帮人从事的差不多，只不过DBT 的输入已经是一段二进制指令，DBT要将其翻译成另一段“对虚拟化友好”（能降权在 Ring 3执行并在适当的时候让VMM得到通知）的二进制指令。概要地说，大部分算术运算指令（add、inc之类）可以保持原样或仅需微小改动，涉及处理器状态的指令（如CLI、load/store cr3、r/w msr 等）需要产生到 VMM 的 function call 并由VMM 模拟执行，跳转指令也需要做特殊处理。其实光写一个 x86 的 disassembler就已经够费劲的了，更不必说这种还要对指令进行精密调整的工作了。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>WSL 与 WINE: Subsystem 与 API 翻译</title>
       <link href="/2023/08/13/wsl-yu-wine-subsystem-yu-api-fan-yi/"/>
       <url>/2023/08/13/wsl-yu-wine-subsystem-yu-api-fan-yi/</url>

@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-08-17T18:12:03.744Z</updated>
+  <updated>2023-08-28T03:26:03.947Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>分支预测</title>
+    <link href="https://googles.plus/2023/08/28/fen-zhi-yu-ce/"/>
+    <id>https://googles.plus/2023/08/28/fen-zhi-yu-ce/</id>
+    <published>2023-08-28T03:19:59.000Z</published>
+    <updated>2023-08-28T03:26:03.947Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;请看这样一段代码&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-cpp&quot; data-language=&quot;cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span class=&quot;token macro</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>我们终将一战 - 里根</title>
@@ -472,29 +494,6 @@ C++</summary>
     
     
     <category term="Wireshark" scheme="https://googles.plus/tags/Wireshark/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows 平台安装 H.265 视频扩展</title>
-    <link href="https://googles.plus/2023/04/14/windows-ping-tai-an-zhuang-h-265-shi-pin-kuo-zhan/"/>
-    <id>https://googles.plus/2023/04/14/windows-ping-tai-an-zhuang-h-265-shi-pin-kuo-zhan/</id>
-    <published>2023-04-14T12:18:03.000Z</published>
-    <updated>2023-07-19T02:09:29.813Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;windows-平台安装-h.265-视频扩展&quot;&gt;Windows 平台安装 H.265
-视频扩展&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;https://googles.plus/images/loading.gif&quot;</summary>
-        
-      
-    
-    
-    
     
   </entry>
   

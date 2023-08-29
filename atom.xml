@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-08-28T03:26:03.947Z</updated>
+  <updated>2023-08-29T04:49:15.512Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅谈 UUID</title>
+    <link href="https://googles.plus/2023/08/29/qian-tan-uuid/"/>
+    <id>https://googles.plus/2023/08/29/qian-tan-uuid/</id>
+    <published>2023-08-29T04:48:04.000Z</published>
+    <updated>2023-08-29T04:49:15.512Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;通用唯一识别码（英语：Universally</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>分支预测</title>
@@ -469,31 +490,6 @@ C++</summary>
     
     
     <category term="Web" scheme="https://googles.plus/tags/Web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Wireshark BPF 捕获过滤器</title>
-    <link href="https://googles.plus/2023/04/15/wireshark-bpf-bu-huo-guo-lu-qi/"/>
-    <id>https://googles.plus/2023/04/15/wireshark-bpf-bu-huo-guo-lu-qi/</id>
-    <published>2023-04-15T06:17:07.000Z</published>
-    <updated>2023-07-19T02:09:29.814Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;wireshark-bpf-捕获过滤器&quot;&gt;Wireshark BPF 捕获过滤器&lt;/h1&gt;
-&lt;p&gt;Wireshark 中，如果要过滤出所有的 POST 或者是 GET
-请求，我们可以用显示过滤器里的</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Wireshark" scheme="https://googles.plus/tags/Wireshark/"/>
     
   </entry>
   

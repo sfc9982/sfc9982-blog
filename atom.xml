@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-08-29T04:49:15.512Z</updated>
+  <updated>2023-09-13T13:57:47.871Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【计算机网络】TCP、UDP协议详解</title>
+    <link href="https://googles.plus/2023/09/13/ji-suan-ji-wang-luo-tcp-udp-xie-yi-xiang-jie/"/>
+    <id>https://googles.plus/2023/09/13/ji-suan-ji-wang-luo-tcp-udp-xie-yi-xiang-jie/</id>
+    <published>2023-09-13T13:56:54.000Z</published>
+    <updated>2023-09-13T13:57:47.871Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>浅谈 UUID</title>
@@ -111,7 +132,7 @@
     <link href="https://googles.plus/2023/08/13/wsl-yu-wine-subsystem-yu-api-fan-yi/"/>
     <id>https://googles.plus/2023/08/13/wsl-yu-wine-subsystem-yu-api-fan-yi/</id>
     <published>2023-08-13T10:11:47.000Z</published>
-    <updated>2023-08-13T10:15:30.591Z</updated>
+    <updated>2023-09-05T07:34:14.429Z</updated>
     
     
       
@@ -466,30 +487,6 @@ C++</summary>
     
     
     <category term="C++" scheme="https://googles.plus/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WOFF Web 字体二三事</title>
-    <link href="https://googles.plus/2023/04/15/woff-web-zi-ti-er-san-shi/"/>
-    <id>https://googles.plus/2023/04/15/woff-web-zi-ti-er-san-shi/</id>
-    <published>2023-04-15T06:33:38.000Z</published>
-    <updated>2023-07-19T02:09:29.812Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;web-open-font-format&quot;&gt;Web Open Font Format&lt;/h1&gt;
-&lt;p&gt;Web开放字体格式（Web Open</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Web" scheme="https://googles.plus/tags/Web/"/>
     
   </entry>
   

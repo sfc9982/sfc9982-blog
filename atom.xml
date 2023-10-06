@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-09-13T13:57:47.871Z</updated>
+  <updated>2023-10-06T05:45:05.971Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Resize partition in Alpine Linux</title>
+    <link href="https://googles.plus/2023/10/06/resize-partition-in-alpine-linux/"/>
+    <id>https://googles.plus/2023/10/06/resize-partition-in-alpine-linux/</id>
+    <published>2023-10-06T05:42:44.000Z</published>
+    <updated>2023-10-06T05:45:05.971Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在 PVE 或 ESXi 中扩大虚拟硬盘容量后再操作。&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;apk &lt;span</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>【计算机网络】TCP、UDP协议详解</title>
@@ -461,32 +483,6 @@ goverments have never learned anything from history</summary>
     <category term="CTF" scheme="https://googles.plus/tags/CTF/"/>
     
     <category term="Pentest" scheme="https://googles.plus/tags/Pentest/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++ 实现高精度浮点运算</title>
-    <link href="https://googles.plus/2023/04/24/c-shi-xian-gao-jing-du-fu-dian-yun-suan/"/>
-    <id>https://googles.plus/2023/04/24/c-shi-xian-gao-jing-du-fu-dian-yun-suan/</id>
-    <published>2023-04-24T04:43:49.000Z</published>
-    <updated>2023-07-19T02:09:29.800Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;c-实现高精度浮点运算&quot;&gt;C++ 实现高精度浮点运算&lt;/h1&gt;
-&lt;p&gt;（注意：本文已经默认您了解了 IEEE-754 标准！）&lt;/p&gt;
-&lt;p&gt;Boost 是一个开源的 C++ 库集合，它提供了许多高效的算法和工具，用于解决
-C++</summary>
-        
-      
-    
-    
-    
-    
-    <category term="C++" scheme="https://googles.plus/tags/C/"/>
     
   </entry>
   

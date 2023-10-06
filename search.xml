@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Resize partition in Alpine Linux</title>
+      <link href="/2023/10/06/resize-partition-in-alpine-linux/"/>
+      <url>/2023/10/06/resize-partition-in-alpine-linux/</url>
+      
+        <content type="html"><![CDATA[<p>在 PVE 或 ESXi 中扩大虚拟硬盘容量后再操作。</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apk <span class="token function">add</span> --no-cache <span class="token function">cfdisk</span> e2fsprogs-extra<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>然后</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cfdisk</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>选择需要扩容的分区，选择 Resize 最后 Write 将操作写入磁盘。</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">resize2fs /dev/<span class="token operator">&lt;</span>扩容分区<span class="token operator">&gt;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【计算机网络】TCP、UDP协议详解</title>
       <link href="/2023/09/13/ji-suan-ji-wang-luo-tcp-udp-xie-yi-xiang-jie/"/>
       <url>/2023/09/13/ji-suan-ji-wang-luo-tcp-udp-xie-yi-xiang-jie/</url>

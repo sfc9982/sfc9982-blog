@@ -422,21 +422,19 @@ nohup COMMAND &gt; stdout.log 2&gt; stderr.log &amp;amp;
 <h3 id="使用-nohup-的方法">1、使用 nohup + &amp; 的方法</h3>
 <p>nohup 使用方法如下：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> COMMAND <span class="token operator">></span> stdout.log <span class="token operator"><span class="token file-descriptor important">2</span>></span> stderr.log <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>上述命令，会把程序的<a
-target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=标准输出&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A3268632231%7D">标准输出</a>写入
-stdout.log 文件；错误输出写入 stderr.log 文件</p>
+<p>上述命令，会把程序的标准输出写入 stdout.log 文件；错误输出写入
+stderr.log 文件</p>
 <p>或者</p>
 <pre class="line-numbers language-text" data-language="text"><code class="language-text">nohup COMMAND > stdout.log 2>&amp;1 &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>上述命令，会把标准输出和错误输出全都写入 stdout.log 文件。</p>
 <h3 id="关于nohup"><strong>关于nohup：</strong></h3>
 <p>gnu官方文档<a
-href="https://link.zhihu.com/?target=https%3A//www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html%23nohup-invocation">(GNU
+target="_blank" rel="noopener" href="https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html%23nohup-invocation">(GNU
 Coreutils 9.1)</a>对<code>nohup</code>命令说明如下：</p>
 <blockquote>
-<p><code>nohup</code>runs the given <em>command</em> with <a
-target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=hangup%20signals&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2912149567%7D">hangup
-signals</a> ignored, so that the command can continue running in the
-background after you log out.</p>
+<p><code>nohup</code>runs the given <em>command</em> with hangup signals
+ignored, so that the command can continue running in the background
+after you log out.</p>
 </blockquote>
 <p>也就是说使用<code>nohup</code> 启动的命令会忽略 <code>hangup</code>
 信号，所以当退出登录时，该命令会在后台继续运行。</p>

@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-10-06T05:45:05.971Z</updated>
+  <updated>2023-11-09T11:25:08.548Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux 使程序在后台长久运行</title>
+    <link href="https://googles.plus/2023/11/09/linux-shi-cheng-xu-zai-hou-tai-chang-jiu-yun-xing/"/>
+    <id>https://googles.plus/2023/11/09/linux-shi-cheng-xu-zai-hou-tai-chang-jiu-yun-xing/</id>
+    <published>2023-11-09T11:24:08.000Z</published>
+    <updated>2023-11-09T11:25:08.548Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;想要程序在后台长久运行有多种方法：&lt;/p&gt;
+&lt;h3 id=&quot;使用-nohup-的方法&quot;&gt;1、使用 nohup + &amp;amp; 的方法&lt;/h3&gt;
+&lt;p&gt;nohup 使用方法如下：&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-bash&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Resize partition in Alpine Linux</title>
@@ -458,31 +482,6 @@ goverments have never learned anything from history</summary>
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>记一次 Hikvision Pentest</title>
-    <link href="https://googles.plus/2023/04/24/ji-yi-ci-hikvision-pentest/"/>
-    <id>https://googles.plus/2023/04/24/ji-yi-ci-hikvision-pentest/</id>
-    <published>2023-04-24T10:08:24.000Z</published>
-    <updated>2023-07-19T02:09:29.831Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2</summary>
-        
-      
-    
-    
-    
-    
-    <category term="CTF" scheme="https://googles.plus/tags/CTF/"/>
-    
-    <category term="Pentest" scheme="https://googles.plus/tags/Pentest/"/>
     
   </entry>
   

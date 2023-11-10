@@ -451,8 +451,7 @@ after you log out.</p>
        ──────────────────────────────────────────────────────────────────────
        SIGHUP        1       Term    Hangup detected on controlling terminal
                                      or death of controlling process<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>根据说明，当<a
-target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=控制终端&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2912149567%7D">控制终端</a>挂断（也就是断开）或控制进程死亡时，会发出<code>SIGHUP</code>信号，收到该信号的进程的默认行为（action）是
+<p>根据说明，当控制终端挂断（也就是断开）或控制进程死亡时，会发出<code>SIGHUP</code>信号，收到该信号的进程的默认行为（action）是
 <code>Term</code> ，<code>Term</code> 行为的描述如下：</p>
 <pre class="line-numbers language-text" data-language="text"><code class="language-text">Term   Default action is to terminate the process.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>综上所述，当终端退出时，会发出<code>SIGHUP</code>信号，接收到该信号的进程的默认行为就是中止进程。那么，会给哪些进程发送信号呢？GNU文档<a

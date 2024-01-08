@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2023-11-09T11:39:55.087Z</updated>
+  <updated>2024-01-08T11:10:09.210Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>兄弟连中Moose被哨兵误伤的解释</title>
+    <link href="https://googles.plus/2024/01/08/xiong-di-lian-zhong-moose-bei-shao-bing-wu-shang-de-jie-shi/"/>
+    <id>https://googles.plus/2024/01/08/xiong-di-lian-zhong-moose-bei-shao-bing-wu-shang-de-jie-shi/</id>
+    <published>2024-01-08T11:00:01.000Z</published>
+    <updated>2024-01-08T11:10:09.210Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;电影同名书籍中有这样一段 Winters 的独白：&lt;/p&gt;
+&lt;p&gt;&quot;As Moose and I proceeded down the path leading to Welsh&#39;s CP,&quot;
+Winters related, &quot;we were walking</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Linux 使程序在后台长久运行</title>
@@ -456,27 +479,6 @@ goverments have never learned anything from history</summary>
 容器端口绕过 firewalld 防火墙解决方案&lt;/h1&gt;
 &lt;h2 id=&quot;docker-不使用-iptables&quot;&gt;docker 不使用 iptables&lt;/h2&gt;
 &lt;p&gt;在</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Oracle SQL Developer 美化</title>
-    <link href="https://googles.plus/2023/04/24/oracle-sql-developer-mei-hua/"/>
-    <id>https://googles.plus/2023/04/24/oracle-sql-developer-mei-hua/</id>
-    <published>2023-04-24T10:51:12.000Z</published>
-    <updated>2023-07-19T02:09:29.808Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;配置目录 &lt;code&gt;&#92;sqldeveloper&#92;bin&#92;sqldeveloper.conf&lt;/code&gt;, Linux</summary>
         
       
     

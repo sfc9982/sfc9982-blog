@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2024-01-08T14:42:57.246Z</updated>
+  <updated>2024-01-10T17:46:31.470Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Windows 通过注册表控制幽灵融毁漏洞的缓解</title>
+    <link href="https://googles.plus/2024/01/11/windows-tong-guo-zhu-ce-biao-kong-zhi-you-ling-rong-hui-lou-dong-de-huan-jie/"/>
+    <id>https://googles.plus/2024/01/11/windows-tong-guo-zhu-ce-biao-kong-zhi-you-ling-rong-hui-lou-dong-de-huan-jie/</id>
+    <published>2024-01-10T17:44:13.000Z</published>
+    <updated>2024-01-10T17:46:31.470Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;On Skylake and above, Retpoline is not used because it is not
+robust.&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-powershell&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>兄弟连中Moose被哨兵误伤的解释</title>
@@ -454,30 +477,6 @@ Manaul&lt;/a&gt; 中写到：&lt;/p&gt;
     <summary type="html">&lt;h3 id=&quot;原文&quot;&gt;原文&lt;/h3&gt;
 &lt;p&gt;But what experience and history teach is this – that nations and
 goverments have never learned anything from history</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>docker 容器端口绕过 firewalld 防火墙解决方案</title>
-    <link href="https://googles.plus/2023/05/18/docker-rong-qi-duan-kou-rao-guo-firewalld-fang-huo-qiang-jie-jue-fang-an/"/>
-    <id>https://googles.plus/2023/05/18/docker-rong-qi-duan-kou-rao-guo-firewalld-fang-huo-qiang-jie-jue-fang-an/</id>
-    <published>2023-05-18T11:19:14.000Z</published>
-    <updated>2023-07-19T02:09:29.814Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;docker-容器端口绕过-firewalld-防火墙解决方案&quot;&gt;docker
-容器端口绕过 firewalld 防火墙解决方案&lt;/h1&gt;
-&lt;h2 id=&quot;docker-不使用-iptables&quot;&gt;docker 不使用 iptables&lt;/h2&gt;
-&lt;p&gt;在</summary>
         
       
     

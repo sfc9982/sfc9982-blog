@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Windows 通过注册表控制幽灵融毁漏洞的缓解</title>
+      <link href="/2024/01/11/windows-tong-guo-zhu-ce-biao-kong-zhi-you-ling-rong-hui-lou-dong-de-huan-jie/"/>
+      <url>/2024/01/11/windows-tong-guo-zhu-ce-biao-kong-zhi-you-ling-rong-hui-lou-dong-de-huan-jie/</url>
+      
+        <content type="html"><![CDATA[<p>On Skylake and above, Retpoline is not used because it is notrobust.</p><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">reg add <span class="token string">"HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"</span> <span class="token operator">/</span>v FeatureSettingsOverride <span class="token operator">/</span>t REG_DWORD <span class="token operator">/</span>d 0x400reg add <span class="token string">"HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"</span> <span class="token operator">/</span>v FeatureSettingsOverrideMask <span class="token operator">/</span>t REG_DWORD <span class="token operator">/</span>d 0x400<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>https://github.com/microsoft/SpeculationControl</p><p>https://support.microsoft.com/en-us/topic/kb4073119-windows-client-guidance-for-it-pros-to-protect-against-silicon-based-microarchitectural-and-speculative-execution-side-channel-vulnerabilities-35820a8a-ae13-1299-88cc-357f104f5b11</p><p>https://techcommunity.microsoft.com/t5/windows-os-platform-blog/mitigating-spectre-variant-2-with-retpoline-on-windows/ba-p/295618</p><p>https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/03/24/retpoline</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>兄弟连中Moose被哨兵误伤的解释</title>
       <link href="/2024/01/08/xiong-di-lian-zhong-moose-bei-shao-bing-wu-shang-de-jie-shi/"/>
       <url>/2024/01/08/xiong-di-lian-zhong-moose-bei-shao-bing-wu-shang-de-jie-shi/</url>

@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2024-01-10T17:46:31.470Z</updated>
+  <updated>2024-01-25T10:27:51.172Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CMake对Windows程序加入UAC支持</title>
+    <link href="https://googles.plus/2024/01/25/cmake-dui-windows-cheng-xu-jia-ru-uac-zhi-chi/"/>
+    <id>https://googles.plus/2024/01/25/cmake-dui-windows-cheng-xu-jia-ru-uac-zhi-chi/</id>
+    <published>2024-01-25T05:55:29.000Z</published>
+    <updated>2024-01-25T10:27:51.172Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Windows 上的二进制出现可能会遇到需要 Administrator
+权限的操作。除了选择“以管理员身份运行”方式来运行程序，还可以通过
+Manifest 的方法来提示系统自动使用 UAC</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Windows" scheme="https://googles.plus/tags/Windows/"/>
+    
+    <category term="C/C++" scheme="https://googles.plus/tags/C-C/"/>
+    
+    <category term="CMake" scheme="https://googles.plus/tags/CMake/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Visual Studio 2012 取消菜单栏大写</title>
+    <link href="https://googles.plus/2024/01/11/visual-studio-2012-qu-xiao-cai-dan-lan-da-xie/"/>
+    <id>https://googles.plus/2024/01/11/visual-studio-2012-qu-xiao-cai-dan-lan-da-xie/</id>
+    <published>2024-01-10T17:50:07.000Z</published>
+    <updated>2024-01-10T18:00:42.028Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;pre class=&quot;line-numbers language-none&quot;&gt;&lt;code class=&quot;language-none&quot;&gt;HKEY_CURRENT_USER&#92;Software&#92;Microsoft&#92;VisualStudio&#92;11.0&#92;General
+DWORD:</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Windows 通过注册表控制幽灵融毁漏洞的缓解</title>
@@ -435,53 +486,6 @@ lxss.sys 和 lxcore.sys 这两个驱动负责模拟</summary>
     <category term="podman" scheme="https://googles.plus/tags/podman/"/>
     
     <category term="Linux" scheme="https://googles.plus/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sudo 中的 alias</title>
-    <link href="https://googles.plus/2023/06/11/sudo-zhong-de-alias/"/>
-    <id>https://googles.plus/2023/06/11/sudo-zhong-de-alias/</id>
-    <published>2023-06-11T09:05:46.000Z</published>
-    <updated>2023-07-19T02:09:29.816Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;a href=&quot;http://www.gnu.org/software/bash/manual/bashref.html#Aliases&quot;&gt;Bash
-Manaul&lt;/a&gt; 中写到：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Aliases allow a string</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>人类从历史中学到的唯一教训</title>
-    <link href="https://googles.plus/2023/06/09/ren-lei-cong-li-shi-zhong-xue-dao-de-wei-yi-jiao-xun/"/>
-    <id>https://googles.plus/2023/06/09/ren-lei-cong-li-shi-zhong-xue-dao-de-wei-yi-jiao-xun/</id>
-    <published>2023-06-08T16:26:02.000Z</published>
-    <updated>2023-07-19T02:09:29.818Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;原文&quot;&gt;原文&lt;/h3&gt;
-&lt;p&gt;But what experience and history teach is this – that nations and
-goverments have never learned anything from history</summary>
-        
-      
-    
-    
-    
     
   </entry>
   

@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2024-03-14T11:10:24.683Z</updated>
+  <updated>2024-03-14T13:34:23.908Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Fleet &amp; C++: compile_commands.json</title>
+    <link href="https://googles.plus/2024/03/14/fleet-c-compile-commands-json/"/>
+    <id>https://googles.plus/2024/03/14/fleet-c-compile-commands-json/</id>
+    <published>2024-03-14T11:20:57.000Z</published>
+    <updated>2024-03-14T13:34:23.908Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;compiledb&quot;&gt;1. CompileDB&lt;/h3&gt;
+&lt;p&gt;https://github.com/nickdiego/compiledb&lt;/p&gt;
+&lt;h3 id=&quot;gnu-make&quot;&gt;2. GNU Make&lt;/h3&gt;
+&lt;pre</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>podman 与 docker 共存</title>
@@ -456,31 +480,6 @@ lxss.sys 和 lxcore.sys 这两个驱动负责模拟</summary>
     
     
     <category term="C/C++" scheme="https://googles.plus/tags/C-C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GraalVM 编译期引用 msvc</title>
-    <link href="https://googles.plus/2023/06/27/graalvm-bian-yi-qi-yin-yong-msvc/"/>
-    <id>https://googles.plus/2023/06/27/graalvm-bian-yi-qi-yin-yong-msvc/</id>
-    <published>2023-06-27T08:19:06.000Z</published>
-    <updated>2023-07-19T02:09:29.805Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;使用 GraalVM JDK 中的 &lt;code&gt;native-image&lt;/code&gt;
-编译原生应用时，如果使用 jabba 之类的 SDK
-管理器的话，环境变量管理可能会与 Visual Studio
-的开发人员工具环境起冲突，无法同时共用两个。&lt;/p&gt;
-&lt;p&gt;可以在</summary>
-        
-      
-    
-    
-    
     
   </entry>
   

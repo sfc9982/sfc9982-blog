@@ -42,9 +42,9 @@
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
 </head>
 
 
@@ -400,6 +400,50 @@
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/01/19/nei-cun-ping-zhang-yu-nei-cun-pai-xu/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages_anime/955048190.avif" class="responsive-img" alt="内存屏障与内存排序">
+                            
+                            <span class="card-title">内存屏障与内存排序</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                引言
+void Thread0() {
+    for (size_t i = 0; i &lt; ARR_LEN; ++i)
+        a[i] = 0;
+}
+
+void Thread1() {
+    for (size_t i 
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-19
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                sfc9982
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
             
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
@@ -963,63 +1007,6 @@ flag格式为 ctfshow{明文}
             </div>
               <!-- 隐藏某个文章 -->
             
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2022/11/13/vmware-vsphere-esxi-8-0-xu-ke-zheng/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages_anime/748936370.avif" class="responsive-img" alt="VMware vSphere (ESXi) 8.0 许可证">
-                            
-                            <span class="card-title">VMware vSphere (ESXi) 8.0 许可证</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                VMware vSphere (ESXi) 8.0
-许可证
-ESXi
-4V492-44210-48830-931GK-2PRJ4 HG00K-03H8K-48929-8K1NP-3LUJ4
-4F40H-4ML1K-M89U0-0C2N4-1
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-13
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                sfc9982
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/VMware/">
-                            <span class="chip bg-color">VMware</span>
-                        </a>
-                        
-                        <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">
-                            <span class="chip bg-color">虚拟化</span>
-                        </a>
-                        
-                        <a href="/tags/ESXi/">
-                            <span class="chip bg-color">ESXi</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
         </div>
     </article>
 
@@ -1118,7 +1105,7 @@ ESXi
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">213.9k</span>
+                        class="white-color">214k</span>
             
             
             

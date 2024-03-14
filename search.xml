@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Fleet &amp; C++: compile_commands.json</title>
+      <link href="/2024/03/14/fleet-c-compile-commands-json/"/>
+      <url>/2024/03/14/fleet-c-compile-commands-json/</url>
+      
+        <content type="html"><![CDATA[<h3 id="compiledb">1. CompileDB</h3><p>https://github.com/nickdiego/compiledb</p><h3 id="gnu-make">2. GNU Make</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">make</span> --always-make --dry-run <span class="token punctuation">\</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-wE</span> <span class="token string">'gcc|g\+\+'</span> <span class="token punctuation">\</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-w</span> <span class="token string">'\-c'</span> <span class="token punctuation">\</span> <span class="token operator">|</span> jq <span class="token parameter variable">-nR</span> <span class="token string">'[inputs|{directory:".", command:., file: match(" [^ ]+$").string[1:]}]'</span> <span class="token punctuation">\</span> <span class="token operator">&gt;</span> compile_commands.json<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="bear">3. Bear</h3><p>https://github.com/rizsotto/Bear</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>podman 与 docker 共存</title>
       <link href="/2024/03/14/podman-yu-docker-gong-cun/"/>
       <url>/2024/03/14/podman-yu-docker-gong-cun/</url>

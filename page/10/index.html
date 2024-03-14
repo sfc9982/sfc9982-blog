@@ -42,9 +42,9 @@
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
+
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
 </head>
 
 
@@ -400,6 +400,61 @@
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2022/08/16/windows-quan-xian-wei-chi-yin-cang-zhang-hu/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages_anime/753635470.avif" class="responsive-img" alt="Windows 权限维持 - 隐藏账户">
+                            
+                            <span class="card-title">Windows 权限维持 - 隐藏账户</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Registry
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList
+中新建DWORD键，名称为
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-16
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                sfc9982
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Windows/">
+                            <span class="chip bg-color">Windows</span>
+                        </a>
+                        
+                        <a href="/tags/CTF/">
+                            <span class="chip bg-color">CTF</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%B8%97%E9%80%8F/">
+                            <span class="chip bg-color">渗透</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
             
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
@@ -1000,66 +1055,6 @@ c_str()是Borland封装的Str
             </div>
               <!-- 隐藏某个文章 -->
             
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2022/05/08/openwrt-huan-jing-xia-shua-ru-bootloader/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages_anime/780858450.avif" class="responsive-img" alt="OpenWrt环境下刷入Breed Bootloader">
-                            
-                            <span class="card-title">OpenWrt环境下刷入Breed Bootloader</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                路由器刷机变砖的原因多是意外覆盖了bootloader或启动分区，导致既无法启动，又无法恢复启动分区或Bootloader。
-BreedWeb可以有效避免这一问题。不严谨地说，做到“刷不坏”。
-
-U-Boot 一个能够在很多嵌入式平台上使用
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-08
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/" class="post-category">
-                                    网络工程
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E7%BD%91%E7%BB%9C/">
-                            <span class="chip bg-color">网络</span>
-                        </a>
-                        
-                        <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/">
-                            <span class="chip bg-color">路由器</span>
-                        </a>
-                        
-                        <a href="/tags/OpenWrt/">
-                            <span class="chip bg-color">OpenWrt</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
         </div>
     </article>
 
@@ -1158,7 +1153,7 @@ U-Boot 一个能够在很多嵌入式平台上使用
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">213.9k</span>
+                        class="white-color">214k</span>
             
             
             

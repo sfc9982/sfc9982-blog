@@ -8,8 +8,8 @@
     <meta name="description" content="想要程序在后台长久运行有多种方法：
 1、使用 nohup + &amp;amp; 的方法
 nohup 使用方法如下：
-nohup COMMAND &gt; stdout.log 2&gt; stderr.log &amp;amp;
-上述命令，会把程序的标准输出">
+nohup COMMAND &amp;gt; stdout.log 2&amp;gt; stderr.log &amp;amp;
+上述命令，会把程序的标准">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -390,7 +390,7 @@ nohup COMMAND &gt; stdout.log 2&gt; stderr.log &amp;amp;
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    688
+                    692
                 </div>
                 
 
@@ -423,15 +423,14 @@ nohup COMMAND &gt; stdout.log 2&gt; stderr.log &amp;amp;
                 <p>想要程序在后台长久运行有多种方法：</p>
 <h3 id="使用-nohup-的方法">1、使用 nohup + &amp; 的方法</h3>
 <p>nohup 使用方法如下：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> COMMAND <span class="token operator">></span> stdout.log <span class="token operator"><span class="token file-descriptor important">2</span>></span> stderr.log <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> COMMAND <span class="token operator">&gt;</span> stdout.log <span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span> stderr.log <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>上述命令，会把程序的标准输出写入 stdout.log 文件；错误输出写入
 stderr.log 文件</p>
 <p>或者</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">nohup COMMAND > stdout.log 2>&amp;1 &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">nohup COMMAND &gt; stdout.log 2&gt;&amp;1 &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>上述命令，会把标准输出和错误输出全都写入 stdout.log 文件。</p>
 <h3 id="关于nohup"><strong>关于nohup：</strong></h3>
-<p>gnu官方文档<a
-target="_blank" rel="noopener" href="https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html%23nohup-invocation">(GNU
+<p>gnu官方文档<a target="_blank" rel="noopener" href="https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html%23nohup-invocation">(GNU
 Coreutils 9.1)</a>对<code>nohup</code>命令说明如下：</p>
 <blockquote>
 <p><code>nohup</code>runs the given <em>command</em> with hangup signals
@@ -456,22 +455,19 @@ after you log out.</p>
 <p>根据说明，当控制终端挂断（也就是断开）或控制进程死亡时，会发出<code>SIGHUP</code>信号，收到该信号的进程的默认行为（action）是
 <code>Term</code> ，<code>Term</code> 行为的描述如下：</p>
 <pre class="line-numbers language-text" data-language="text"><code class="language-text">Term   Default action is to terminate the process.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>综上所述，当终端退出时，会发出<code>SIGHUP</code>信号，接收到该信号的进程的默认行为就是中止进程。那么，会给哪些进程发送信号呢？GNU文档<a
-href="https://link.zhihu.com/?target=https%3A//www.gnu.org/software/libc/manual/html_node/Termination-Signals.html">Termination-Signals</a>对此有如下说明：</p>
+<p>综上所述，当终端退出时，会发出<code>SIGHUP</code>信号，接收到该信号的进程的默认行为就是中止进程。那么，会给哪些进程发送信号呢？GNU文档<a href="https://link.zhihu.com/?target=https%3A//www.gnu.org/software/libc/manual/html_node/Termination-Signals.html">Termination-Signals</a>对此有如下说明：</p>
 <pre class="line-numbers language-text" data-language="text"><code class="language-text">Macro: int SIGHUP
 This signal is also used to report the termination of the controlling process on a 
 terminal to jobs associated with that session; this termination effectively disconnects
  all processes in the session from the controlling terminal.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>翻译过来就是，当一个终端的控制进程中止时，会报告给同一<code>session</code>
 下关联的的所有<code>job</code>。</p>
-<p>当我们使用终端登录时，系统自动为我们分配一个<code>session</code>，从该终端启动的所有进程及其<a
-target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=子进程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2912149567%7D">子进程</a>，都隶属于同一个<code>session</code>，该<code>session</code>下的所有进程称为一个<code>session</code>组；当用户退出登录时，该<code>session</code>组下的进程将会收到<code>SIGHUP</code>信号。</p>
+<p>当我们使用终端登录时，系统自动为我们分配一个<code>session</code>，从该终端启动的所有进程及其<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=子进程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2912149567%7D">子进程</a>，都隶属于同一个<code>session</code>，该<code>session</code>下的所有进程称为一个<code>session</code>组；当用户退出登录时，该<code>session</code>组下的进程将会收到<code>SIGHUP</code>信号。</p>
 <p><strong>综上所述，当终端退出时，该<code>session</code>下的所有进程收到</strong>
 <strong><code>SIGHUP</code>信号，该信号的默认行为是中止进程；而使用<code>nohup</code>启动的进程，会忽略该信号</strong>。</p>
 <h3 id="使用-tmux">2、使用 tmux</h3>
 <p>tmux 用起来还是比较复杂，下载及使用可以参考官方地址：</p>
-<p><a
-target="_blank" rel="noopener" href="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></p>
 <h3 id="使用-screen">3、使用 screen</h3>
 <p>screen 与 tmux 类似，可参考这里：</p>
 <p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/screen/">Screen - GNU Project -
@@ -843,7 +839,7 @@ Free Software Foundation</a></p>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">213.6k</span>
+                        class="white-color">213.9k</span>
             
             
             

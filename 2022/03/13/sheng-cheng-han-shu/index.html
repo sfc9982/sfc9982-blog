@@ -465,7 +465,7 @@
 <p>例如：<span class="math inline">\(a=\{1,1,1\}\)</span> 表示 <span class="math inline">\(A\)</span> 类物品中可以选 <span class="math inline">\(0\)</span> 件或 <span class="math inline">\(1\)</span> 件或 <span class="math inline">\(2\)</span> 件，但不能选大于 <span class="math inline">\(2\)</span> 件；又例如无限长数列 <span class="math inline">\(b = \{ 1,0,0,1,0,0,1,0,0, \ldots \}\)</span> 表示
 <span class="math inline">\(B\)</span> 类物品只能选 <span class="math inline">\(3\)</span> 的倍数件。这时候，把 <span class="math inline">\(f(x) = 1 + x + {x^2}\)</span> 和 <span class="math inline">\(g(x) = 1 + {x^3} + {x^6} + {x^9}...\)</span>
 乘起来，得到另一个函数 <span class="math inline">\(h(x) = 1 + x + {x^2}
-+ {x^3} + {x^4} + \ldots\)</span> 。这个函数有什么意义呢？它的第 <span class="math inline">\(i\)</span> 项的系数就是选<span class="math inline">\(A\)</span>、<span class="math inline">\(B\)</span>两种物品共 <span class="math inline">\(i\)</span> 件的方案数。</p>
++ {x^3} + {x^4} +  \ldots\)</span> 。这个函数有什么意义呢？它的第 <span class="math inline">\(i\)</span> 项的系数就是选<span class="math inline">\(A\)</span>、<span class="math inline">\(B\)</span>两种物品共 <span class="math inline">\(i\)</span> 件的方案数。</p>
 <p>大家可能会好奇：这不就是把两个多项式乘起来么？和
 一次次枚举情况有什么区别？</p>
 <p>这里扯得远一点：多项式可以 <strong>FFT（快速傅里叶变换）</strong></p>
@@ -475,14 +475,14 @@
 <p><span class="math inline">\(f(x) = \frac{1}{ {1 - x} }\)</span>
 是否是 <span class="math inline">\(a = \{ 1,1,1,1,1, \ldots \}\)</span>
 的生成函数？</p>
-<p>估计大家可能会毅然决然地否定，因为它的生成函数是 <span class="math inline">\(1 + x + {x^2} + {x^3} + \cdots\)</span>
+<p>估计大家可能会毅然决然地否定，因为它的生成函数是 <span class="math inline">\(1 + x + {x^2} + {x^3} +  \cdots\)</span>
 。但如果考虑定义域 <span class="math inline">\(x \in ( - 1,1)\)</span>
 呢？</p>
 <blockquote>
 <p>这里大家可以停顿一下想一想</p>
 </blockquote>
 <p>根据我们小学学过的等比数列求和公式：</p>
-<p><span class="math inline">\(1 + x + {x^2} + {x^3} + \cdots\)</span>
+<p><span class="math inline">\(1 + x + {x^2} + {x^3} +  \cdots\)</span>
 的前 <span class="math inline">\(n\)</span> 项和等于<span class="math inline">\(\frac{1 - {x^n} }{1 - x}\)</span> ，</p>
 <p>这是个无限长的数列，</p>
 <p>且 <span class="math inline">\(\mathop {\lim }\limits_{n \to \infty}
@@ -498,7 +498,7 @@
 <p>那函数 <span class="math inline">\(1 + 2x + 3{x^2} + 4{x^3}
 \cdots\)</span> 呢？</p>
 <p>对等式 <span class="math inline">\(\frac{1}{ {1 - x} } = 1 + x +
-{x^2} + {x^3} + \cdots\)</span> 两边分别求导，或者把两个 <span class="math inline">\(1 + x + {x^2} + {x^3} + \cdots\)</span>
+{x^2} + {x^3} +  \cdots\)</span> 两边分别求导，或者把两个 <span class="math inline">\(1 + x + {x^2} + {x^3} +  \cdots\)</span>
 乘起来就可以了。</p>
 <p>进而考虑推广，</p>
 <p><span class="math display">\[
@@ -506,8 +506,8 @@
 - 1}{x^i} }
 \]</span></p>
 <p><span class="math inline">\(\frac{1}{(1 - x)^k}\)</span> 就是 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +
-{x^2} + {x^3} + \cdots\)</span> 相乘，那么第 <span class="math inline">\(i\)</span> 项系数就是从 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +
-{x^2} + {x^3} + \cdots\)</span> 中每个选出一项，乘起来恰为 <span class="math inline">\({x^i}\)</span> 的方案数，就是 <span class="math inline">\(i = {x_1} + {x_2} + ... + {x_k}\)</span>
+{x^2} + {x^3} +  \cdots\)</span> 相乘，那么第 <span class="math inline">\(i\)</span> 项系数就是从 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +
+{x^2} + {x^3} +  \cdots\)</span> 中每个选出一项，乘起来恰为 <span class="math inline">\({x^i}\)</span> 的方案数，就是 <span class="math inline">\(i = {x_1} + {x_2} + ... + {x_k}\)</span>
 的非负整数解的组数，用组合数学中的隔板法求，是不是有道理 ？</p>
 <h2 id="example-fibbonaci-数列">Example: Fibbonaci 数列</h2>
 <p>先说结论：<strong>生成函数求斐波那契数列的通项</strong></p>
@@ -973,7 +973,7 @@ f(x) = \frac{x}{1 - x - x^2}
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">213.6k</span>
+                        class="white-color">213.9k</span>
             
             
             

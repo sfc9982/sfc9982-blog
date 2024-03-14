@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title>podman 与 docker 共存</title>
+      <link href="/2024/03/14/podman-yu-docker-gong-cun/"/>
+      <url>/2024/03/14/podman-yu-docker-gong-cun/</url>
+      
+        <content type="html"><![CDATA[<p>Red Hat 把 Podman 作为 Docker的替代品发行给用户，但两者同时安装会出现一些问题。</p><ul><li>Docker CE 安装需要 containerd.io 由 Docker 提供</li><li>来自 Docker 的 containerd.io 包括 runc (下级容器执行引擎)</li><li>该 runc 与 Podman 和 Skopeo 所需的 RHEL / CentOS 本机 runc软件包冲突。</li></ul><p>Docker团队试图解决：https://github.com/docker/containerd-packaging/pull/231</p><p>要解决此问题，诀窍是手动安装 Docker containerd.io软件包，排除有问题的 runc，然后安装Docker CE。</p><p>Docker 将使用 RHEL 平台上的 runc (实际上两者相同)，并且不会与Podman，Skopeo 等所需的任何软件包发生冲突。</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. Podman</span><span class="token function">sudo</span> dnf <span class="token function">install</span> <span class="token function">podman</span><span class="token comment"># 2. 检查可用</span><span class="token function">sudo</span> <span class="token function">podman</span> run hello-world<span class="token comment"># 3. 安装 docker repo，并禁用，防止和 RH 的冲突</span><span class="token function">sudo</span> dnf config-manager --add-repo<span class="token operator">=</span>https://download.docker.com/linux/centos/docker-ce.repo<span class="token function">sudo</span> dnf config-manager --set-disabled docker-ce-stable<span class="token comment"># 4. rpm 方式安装，不包括 runc</span><span class="token function">sudo</span> <span class="token function">rpm</span> <span class="token parameter variable">--install</span> <span class="token parameter variable">--nodeps</span> <span class="token parameter variable">--replacefiles</span> <span class="token parameter variable">--excludepath</span><span class="token operator">=</span>/usr/bin/runc https://download.docker.com/linux/centos/8/x86_64/stable/Packages/containerd.io-1.4.9-3.1.el8.x86_64.rpm<span class="token comment"># 5. 安装 docker ce</span><span class="token function">sudo</span> dnf <span class="token function">install</span> <span class="token parameter variable">--enablerepo</span><span class="token operator">=</span>docker-ce-stable docker-ce<span class="token comment"># 6. 启动并测试</span><span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> <span class="token parameter variable">--now</span> <span class="token function">docker</span><span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span class="token function">sudo</span> <span class="token function">podman</span> run hello-world<span class="token function">sudo</span> dnf update<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>podman在不同用户间传递image</title>
+      <link href="/2024/03/14/podman-zai-bu-tong-yong-hu-jian-chuan-di-image/"/>
+      <url>/2024/03/14/podman-zai-bu-tong-yong-hu-jian-chuan-di-image/</url>
+      
+        <content type="html"><![CDATA[<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">podman</span> save myimage <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token parameter variable">-u</span> myuser <span class="token function">podman</span> load` // copy<span class="token function">sudo</span> <span class="token function">podman</span> rmi myimage // <span class="token keyword">if</span> a <span class="token string">"move"</span> is desired<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CMake对Windows程序加入UAC支持</title>
       <link href="/2024/01/25/cmake-dui-windows-cheng-xu-jia-ru-uac-zhi-chi/"/>
       <url>/2024/01/25/cmake-dui-windows-cheng-xu-jia-ru-uac-zhi-chi/</url>
@@ -70,7 +96,7 @@
       <link href="/2023/11/09/linux-shi-cheng-xu-zai-hou-tai-chang-jiu-yun-xing/"/>
       <url>/2023/11/09/linux-shi-cheng-xu-zai-hou-tai-chang-jiu-yun-xing/</url>
       
-        <content type="html"><![CDATA[<p>想要程序在后台长久运行有多种方法：</p><h3 id="使用-nohup-的方法">1、使用 nohup + &amp; 的方法</h3><p>nohup 使用方法如下：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> COMMAND <span class="token operator">></span> stdout.log <span class="token operator"><span class="token file-descriptor important">2</span>></span> stderr.log <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>上述命令，会把程序的标准输出写入 stdout.log 文件；错误输出写入stderr.log 文件</p><p>或者</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">nohup COMMAND > stdout.log 2>&amp;1 &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>上述命令，会把标准输出和错误输出全都写入 stdout.log 文件。</p><h3 id="关于nohup"><strong>关于nohup：</strong></h3><p>gnu官方文档<ahref="https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html%23nohup-invocation">(GNUCoreutils 9.1)</a>对<code>nohup</code>命令说明如下：</p><blockquote><p><code>nohup</code>runs the given <em>command</em> with hangup signalsignored, so that the command can continue running in the backgroundafter you log out.</p></blockquote><p>也就是说使用<code>nohup</code> 启动的命令会忽略 <code>hangup</code>信号，所以当退出登录时，该命令会在后台继续运行。</p><p>既然说明里提到了<code>hangup</code>信号（<code>hangup signals</code>），我们就来看看什么是<code>hangup</code>信号。使用<code>kill -l</code>命令可以看到系统里所有的信号:</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">$ kill -l 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL10) SIGUSR1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>其中，<code>SIGHUP</code>就是上文提到的<code>hangup</code>信号，编号为1。</p><p>使用<code>man</code> <code>7 signal</code>命令，可以看到关于信号较为详细的说明，其中关于<code>SIGHUP</code>的说明如下：</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">Signal     Value     Action   Comment       ──────────────────────────────────────────────────────────────────────       SIGHUP        1       Term    Hangup detected on controlling terminal                                     or death of controlling process<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>根据说明，当控制终端挂断（也就是断开）或控制进程死亡时，会发出<code>SIGHUP</code>信号，收到该信号的进程的默认行为（action）是<code>Term</code> ，<code>Term</code> 行为的描述如下：</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">Term   Default action is to terminate the process.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>综上所述，当终端退出时，会发出<code>SIGHUP</code>信号，接收到该信号的进程的默认行为就是中止进程。那么，会给哪些进程发送信号呢？GNU文档<ahref="https://link.zhihu.com/?target=https%3A//www.gnu.org/software/libc/manual/html_node/Termination-Signals.html">Termination-Signals</a>对此有如下说明：</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">Macro: int SIGHUPThis signal is also used to report the termination of the controlling process on a terminal to jobs associated with that session; this termination effectively disconnects all processes in the session from the controlling terminal.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>翻译过来就是，当一个终端的控制进程中止时，会报告给同一<code>session</code>下关联的的所有<code>job</code>。</p><p>当我们使用终端登录时，系统自动为我们分配一个<code>session</code>，从该终端启动的所有进程及其<ahref="https://www.zhihu.com/search?q=子进程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2912149567%7D">子进程</a>，都隶属于同一个<code>session</code>，该<code>session</code>下的所有进程称为一个<code>session</code>组；当用户退出登录时，该<code>session</code>组下的进程将会收到<code>SIGHUP</code>信号。</p><p><strong>综上所述，当终端退出时，该<code>session</code>下的所有进程收到</strong><strong><code>SIGHUP</code>信号，该信号的默认行为是中止进程；而使用<code>nohup</code>启动的进程，会忽略该信号</strong>。</p><h3 id="使用-tmux">2、使用 tmux</h3><p>tmux 用起来还是比较复杂，下载及使用可以参考官方地址：</p><p><ahref="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></p><h3 id="使用-screen">3、使用 screen</h3><p>screen 与 tmux 类似，可参考这里：</p><p><a href="https://www.gnu.org/software/screen/">Screen - GNU Project -Free Software Foundation</a></p>]]></content>
+        <content type="html"><![CDATA[<p>想要程序在后台长久运行有多种方法：</p><h3 id="使用-nohup-的方法">1、使用 nohup + &amp; 的方法</h3><p>nohup 使用方法如下：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> COMMAND <span class="token operator">&gt;</span> stdout.log <span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span> stderr.log <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>上述命令，会把程序的标准输出写入 stdout.log 文件；错误输出写入stderr.log 文件</p><p>或者</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">nohup COMMAND &gt; stdout.log 2&gt;&amp;1 &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>上述命令，会把标准输出和错误输出全都写入 stdout.log 文件。</p><h3 id="关于nohup"><strong>关于nohup：</strong></h3><p>gnu官方文档<a href="https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html%23nohup-invocation">(GNUCoreutils 9.1)</a>对<code>nohup</code>命令说明如下：</p><blockquote><p><code>nohup</code>runs the given <em>command</em> with hangup signalsignored, so that the command can continue running in the backgroundafter you log out.</p></blockquote><p>也就是说使用<code>nohup</code> 启动的命令会忽略 <code>hangup</code>信号，所以当退出登录时，该命令会在后台继续运行。</p><p>既然说明里提到了<code>hangup</code>信号（<code>hangup signals</code>），我们就来看看什么是<code>hangup</code>信号。使用<code>kill -l</code>命令可以看到系统里所有的信号:</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">$ kill -l 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL10) SIGUSR1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>其中，<code>SIGHUP</code>就是上文提到的<code>hangup</code>信号，编号为1。</p><p>使用<code>man</code> <code>7 signal</code>命令，可以看到关于信号较为详细的说明，其中关于<code>SIGHUP</code>的说明如下：</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">Signal     Value     Action   Comment       ──────────────────────────────────────────────────────────────────────       SIGHUP        1       Term    Hangup detected on controlling terminal                                     or death of controlling process<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>根据说明，当控制终端挂断（也就是断开）或控制进程死亡时，会发出<code>SIGHUP</code>信号，收到该信号的进程的默认行为（action）是<code>Term</code> ，<code>Term</code> 行为的描述如下：</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">Term   Default action is to terminate the process.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>综上所述，当终端退出时，会发出<code>SIGHUP</code>信号，接收到该信号的进程的默认行为就是中止进程。那么，会给哪些进程发送信号呢？GNU文档<a href="https://link.zhihu.com/?target=https%3A//www.gnu.org/software/libc/manual/html_node/Termination-Signals.html">Termination-Signals</a>对此有如下说明：</p><pre class="line-numbers language-text" data-language="text"><code class="language-text">Macro: int SIGHUPThis signal is also used to report the termination of the controlling process on a terminal to jobs associated with that session; this termination effectively disconnects all processes in the session from the controlling terminal.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>翻译过来就是，当一个终端的控制进程中止时，会报告给同一<code>session</code>下关联的的所有<code>job</code>。</p><p>当我们使用终端登录时，系统自动为我们分配一个<code>session</code>，从该终端启动的所有进程及其<a href="https://www.zhihu.com/search?q=子进程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2912149567%7D">子进程</a>，都隶属于同一个<code>session</code>，该<code>session</code>下的所有进程称为一个<code>session</code>组；当用户退出登录时，该<code>session</code>组下的进程将会收到<code>SIGHUP</code>信号。</p><p><strong>综上所述，当终端退出时，该<code>session</code>下的所有进程收到</strong><strong><code>SIGHUP</code>信号，该信号的默认行为是中止进程；而使用<code>nohup</code>启动的进程，会忽略该信号</strong>。</p><h3 id="使用-tmux">2、使用 tmux</h3><p>tmux 用起来还是比较复杂，下载及使用可以参考官方地址：</p><p><a href="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></p><h3 id="使用-screen">3、使用 screen</h3><p>screen 与 tmux 类似，可参考这里：</p><p><a href="https://www.gnu.org/software/screen/">Screen - GNU Project -Free Software Foundation</a></p>]]></content>
       
       
       
@@ -825,9 +851,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
             <tag> ACM </tag>
             
@@ -1266,9 +1292,9 @@
       
         <tags>
             
-            <tag> AnyConnect </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> AnyConnect </tag>
             
             <tag> docker </tag>
             
@@ -1355,9 +1381,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
             <tag> 服务器 </tag>
             
@@ -2319,9 +2345,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
         </tags>
       
@@ -2427,9 +2453,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
         </tags>
       
@@ -2481,9 +2507,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
         </tags>
       
@@ -2562,9 +2588,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
         </tags>
       
@@ -2616,9 +2642,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
             <tag> 网络 </tag>
             
@@ -2691,7 +2717,7 @@
       <link href="/2022/03/13/sheng-cheng-han-shu/"/>
       <url>/2022/03/13/sheng-cheng-han-shu/</url>
       
-        <content type="html"><![CDATA[<h1 id="生成函数">生成函数</h1><h2 id="引入">引入</h2><p>对于一个长度无限一个随机数列，我们能不能用一个函数表示这个数列呢？</p><p>我们把每一项当做多项式的一个系数，得到了用来表示序列的多项式函数。</p><blockquote><p>详见：函数插值</p></blockquote><p>思考了一会，又找到了它的一种用途。假如数列 <span class="math inline">\(a\)</span> 代表一类物品，中 <span class="math inline">\(a_i\)</span> 表示这类物品中选 件物品的方案数</p><p>例如：<span class="math inline">\(a=\{1,1,1\}\)</span> 表示 <span class="math inline">\(A\)</span> 类物品中可以选 <span class="math inline">\(0\)</span> 件或 <span class="math inline">\(1\)</span> 件或 <span class="math inline">\(2\)</span> 件，但不能选大于 <span class="math inline">\(2\)</span> 件；又例如无限长数列 <span class="math inline">\(b = \{ 1,0,0,1,0,0,1,0,0, \ldots \}\)</span> 表示<span class="math inline">\(B\)</span> 类物品只能选 <span class="math inline">\(3\)</span> 的倍数件。这时候，把 <span class="math inline">\(f(x) = 1 + x + {x^2}\)</span> 和 <span class="math inline">\(g(x) = 1 + {x^3} + {x^6} + {x^9}...\)</span>乘起来，得到另一个函数 <span class="math inline">\(h(x) = 1 + x + {x^2}+ {x^3} + {x^4} + \ldots\)</span> 。这个函数有什么意义呢？它的第 <span class="math inline">\(i\)</span> 项的系数就是选<span class="math inline">\(A\)</span>、<span class="math inline">\(B\)</span>两种物品共 <span class="math inline">\(i\)</span> 件的方案数。</p><p>大家可能会好奇：这不就是把两个多项式乘起来么？和一次次枚举情况有什么区别？</p><p>这里扯得远一点：多项式可以 <strong>FFT（快速傅里叶变换）</strong></p><p>我们给这个“<strong>用函数表示数列</strong>”的东西取了个名字——数列的“生成函数”，表示用这个函数能生成一个数列。</p><h2 id="一些疑问">一些疑问</h2><p>现在有个问题：</p><p><span class="math inline">\(f(x) = \frac{1}{ {1 - x} }\)</span>是否是 <span class="math inline">\(a = \{ 1,1,1,1,1, \ldots \}\)</span>的生成函数？</p><p>估计大家可能会毅然决然地否定，因为它的生成函数是 <span class="math inline">\(1 + x + {x^2} + {x^3} + \cdots\)</span>。但如果考虑定义域 <span class="math inline">\(x \in ( - 1,1)\)</span>呢？</p><blockquote><p>这里大家可以停顿一下想一想</p></blockquote><p>根据我们小学学过的等比数列求和公式：</p><p><span class="math inline">\(1 + x + {x^2} + {x^3} + \cdots\)</span>的前 <span class="math inline">\(n\)</span> 项和等于<span class="math inline">\(\frac{1 - {x^n} }{1 - x}\)</span> ，</p><p>这是个无限长的数列，</p><p>且 <span class="math inline">\(\mathop {\lim }\limits_{n \to \infty}\frac{1 - {x^n} }{1 - x} = {x^n} = 0\)</span> ，这不就相等了嘛！</p><p>可是好好的一个函数，被我们蹂躏成这个样子，凭空给限定了定义域，这还是原来那个函数嘛？</p><p>注意！生成函数中的 <span class="math inline">\(x\)</span>是没有意义的。</p><p>例如，函数 <span class="math inline">\(1 + {x^2} + {x^4} +{x^6}{\text{ + } } \cdots\)</span> 是不是等于 <span class="math inline">\(\frac{1}{1 - {x^2} }\)</span> ？</p><blockquote><p>提示: t -&gt; x^2</p></blockquote><p>那函数 <span class="math inline">\(1 + 2x + 3{x^2} + 4{x^3}\cdots\)</span> 呢？</p><p>对等式 <span class="math inline">\(\frac{1}{ {1 - x} } = 1 + x +{x^2} + {x^3} + \cdots\)</span> 两边分别求导，或者把两个 <span class="math inline">\(1 + x + {x^2} + {x^3} + \cdots\)</span>乘起来就可以了。</p><p>进而考虑推广，</p><p><span class="math display">\[\frac{1}{ { { {(1 - x)}^k} } } = \sum\limits_i^\infty  {C_{i + k - 1}^{k- 1}{x^i} }\]</span></p><p><span class="math inline">\(\frac{1}{(1 - x)^k}\)</span> 就是 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +{x^2} + {x^3} + \cdots\)</span> 相乘，那么第 <span class="math inline">\(i\)</span> 项系数就是从 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +{x^2} + {x^3} + \cdots\)</span> 中每个选出一项，乘起来恰为 <span class="math inline">\({x^i}\)</span> 的方案数，就是 <span class="math inline">\(i = {x_1} + {x_2} + ... + {x_k}\)</span>的非负整数解的组数，用组合数学中的隔板法求，是不是有道理 ？</p><h2 id="example-fibbonaci-数列">Example: Fibbonaci 数列</h2><p>先说结论：<strong>生成函数求斐波那契数列的通项</strong></p><p>斐波那契数列的生成函数 ： <span class="math display">\[f(x) = x + {x^2} + 2{x^3} + 3{x^4} + 5{x^5} + 8{x^6} +  \cdots\text{(i)}\]</span> 乘 <span class="math inline">\(x\)</span> ，得 ： <span class="math display">\[x \cdot f(x) = {x^2} + {x^3} + 2{x^4} + 3{x^5} + 5{x^6} + 8{x^7}+  \cdots \text{(ii)}\]</span> 用 <span class="math inline">\(\text{i}\)</span> 式减去 <span class="math inline">\(\text{ii}\)</span> 式，得到 <span class="math display">\[f(x) - x \cdot f(x) = x + {x^3} + {x^4} + 2{x^5} + 3{x^6} + 5{x^7} +\cdots = x + {x^2} \cdot f(x)\]</span> 所以 <span class="math display">\[f(x) = \frac{x}{1 - x - x^2}\]</span></p><p>看着非常难受，把它还原成数列来验证：</p><p>首先， <span class="math inline">\(1 - x - {x^2}\)</span>可以被因式分解为：</p><p><span class="math display">\[(1 - \frac{ {1 - \sqrt 5 } }{2}x)(1 - \frac{ {1 + \sqrt 5 } }{2}x)\]</span> 所以 <span class="math display">\[\frac{x}{ {1 - x - {x^2} } } = \frac{x}{ {(1 - \frac{ {1 - \sqrt 5 }}{2}x)(1 - \frac{ {1 + \sqrt 5 } }{2}x)} }\]</span> 裂项 <span class="math display">\[\frac{x}{ {(1 - \frac{ {1 - \sqrt 5 } }{2}x)(1 - \frac{ {1 + \sqrt 5 }}{2}x)} } =  - \frac{1}{ {\sqrt 5 } }\frac{1}{ {(1 - \frac{ {1 - \sqrt 5} }{2}x)} } + \frac{1}{ {\sqrt 5 } }\frac{1}{ {(1 - \frac{ {1 + \sqrt 5} }{2}x)} }\]</span></p><p>这就是斐波那契数列通项公式了</p><p>这种方法也可以应用到各种<strong>线性齐次递推</strong>中</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="生成函数">生成函数</h1><h2 id="引入">引入</h2><p>对于一个长度无限一个随机数列，我们能不能用一个函数表示这个数列呢？</p><p>我们把每一项当做多项式的一个系数，得到了用来表示序列的多项式函数。</p><blockquote><p>详见：函数插值</p></blockquote><p>思考了一会，又找到了它的一种用途。假如数列 <span class="math inline">\(a\)</span> 代表一类物品，中 <span class="math inline">\(a_i\)</span> 表示这类物品中选 件物品的方案数</p><p>例如：<span class="math inline">\(a=\{1,1,1\}\)</span> 表示 <span class="math inline">\(A\)</span> 类物品中可以选 <span class="math inline">\(0\)</span> 件或 <span class="math inline">\(1\)</span> 件或 <span class="math inline">\(2\)</span> 件，但不能选大于 <span class="math inline">\(2\)</span> 件；又例如无限长数列 <span class="math inline">\(b = \{ 1,0,0,1,0,0,1,0,0, \ldots \}\)</span> 表示<span class="math inline">\(B\)</span> 类物品只能选 <span class="math inline">\(3\)</span> 的倍数件。这时候，把 <span class="math inline">\(f(x) = 1 + x + {x^2}\)</span> 和 <span class="math inline">\(g(x) = 1 + {x^3} + {x^6} + {x^9}...\)</span>乘起来，得到另一个函数 <span class="math inline">\(h(x) = 1 + x + {x^2}+ {x^3} + {x^4} +  \ldots\)</span> 。这个函数有什么意义呢？它的第 <span class="math inline">\(i\)</span> 项的系数就是选<span class="math inline">\(A\)</span>、<span class="math inline">\(B\)</span>两种物品共 <span class="math inline">\(i\)</span> 件的方案数。</p><p>大家可能会好奇：这不就是把两个多项式乘起来么？和一次次枚举情况有什么区别？</p><p>这里扯得远一点：多项式可以 <strong>FFT（快速傅里叶变换）</strong></p><p>我们给这个“<strong>用函数表示数列</strong>”的东西取了个名字——数列的“生成函数”，表示用这个函数能生成一个数列。</p><h2 id="一些疑问">一些疑问</h2><p>现在有个问题：</p><p><span class="math inline">\(f(x) = \frac{1}{ {1 - x} }\)</span>是否是 <span class="math inline">\(a = \{ 1,1,1,1,1, \ldots \}\)</span>的生成函数？</p><p>估计大家可能会毅然决然地否定，因为它的生成函数是 <span class="math inline">\(1 + x + {x^2} + {x^3} +  \cdots\)</span>。但如果考虑定义域 <span class="math inline">\(x \in ( - 1,1)\)</span>呢？</p><blockquote><p>这里大家可以停顿一下想一想</p></blockquote><p>根据我们小学学过的等比数列求和公式：</p><p><span class="math inline">\(1 + x + {x^2} + {x^3} +  \cdots\)</span>的前 <span class="math inline">\(n\)</span> 项和等于<span class="math inline">\(\frac{1 - {x^n} }{1 - x}\)</span> ，</p><p>这是个无限长的数列，</p><p>且 <span class="math inline">\(\mathop {\lim }\limits_{n \to \infty}\frac{1 - {x^n} }{1 - x} = {x^n} = 0\)</span> ，这不就相等了嘛！</p><p>可是好好的一个函数，被我们蹂躏成这个样子，凭空给限定了定义域，这还是原来那个函数嘛？</p><p>注意！生成函数中的 <span class="math inline">\(x\)</span>是没有意义的。</p><p>例如，函数 <span class="math inline">\(1 + {x^2} + {x^4} +{x^6}{\text{ + } } \cdots\)</span> 是不是等于 <span class="math inline">\(\frac{1}{1 - {x^2} }\)</span> ？</p><blockquote><p>提示: t -&gt; x^2</p></blockquote><p>那函数 <span class="math inline">\(1 + 2x + 3{x^2} + 4{x^3}\cdots\)</span> 呢？</p><p>对等式 <span class="math inline">\(\frac{1}{ {1 - x} } = 1 + x +{x^2} + {x^3} +  \cdots\)</span> 两边分别求导，或者把两个 <span class="math inline">\(1 + x + {x^2} + {x^3} +  \cdots\)</span>乘起来就可以了。</p><p>进而考虑推广，</p><p><span class="math display">\[\frac{1}{ { { {(1 - x)}^k} } } = \sum\limits_i^\infty  {C_{i + k - 1}^{k- 1}{x^i} }\]</span></p><p><span class="math inline">\(\frac{1}{(1 - x)^k}\)</span> 就是 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +{x^2} + {x^3} +  \cdots\)</span> 相乘，那么第 <span class="math inline">\(i\)</span> 项系数就是从 <span class="math inline">\(k\)</span> 个 <span class="math inline">\(1 + x +{x^2} + {x^3} +  \cdots\)</span> 中每个选出一项，乘起来恰为 <span class="math inline">\({x^i}\)</span> 的方案数，就是 <span class="math inline">\(i = {x_1} + {x_2} + ... + {x_k}\)</span>的非负整数解的组数，用组合数学中的隔板法求，是不是有道理 ？</p><h2 id="example-fibbonaci-数列">Example: Fibbonaci 数列</h2><p>先说结论：<strong>生成函数求斐波那契数列的通项</strong></p><p>斐波那契数列的生成函数 ： <span class="math display">\[f(x) = x + {x^2} + 2{x^3} + 3{x^4} + 5{x^5} + 8{x^6} +  \cdots\text{(i)}\]</span> 乘 <span class="math inline">\(x\)</span> ，得 ： <span class="math display">\[x \cdot f(x) = {x^2} + {x^3} + 2{x^4} + 3{x^5} + 5{x^6} + 8{x^7}+  \cdots \text{(ii)}\]</span> 用 <span class="math inline">\(\text{i}\)</span> 式减去 <span class="math inline">\(\text{ii}\)</span> 式，得到 <span class="math display">\[f(x) - x \cdot f(x) = x + {x^3} + {x^4} + 2{x^5} + 3{x^6} + 5{x^7} +\cdots = x + {x^2} \cdot f(x)\]</span> 所以 <span class="math display">\[f(x) = \frac{x}{1 - x - x^2}\]</span></p><p>看着非常难受，把它还原成数列来验证：</p><p>首先， <span class="math inline">\(1 - x - {x^2}\)</span>可以被因式分解为：</p><p><span class="math display">\[(1 - \frac{ {1 - \sqrt 5 } }{2}x)(1 - \frac{ {1 + \sqrt 5 } }{2}x)\]</span> 所以 <span class="math display">\[\frac{x}{ {1 - x - {x^2} } } = \frac{x}{ {(1 - \frac{ {1 - \sqrt 5 }}{2}x)(1 - \frac{ {1 + \sqrt 5 } }{2}x)} }\]</span> 裂项 <span class="math display">\[\frac{x}{ {(1 - \frac{ {1 - \sqrt 5 } }{2}x)(1 - \frac{ {1 + \sqrt 5 }}{2}x)} } =  - \frac{1}{ {\sqrt 5 } }\frac{1}{ {(1 - \frac{ {1 - \sqrt 5} }{2}x)} } + \frac{1}{ {\sqrt 5 } }\frac{1}{ {(1 - \frac{ {1 + \sqrt 5} }{2}x)} }\]</span></p><p>这就是斐波那契数列通项公式了</p><p>这种方法也可以应用到各种<strong>线性齐次递推</strong>中</p>]]></content>
       
       
       <categories>
@@ -3107,9 +3133,9 @@
       
         <tags>
             
-            <tag> 思科 </tag>
-            
             <tag> Cisco </tag>
+            
+            <tag> 思科 </tag>
             
             <tag> 网络 </tag>
             

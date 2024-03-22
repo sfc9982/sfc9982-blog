@@ -6,7 +6,7 @@
   <link href="https://googles.plus/atom.xml" rel="self"/>
   
   <link href="https://googles.plus/"/>
-  <updated>2024-03-14T13:34:23.908Z</updated>
+  <updated>2024-03-22T04:01:38.492Z</updated>
   <id>https://googles.plus/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Windows DLL 默认打开方式被 dotPeek 污染解决办法</title>
+    <link href="https://googles.plus/2024/03/22/windows-dll-mo-ren-da-kai-fang-shi-bei-dotpeek-wu-ran-jie-jue-ban-fa/"/>
+    <id>https://googles.plus/2024/03/22/windows-dll-mo-ren-da-kai-fang-shi-bei-dotpeek-wu-ran-jie-jue-ban-fa/</id>
+    <published>2024-03-22T03:59:58.000Z</published>
+    <updated>2024-03-22T04:01:38.492Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Just delete&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Computer&#92;HKEY_CLASSES_ROOT&#92;dllfile&#92;shell&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;And uncheck&lt;/p&gt;
+&lt;p&gt;associate file extensions with tools</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>automake &amp; autoconf</title>
+    <link href="https://googles.plus/2024/03/18/automake-autoconf/"/>
+    <id>https://googles.plus/2024/03/18/automake-autoconf/</id>
+    <published>2024-03-18T10:45:52.000Z</published>
+    <updated>2024-03-18T10:48:20.005Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;automake-和-autoconf-使用教程&quot;&gt;automake 和 autoconf
+使用教程&lt;/h1&gt;
+&lt;h2 id=&quot;步骤概览&quot;&gt;步骤概览&lt;/h2&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Create project&lt;/li&gt;
+&lt;li&gt;touch</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Fleet &amp; C++: compile_commands.json</title>
@@ -430,56 +480,6 @@ lxss.sys 和 lxcore.sys 这两个驱动负责模拟</summary>
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>Clang 比 GCC 好在哪里？</title>
-    <link href="https://googles.plus/2023/07/26/clang-bi-gcc-hao-zai-na-li/"/>
-    <id>https://googles.plus/2023/07/26/clang-bi-gcc-hao-zai-na-li/</id>
-    <published>2023-07-26T11:42:58.000Z</published>
-    <updated>2023-07-26T11:43:38.212Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;作者：Incredibuild
-链接：https://www.zhihu.com/question/20235742/answer/3105870528
-来源：知乎&lt;/p&gt;
-&lt;p&gt;在《Effective C++》一书中，Scott Meyers 谈到了使用 lhs 和</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>在 C++ 项目中使用 Google Test &amp; Benchmark</title>
-    <link href="https://googles.plus/2023/07/19/zai-c-xiang-mu-zhong-shi-yong-google-test-benchmark/"/>
-    <id>https://googles.plus/2023/07/19/zai-c-xiang-mu-zhong-shi-yong-google-test-benchmark/</id>
-    <published>2023-07-19T02:25:45.000Z</published>
-    <updated>2023-07-19T02:42:27.551Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;编译安装&quot;&gt;编译安装&lt;/h2&gt;
-&lt;p&gt;Google Test/Benchmark 是基于 CMake
-构建的。跨平台支持非常的好，Windows 可以使用 nmake 编译安装，默认会在
-&lt;code&gt;Program Files&lt;/code&gt;</summary>
-        
-      
-    
-    
-    
-    
-    <category term="C/C++" scheme="https://googles.plus/tags/C-C/"/>
     
   </entry>
   

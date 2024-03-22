@@ -42,9 +42,9 @@
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
-
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="sfc9982's blog" type="application/atom+xml">
 </head>
 
 
@@ -400,6 +400,118 @@
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2021/12/05/tensorflow2-dong-tai-gpu-nei-cun-fen-pei/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages_anime/wallhaven-wyomo6_1920x1080.avif" class="responsive-img" alt="TensorFlow2动态GPU内存分配">
+                            
+                            <span class="card-title">TensorFlow2动态GPU内存分配</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                TensorFlow2运行时，程序会缺省地请求开辟全部的GPU内存，导致OUT_OF_MEMORY报错。
+解决方案：
+import tensorflow as tf 
+import os
+
+os.environ['CUDA_VISIBLE_
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-05
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                sfc9982
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                            <span class="chip bg-color">机器学习</span>
+                        </a>
+                        
+                        <a href="/tags/ML/">
+                            <span class="chip bg-color">ML</span>
+                        </a>
+                        
+                        <a href="/tags/TensorFlow/">
+                            <span class="chip bg-color">TensorFlow</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2021/12/01/rang-ni-de-she-she-kuai-pa-shi-yong-ge-shi-jit-jia-su-python-yun-xing/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages_anime/724360270.avif" class="responsive-img" alt="“让你的蛇蛇快爬吧”——使用各式JIT加速Python运行">
+                            
+                            <span class="card-title">“让你的蛇蛇快爬吧”——使用各式JIT加速Python运行</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                为什么Python比C/C++慢？
+动态特性
+Python是一种动态、多功能的语言，因此运行起来会相对缓慢。
+在
+C、C++、Java、C#、Go
+这些静态类型语言中，必须在声明变量时指定变量的类型。而在动态类型语言中，虽然也有类型的概念，
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-01
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                sfc9982
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/%E7%BC%96%E7%A8%8B/">
+                            <span class="chip bg-color">编程</span>
+                        </a>
+                        
+                        <a href="/tags/Python/">
+                            <span class="chip bg-color">Python</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
             
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
@@ -993,107 +1105,6 @@ int main()
             </div>
               <!-- 隐藏某个文章 -->
             
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2021/11/13/si-she-liu-ru-wu-cheng-shuang-yi-chong-bu-tong-de-shu-zhi-xiu-yue-gui-ze/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages_anime/94262500_p0.avif" class="responsive-img" alt="四舍六入五成双 —— 一种不同的数值修约规则">
-                            
-                            <span class="card-title">四舍六入五成双 —— 一种不同的数值修约规则</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                四舍六入五成双 ——
-一种不同的数值修约规则
-介绍
-奇进偶舍，是一种计数保留法，是一种数值修约规则。从统计学的角度，“奇进偶舍”比“四舍五入”更为精确：在大量运算时，因为舍入后的结果有的变大，有的变小，更使舍入后的结果误差均值趋于零。而不是
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-13
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                sfc9982
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2021/11/13/kai-yuan-de-an-quan-ling-pai-canokey/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages_anime/959544020.avif" class="responsive-img" alt="开源的安全令牌-CanoKey">
-                            
-                            <span class="card-title">开源的安全令牌-CanoKey</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                开源的安全令牌-CanoKey
-记一次考试经历
-L3HCTF
-先讲讲YutriKey
-
-YubiKey
-YubiKey-Wikipedia
-
-
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-13
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                sfc9982
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/CTF/">
-                            <span class="chip bg-color">CTF</span>
-                        </a>
-                        
-                        <a href="/tags/Crypto/">
-                            <span class="chip bg-color">Crypto</span>
-                        </a>
-                        
-                        <a href="/tags/%E5%AE%89%E5%85%A8/">
-                            <span class="chip bg-color">安全</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
         </div>
     </article>
 
@@ -1111,7 +1122,7 @@ YubiKey-Wikipedia
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">17 / 18</div>
+            <div class="center-align b-text-gray">17 / 19</div>
         </div>
         <div class="col s6 m4 l4">
             
@@ -1192,7 +1203,7 @@ YubiKey-Wikipedia
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">214k</span>
+                        class="white-color">215.7k</span>
             
             
             

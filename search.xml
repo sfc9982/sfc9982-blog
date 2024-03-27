@@ -8,7 +8,7 @@
       <link href="/2024/03/22/windows-dll-mo-ren-da-kai-fang-shi-bei-dotpeek-wu-ran-jie-jue-ban-fa/"/>
       <url>/2024/03/22/windows-dll-mo-ren-da-kai-fang-shi-bei-dotpeek-wu-ran-jie-jue-ban-fa/</url>
       
-        <content type="html"><![CDATA[<p>Just delete</p><p><code>Computer\HKEY_CLASSES_ROOT\dllfile\shell</code></p><p>And uncheck</p><p>associate file extensions with tools in Jetbrains Toolbox</p>]]></content>
+        <content type="html"><![CDATA[<p>Just delete</p><p><code>Computer\HKEY_CLASSES_ROOT\dllfile\shell</code></p><p><code>Computer\HKEY_CLASSES_ROOT\.dll\OpenWithProgids</code></p><p>And uncheck</p><p>associate file extensions with tools in Jetbrains Toolbox</p>]]></content>
       
       
       
